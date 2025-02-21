@@ -1,0 +1,6 @@
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2120:22:LL_TIM_OC_SetCompareCH1	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2137:22:LL_TIM_OC_SetCompareCH2	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2154:22:LL_TIM_OC_SetCompareCH3	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2171:22:LL_TIM_OC_SetCompareCH4	1
+../Core/Devices/IR_LED/ir_led.c:13:6:ir_led_set_duty	6
+../Core/Devices/IR_LED/ir_led.c:39:10:ir_led_get_duty	1

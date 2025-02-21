@@ -1,0 +1,5 @@
+../BSP/I2C_Slave/register.c:15:6:Register_Init	16	static
+../BSP/I2C_Slave/register.c:42:26:reg_read	16	static
+../BSP/I2C_Slave/register.c:49:26:reg_write	16	static
+../BSP/I2C_Slave/register.c:56:26:reg_read_multi	24	static
+../BSP/I2C_Slave/register.c:65:26:reg_write_multi	24	static

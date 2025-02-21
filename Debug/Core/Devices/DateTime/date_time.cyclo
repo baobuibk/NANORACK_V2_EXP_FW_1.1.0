@@ -1,0 +1,5 @@
+../Core/Devices/DateTime/date_time.c:40:6:SoftTime_Task_Update	14
+../Core/Devices/DateTime/date_time.c:90:6:SoftTime_CreateTask	1
+../Core/Devices/DateTime/date_time.c:106:6:DateTime_GetRTC	2
+../Core/Devices/DateTime/date_time.c:111:6:DateTime_SetRTC	2
+../Core/Devices/DateTime/date_time.c:120:6:DateTime_GetWorkingTime	5

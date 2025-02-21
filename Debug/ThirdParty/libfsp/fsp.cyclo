@@ -1,0 +1,11 @@
+../ThirdParty/libfsp/fsp.c:44:6:fsp_init	1
+../ThirdParty/libfsp/fsp.c:50:6:fsp_reset	1
+../ThirdParty/libfsp/fsp.c:55:6:fsp_gen_data_pkt	2
+../ThirdParty/libfsp/fsp.c:67:6:fsp_gen_cmd_pkt	2
+../ThirdParty/libfsp/fsp.c:79:6:fsp_gen_cmd_w_data_pkt	2
+../ThirdParty/libfsp/fsp.c:91:6:fsp_gen_ack_pkt	1
+../ThirdParty/libfsp/fsp.c:96:6:fsp_gen_nack_pkt	1
+../ThirdParty/libfsp/fsp.c:101:6:fsp_gen_pkt	3
+../ThirdParty/libfsp/fsp.c:129:6:fsp_encode	11
+../ThirdParty/libfsp/fsp.c:184:9:fsp_decode	13
+../ThirdParty/libfsp/fsp.c:267:5:frame_decode	7

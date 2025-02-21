@@ -1,0 +1,15 @@
+../Scheduler/scheduler.c:53:25:SCH_TASK_GetTaskContext	2
+../Scheduler/scheduler.c:70:6:SCH_Initialize	1
+../Scheduler/scheduler.c:93:6:SCH_TIM_Start	2
+../Scheduler/scheduler.c:110:10:SCH_TIM_HasCompleted	1
+../Scheduler/scheduler.c:122:10:SCH_TASK_ResumeTask	2
+../Scheduler/scheduler.c:144:10:SCH_TASK_StopTask	2
+../Scheduler/scheduler.c:166:10:SCH_TASK_CreateTask	4
+../Scheduler/scheduler.c:204:10:SCH_TIM_CreateTimer	4
+../Scheduler/scheduler.c:239:10:SCH_TIM_RestartTimer	2
+../Scheduler/scheduler.c:261:10:SCH_TIM_StopTimer	2
+../Scheduler/scheduler.c:282:6:SCH_RunSystemTickTimer	10
+../Scheduler/scheduler.c:356:6:SCH_StartSchedular	1
+../Scheduler/scheduler.c:369:6:SCH_StopSchedular	1
+../Scheduler/scheduler.c:385:6:SCH_HandleScheduledTask	8
+../Scheduler/scheduler.c:449:10:SCH_SystemTick	1
