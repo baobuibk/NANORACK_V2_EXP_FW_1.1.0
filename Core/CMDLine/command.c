@@ -75,48 +75,63 @@ int Cmd_auto_adc(int argc, char *argv[]);
 static char s_commandBuffer[COMMAND_MAX_LENGTH];
 static uint8_t s_commandBufferIndex = 0;
 
+
 tCmdLineEntry g_psCmdTable[] = {
     /* Command support */
-    {"help", Cmd_help, ": Display list of help commands | format: help"},
+    {"help", Cmd_help, ": Display list of available commands | format: help"},
+
     /* Command for power supply */
-    //								{"tec_pw_on", Cmd_tec_pw_on,": test | format: tec_pw_on 0/1"},
-    //								{"led_pw_on", Cmd_led_pw_on,": test | format: led_pw_on 0/1"},
-    {"temp_pw_on", Cmd_temp_pw_on, ": test | format: temp_pw_on 0/1"},
+    {"temp_pw", Cmd_temp_pw, ": Control power for TEC and Heater (1=ON, 0=OFF) | format: temp_pw 1/0"},
+
     /* Command for temperature */
-    {"set_temp", Cmd_set_temp, ": set_temp | format: set_temp 20 30 40 50"},
-    {"get_temp_setpoint", Cmd_get_temp_setpoint, ": get_temp_setpoint | format: get_temp_setpoint"},
-    {"get_temp", Cmd_get_temp, ": get_temp | format: get_temp"},
+    {"set_temp", Cmd_set_temp, ": Set desired temperature for multiple zones | format: set_temp <T1> <T2> <T3> <T4>"},
+    {"get_temp_setpoint", Cmd_get_temp_setpoint, ": Retrieve the previously set temperature | format: get_temp_setpoint"},
+    {"get_temp", Cmd_get_temp, ": Get the current temperature of all zones | format: get_temp"},
 
-	{"tec_init", Cmd_tec_init, ": init tec | format: tec_init"},
-    {"set_tec_vol", Cmd_set_tec_vol, ": set_tec_voltage | format: set_tec_voltage vol0 vol1 vol2 vol3"},
-    {"get_tec_vol", Cmd_get_tec_vol, ": get_tec_voltage | format: get_tec_vol"},
-    {"tec_dir", Cmd_tec_dir, ": ----1=COOL, 0=HEAT----- | format: tec_dir 1/0 1/0 1/0 1/0"},
-	{"tec_ctrl", Cmd_tec_ctrl, ": ------1=ON, 0=OFF------ | format: tec_ctl 1/0 1/0 1/0 1/0"},
+    /* Command for TEC (Thermoelectric Cooler) */
+    {"tec_init", Cmd_tec_init, ": Initialize TEC module | format: tec_init"},
+    {"tec_vol", Cmd_tec_set_vol, ": Set TEC voltage for multiple channels | format: tec_vol <V1> <V2> <V3> <V4>"},
+    {"tec_get_vol", Cmd_tec_get_vol, ": Get the current TEC voltage | format: tec_get_vol"},
+    {"tec_dir", Cmd_tec_dir, ": Set TEC direction (1=COOL, 0=HEAT) for multiple channels | format: tec_dir <1/0> <1/0> <1/0> <1/0>"},
+    {"tec_ctrl", Cmd_tec_ctrl, ": Enable or disable TEC (1=ON, 0=OFF) for multiple channels | format: tec_ctrl <1/0> <1/0> <1/0> <1/0>"},
 
-    {"set_heater_duty", Cmd_set_heater_duty, ": set_heater_duty | format: set_heater_duty 0% 1% 2% 3%"},
-    {"get_heater_duty", Cmd_get_heater_duty, ": get_heater_duty | format: get_heater_duty"},
+    /* Command for Heater */
+    {"heater_duty", Cmd_heater_set_duty, ": Set heater duty cycle (in percentage) | format: heater_duty <D1> <D2> <D3> <D4>"},
+    {"heater_get_duty", Cmd_heater_get_duty, ": Get the current heater duty cycle | format: heater_get_duty"},
 
-    {"temp_ctrl", Cmd_temp_ctrl, ": tec_ctrl | format: tec_ctrl C H O O"},
-    {"temp_auto_ctrl", Cmd_temp_auto_ctrl, ": tec_ctrl_auto | format: temp_auto_ctrl 1 1 0 0"},
-    /* Command for ir led */
-    {"set_ir_duty", Cmd_set_ir_duty, " | format: set_ir_duty <duty>"},
-    {"get_ir_duty", Cmd_get_ir_duty, " | format: get_ir_duty"},
-    /* Command for i2c sensor */
-    {"get_accel_gyro", Cmd_get_acceleration_gyroscope, " | format: get_accel_gyro"},
-    {"get_press", Cmd_get_pressure, " | format: get_press"},
+    /* Command for Temperature Control */
+    {"temp_ctrl", Cmd_temp_ctrl, ": Manually control TEC operation (C=Cool, H=Heat, O=Off) | format: temp_ctrl <C/H/O> <C/H/O> <C/H/O> <C/H/O>"},
+    {"temp_auto_ctrl", Cmd_temp_auto_ctrl, ": Enable automatic temperature control | format: temp_auto_ctrl <1=Enable, 0=Disable> <1/0> <1/0> <1/0>"},
+
+    /* Command for IR LED */
+    {"ir_duty", Cmd_ir_set_duty, ": Set IR LED duty cycle | format: ir_duty <duty>"},
+    {"ir_get_duty", Cmd_ir_get_duty, ": Get the current IR LED duty cycle | format: ir_get_duty"},
+
+    /* Command for I2C Sensor */
+    {"accel_gyro_get", Cmd_acceleration_gyroscope_get, ": Get accelerometer and gyroscope data | format: accel_gyro_get"},
+    {"press_get", Cmd_pressure_get, ": Get pressure sensor data | format: press_get"},
+
     /* Command for system */
-    {"get_all", Cmd_get_all, ":Display all | format: get_all"},
+    {"get_all", Cmd_get_all, ": Retrieve all available sensor and system data | format: get_all"},
 
-    {"dac_set", Cmd_dac_set, ": --------- | format: ------"},
-    {"get_adc", Cmd_get_adc, ": --------- | format: ------"},
-    {"pd_set", Cmd_pd_set, ": --------- | format: ------"},
-    {"ls_set", Cmd_ls_set, ": --------- | format: ------"},
-
+    /* Miscellaneous commands */
+    {"dac_set", Cmd_dac_set, ": Set DAC output (Details not provided) | format: dac_set <value>"},
+    {"get_adc", Cmd_get_adc, ": Get ADC readings (Details not provided) | format: get_adc"},
+    {"pd_set", Cmd_pd_set, ": Set photodiode parameters (Details not provided) | format: pd_set <value>"},
+    {"ls_set", Cmd_ls_set, ": Set light sensor parameters (Details not provided) | format: ls_set <value>"},
     {"auto_adc", Cmd_auto_adc, ": Instead of using <get_adc>, auto_adc = get_adc automatically"},
-    {"auto_laser", Cmd_auto_laser, ": : auto_laser [interval] [interval adc] [userdelay]"},
+    {"auto_laser", Cmd_auto_laser, ": Auto_laser [interval] [interval adc] [userdelay]"},
 
-
-//	{"read", Cmd_test, ": --------- | format: ------"},
+//	{"reset", Cmd_reset, ": :"},
+//	{"set_en", Cmd_set_en_req, ": :"},
+//	{"reset_en", Cmd_reset_en_req, ": :"},
+//	{"set_swen", Cmd_set_swen_req, ": :"},
+//	{"reset_swen", Cmd_reset_swen_req, ": :"},
+	{"read", Cmd_read, ": :"},
+//	{"c_0", Cmd_cool_0, ": --------- | format: ------"},
+//	{"h_0", Cmd_heat_0, ": --------- | format: ------"},
+//	{"c_1", Cmd_cool_1, ": --------- | format: ------"},
+//	{"h_1", Cmd_heat_1, ": --------- | format: ------"},
     {0, 0, 0}};
 
 static Command_TaskContextTypedef s_CommandTaskContext =
@@ -379,7 +394,7 @@ int Cmd_help(int argc, char *argv[])
 }
 
 /* Command for power supply */
-int Cmd_temp_pw_on(int argc, char *argv[])
+int Cmd_temp_pw(int argc, char *argv[])
 {
     if (argc < 3)
         return CMDLINE_TOO_FEW_ARGS;
@@ -469,7 +484,7 @@ int Cmd_get_temp_setpoint(int argc, char *argv[])
     }
     return (CMDLINE_OK);
 }
-int Cmd_set_tec_vol(int argc, char *argv[])
+int Cmd_tec_set_vol(int argc, char *argv[])
 {
     if (argc < 6)
         return CMDLINE_TOO_FEW_ARGS;
@@ -496,7 +511,7 @@ int Cmd_set_tec_vol(int argc, char *argv[])
     return CMDLINE_OK;
 }
 
-int Cmd_get_tec_vol(int argc, char *argv[])
+int Cmd_tec_get_vol(int argc, char *argv[])
 {
     if (argc > 2)
         return CMDLINE_TOO_MANY_ARGS;
@@ -552,7 +567,7 @@ int Cmd_tec_ctrl (int argc, char *argv[])
     return CMDLINE_OK;
 }
 
-int Cmd_set_heater_duty(int argc, char *argv[])
+int Cmd_heater_set_duty(int argc, char *argv[])
 {
     if (argc < 6)
         return CMDLINE_TOO_FEW_ARGS;
@@ -579,7 +594,7 @@ int Cmd_set_heater_duty(int argc, char *argv[])
     return CMDLINE_OK;
 }
 
-int Cmd_get_heater_duty(int argc, char *argv[])
+int Cmd_heater_get_duty(int argc, char *argv[])
 {
     if (argc > 2)
         return CMDLINE_TOO_MANY_ARGS;
@@ -600,7 +615,20 @@ int Cmd_get_heater_duty(int argc, char *argv[])
 int Cmd_tec_init(int argc, char *argv[])
 {
     if (argc > 2) return CMDLINE_TOO_MANY_ARGS;
-	lt8722_init();
+    LL_GPIO_TogglePin(WD_DONE_GPIO_Port, WD_DONE_Pin);
+    int8_t tec_init_0 = lt8722_init(0);
+    LL_mDelay(10);
+    LL_GPIO_TogglePin(WD_DONE_GPIO_Port, WD_DONE_Pin);
+    int8_t tec_init_1 = lt8722_init(1);
+    LL_mDelay(10);
+    LL_GPIO_TogglePin(WD_DONE_GPIO_Port, WD_DONE_Pin);
+    int8_t tec_init_2 = lt8722_init(2);
+    LL_mDelay(10);
+    LL_GPIO_TogglePin(WD_DONE_GPIO_Port, WD_DONE_Pin);
+    int8_t tec_init_3 = lt8722_init(3);
+    LL_mDelay(50);
+    LL_GPIO_TogglePin(WD_DONE_GPIO_Port, WD_DONE_Pin);
+    if (!(tec_init_0 | tec_init_1 | tec_init_2 | tec_init_3)) Temperature_GetSet_CreateTask();
 	return CMDLINE_OK;
 }
 
@@ -657,7 +685,7 @@ int Cmd_temp_auto_ctrl(int argc, char *argv[])
     return (CMDLINE_OK);
 }
 /* Command for ir led */
-int Cmd_set_ir_duty(int argc, char *argv[])
+int Cmd_ir_set_duty(int argc, char *argv[])
 {
     if (argc < 6)
         return CMDLINE_TOO_FEW_ARGS;
@@ -687,7 +715,7 @@ int Cmd_set_ir_duty(int argc, char *argv[])
     return CMDLINE_OK;
 }
 
-int Cmd_get_ir_duty(int argc, char *argv[])
+int Cmd_ir_get_duty(int argc, char *argv[])
 {
     if (argc > 2)
         return CMDLINE_TOO_MANY_ARGS;
@@ -706,11 +734,11 @@ int Cmd_get_ir_duty(int argc, char *argv[])
 }
 
 /* Command for i2c sensor */
-int Cmd_get_acceleration_gyroscope(int argc, char *argv[])
+int Cmd_acceleration_gyroscope_get(int argc, char *argv[])
 {
     return (CMDLINE_OK);
 }
-int Cmd_get_pressure(int argc, char *argv[])
+int Cmd_pressure_get(int argc, char *argv[])
 {
     return (CMDLINE_OK);
 }
@@ -870,8 +898,6 @@ int Cmd_get_adc(int argc, char *argv[])
     return (CMDLINE_OK);
 }
 
-// auto_laser [interval] [times adc/interval]  --- Enter for stop
-
 int Cmd_auto_laser(int argc, char *argv[])
 {
     if (argc > 8)
@@ -993,69 +1019,89 @@ int Cmd_auto_adc(int argc, char *argv[])
     return CMDLINE_OK;
 }
 
+//int Cmd_dis(int argc, char *argv[])
+//{
+//	uint8_t channel = atoi(argv[1]);
+//	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
+//	lt8722_set_enable_req(channel, LT8722_ENABLE_REQ_DISABLED);
+//	return CMDLINE_OK;
+//}
+//
+//int Cmd_cool_0(int argc, char *argv[])
+//{
+////	lt8722_init();
+//	lt8722_set_output_voltage_channel(0, TEC_COOL, 1000000000);
+////	HAL_Delay(500);
+//	lt8722_set_output_voltage_channel(1, TEC_HEAT, 1500000000);
+//
+//    return (CMDLINE_OK);
+//}
+//
+//int Cmd_heat_0(int argc, char *argv[])
+//{
+////	lt8722_init();
+////	lt8722_set_output_voltage_channel(1, TEC_COOL, 1000000000);
+//	lt8722_set_output_voltage_channel(0, TEC_HEAT, 1000000000);
+//
+//    return (CMDLINE_OK);
+//}
+//int Cmd_cool_1(int argc, char *argv[])
+//{
+////	lt8722_init();
+//	lt8722_set_output_voltage_channel(1, TEC_COOL, 1500000000);
+////	lt8722_set_output_voltage_channel(1, TEC_HEAT, 1000000000);
+//
+//    return (CMDLINE_OK);
+//}
+//
+//int Cmd_heat_1(int argc, char *argv[])
+//{
+////	lt8722_init();
+////	lt8722_set_output_voltage_channel(1, TEC_COOL, 1000000000);
+//	lt8722_set_output_voltage_channel(1, TEC_HEAT, 1500000000);
+//
+//    return (CMDLINE_OK);
+//}
 
-int Cmd_test(int argc, char *argv[])
-{
-	lt8722_init();
-//	UART_SendStringRing(UART_CMDLINE, "\r\nLT8722_init \r\n");
-	lt8722_set_output_voltage_channel(0, TEC_COOL, 1900000000);
-	lt8722_set_output_voltage_channel(1, TEC_HEAT, 900000000);
-
-	uint32_t data;
-	char buffer[60];
-	lt8722_reg_read(0, LT8722_SPIS_COMMAND, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_COMMAND: 0x%lX-%lX\r\n", data >> 16, data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-
-	lt8722_reg_read(0, LT8722_SPIS_STATUS, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_STATUS: 0x%lX-%lX\r\n", data >> 16, data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-
-	lt8722_reg_read(0, LT8722_SPIS_DAC_ILIMN, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMN: 0x%lX-%lX\r\n", data >> 16, data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-
-	lt8722_reg_read(0, LT8722_SPIS_DAC_ILIMP, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMP: 0x%lX-%lX\r\n", data >> 16, data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-
-	lt8722_reg_read(0, LT8722_SPIS_DAC, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_DAC: 0x%lX-%lX\r\n", data >> 16, data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-
-	lt8722_reg_read(0, LT8722_SPIS_OV_CLAMP, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_OV_CLAMP: 0x%lX\r\n", data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-
-	lt8722_reg_read(0, LT8722_SPIS_UV_CLAMP, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_UV_CLAMP: 0x%lX\r\n", data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-
-	lt8722_reg_read(0, LT8722_SPIS_AMUX, &data);
-	snprintf(buffer, sizeof(buffer), "SPIS_AMUX: 0x%lX\r\n", data);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-    return CMDLINE_OK;
-}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //int Cmd_reset(int argc, char *argv[])
 //{
-//    lt8722_reset();
+//	uint8_t channel = atoi(argv[1]);
+//    lt8722_reset(channel);
 //    return (CMDLINE_OK);
 //}
 //
 //int Cmd_set_en_req(int argc, char *argv[])
 //{
-//    LL_GPIO_SetOutputPin(TEC_1_EN_GPIO_Port, TEC_1_EN_Pin);
-//    //	lt8722_reg_write(LT8722_SPIS_COMMAND, 0x00004000);
-//    lt8722_set_enable_req(LT8722_ENABLE_REQ_ENABLED);
+//	uint8_t channel = atoi(argv[1]);
+//    LL_GPIO_SetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
+//    lt8722_set_enable_req(channel, LT8722_ENABLE_REQ_ENABLED);
 //    return (CMDLINE_OK);
 //}
 //
 //int Cmd_reset_en_req(int argc, char *argv[])
 //{
-//    lt8722_set_enable_req(LT8722_ENABLE_REQ_DISABLED);
+//	uint8_t channel = atoi(argv[1]);
+//	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
+//    lt8722_set_enable_req(channel, LT8722_ENABLE_REQ_DISABLED);
 //    return (CMDLINE_OK);
+//}
+//
+//int Cmd_set_swen_req(int argc, char *argv[])
+//{
+//	uint8_t channel = atoi(argv[1]);
+////	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
+//	lt8722_set_swen_req(channel, LT8722_SWEN_REQ_ENABLED);
+//    return (CMDLINE_OK);
+//}
+//
+//int Cmd_reset_swen_req(int argc, char *argv[])
+//{
+//	uint8_t channel = atoi(argv[1]);
+////	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
+//	lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
+//	return (CMDLINE_OK);
 //}
 //
 //int Cmd_clear_status_reg(int argc, char *argv[])
@@ -1064,68 +1110,47 @@ int Cmd_test(int argc, char *argv[])
 //    return (CMDLINE_OK);
 //}
 //
-//int Cmd_read(int argc, char *argv[])
-//{
-//    uint32_t data;
-//    char buffer[60];
-//
-//    lt8722_reg_read(LT8722_SPIS_COMMAND, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_COMMAND: 0x%lX-%lX\r\n", data >> 16, data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    lt8722_reg_read(LT8722_SPIS_STATUS, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_STATUS: 0x%lX-%lX\r\n", data >> 16, data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    lt8722_reg_read(LT8722_SPIS_DAC_ILIMN, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMN: 0x%lX-%lX\r\n", data >> 16, data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    lt8722_reg_read(LT8722_SPIS_DAC_ILIMP, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMP: 0x%lX-%lX\r\n", data >> 16, data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    lt8722_reg_read(LT8722_SPIS_DAC, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_DAC: 0x%lX-%lX\r\n", data >> 16, data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    lt8722_reg_read(LT8722_SPIS_OV_CLAMP, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_OV_CLAMP: 0x%lX\r\n", data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    lt8722_reg_read(LT8722_SPIS_UV_CLAMP, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_UV_CLAMP: 0x%lX\r\n", data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    lt8722_reg_read(LT8722_SPIS_AMUX, &data);
-//    snprintf(buffer, sizeof(buffer), "SPIS_AMUX: 0x%lX\r\n", data);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    return (CMDLINE_OK);
-//}
-//
-//int Cmd_on_tec(int argc, char *argv[])
-//{
-//    lt8722_init();
-//    return (CMDLINE_OK);
-//}
-//
-//int Cmd_tec_set_vol(int argc, char *argv[])
-//{
-//    //	if (argc < 2) return CMDLINE_TOO_FEW_ARGS;
-//    //	if (argc > 2) return CMDLINE_TOO_MANY_ARGS;
-//
-//    int64_t vol = atoi(argv[1]);
-//
-//    char buffer[60];
-//    snprintf(buffer, sizeof(buffer), "Tec set: %lld mV\r\n", vol);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    vol *= 1000000;
-//    lt8722_set_output_voltage(vol);
-//    return (CMDLINE_OK);
-//}
-//
+int Cmd_read(int argc, char *argv[])
+{
+    uint32_t data;
+    char buffer[60];
+
+    uint8_t channel = atoi(argv[1]);
+
+    lt8722_reg_read(channel, LT8722_SPIS_COMMAND, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_COMMAND: 0x%lX-%lX\r\n", data >> 16, data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    lt8722_reg_read(channel, LT8722_SPIS_STATUS, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_STATUS: 0x%lX-%lX\r\n", data >> 16, data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    lt8722_reg_read(channel, LT8722_SPIS_DAC_ILIMN, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMN: 0x%lX-%lX\r\n", data >> 16, data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    lt8722_reg_read(channel, LT8722_SPIS_DAC_ILIMP, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMP: 0x%lX-%lX\r\n", data >> 16, data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    lt8722_reg_read(channel, LT8722_SPIS_DAC, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_DAC: 0x%lX-%lX\r\n", data >> 16, data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    lt8722_reg_read(channel, LT8722_SPIS_OV_CLAMP, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_OV_CLAMP: 0x%lX\r\n", data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    lt8722_reg_read(channel, LT8722_SPIS_UV_CLAMP, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_UV_CLAMP: 0x%lX\r\n", data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    lt8722_reg_read(channel, LT8722_SPIS_AMUX, &data);
+    snprintf(buffer, sizeof(buffer), "SPIS_AMUX: 0x%lX\r\n", data);
+    UART_SendStringRing(UART_CMDLINE, buffer);
+
+    return (CMDLINE_OK);
+}
 //int Cmd_get_status(int argc, char *argv[])
 //{
 //    uint16_t status;

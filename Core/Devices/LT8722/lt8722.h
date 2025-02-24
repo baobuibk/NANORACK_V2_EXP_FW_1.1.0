@@ -13,6 +13,8 @@
 #include "stdbool.h"
 
 typedef enum {TEC_COOL = 0, TEC_HEAT = 1, } mode_ctrl_tec_t;
+extern int en_port[4];
+extern int en_pin[4];
 
 #define LT8722_CRC_POLYNOMIAL          			 0x07
 
@@ -349,7 +351,7 @@ int8_t lt8722_get_spis_ov_clamp(uint8_t channel, uint8_t *value);
 int8_t lt8722_set_spis_uv_clamp(uint8_t channel, uint8_t value);
 int8_t lt8722_get_spis_uv_clamp(uint8_t channel, uint8_t *value);
 
-int8_t lt8722_init(void);
+int8_t lt8722_init(uint8_t channel);
 //int8_t lt8722_set_output_voltage(uint8_t channel, int64_t value);
 int8_t lt8722_set_output_voltage_channel(uint8_t channel, mode_ctrl_tec_t mode, int64_t value);
 

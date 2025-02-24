@@ -139,7 +139,7 @@ int main(void)
   //Initialize all preset for schedule task
   Ex_Watchdog_Init();
   LED_Status_Init();
-  CommandLine_Init(USART1);
+  CommandLine_Init(USART6);
   NTC_DMA_ADC_Init();
 //  Temperature_GetSet_Init();
 
@@ -150,7 +150,7 @@ int main(void)
   Ex_Watchdog_CreateTask();
   LED_Status_CreateTask();
   CommandLine_CreateTask();
-  Temperature_GetSet_CreateTask();
+//  Temperature_GetSet_CreateTask();
   // copc_create_task();
   // sensor_i2c_create_task();
   AutoRun_CreateTask();
@@ -179,6 +179,7 @@ int main(void)
   while (1)
   {
     SCH_HandleScheduledTask();
+
     //	  I2C_Read(I2C1, 0x77, 0x1B, &data);
     //	  LL_mDelay(1000);
     //

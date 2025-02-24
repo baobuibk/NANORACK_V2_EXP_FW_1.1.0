@@ -366,74 +366,71 @@ int8_t lt8722_get_spis_uv_clamp(uint8_t channel, uint8_t *value)
  * 		LT8722 device to be initialized.
  * @return 0 in case of success, negative error code otherwise
 */
-int8_t lt8722_init(void)
+int8_t lt8722_init(uint8_t channel)
 {
 	int8_t ret = 0;
 	int32_t dac;
 	int64_t voltage;
 	int64_t start_voltage;
 	int64_t end_voltage;
-	for (uint8_t channel = 0; channel < 4; channel ++)
-	{
-		LL_GPIO_ResetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
-		LL_GPIO_ResetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
+	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
+	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
 //		LL_GPIO_ResetOutputPin(TEC_1_EN_GPIO_Port, TEC_1_EN_Pin);
 //		LL_GPIO_ResetOutputPin(TEC_1_SWEN_GPIO_Port, TEC_1_SWEN_Pin);
-		/*
-		 * Reset LT8722
-		 */
-		lt8722_reset(channel);
-		/*
-		 * Start-up sequence
-		 * 1. Apply proper VIN and VDDIO voltages
-		 *
-		 * 2. Enable VCC LDO and other LT8722 circuitry
-		 */
-		ret = lt8722_clear_faults(channel);
+	/*
+	 * Reset LT8722
+	 */
+	lt8722_reset(channel);
+	/*
+	 * Start-up sequence
+	 * 1. Apply proper VIN and VDDIO voltages
+	 *
+	 * 2. Enable VCC LDO and other LT8722 circuitry
+	 */
+	ret = lt8722_clear_faults(channel);
 
-		LL_GPIO_SetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
-//		LL_GPIO_SetOutputPin(TEC_1_EN_GPIO_Port, TEC_1_EN_Pin);
+	LL_GPIO_SetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
 
-		ret = lt8722_set_enable_req(channel, LT8722_ENABLE_REQ_ENABLED);
-		ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x00003A01);
-	//	ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x0002BA01);
-		/*
-		 * 3. Configure output voltage control DAC to 0xFF000000
-		 */
-		ret = lt8722_set_dac(channel, 0xFF000000);
-		/*
-		 * 4. Write all SPIS_STATUS registers to 0
-		 */
-		ret = lt8722_reg_write(channel, LT8722_SPIS_STATUS, 0);
+	ret = lt8722_set_enable_req(channel, LT8722_ENABLE_REQ_ENABLED);
+	ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x00003A01);
+	/*
+	 * 3. Configure output voltage control DAC to 0xFF000000
+	 */
+	ret = lt8722_set_dac(channel, 0xFF000000);
+	/*
+	 * 4. Write all SPIS_STATUS registers to 0
+	 */
+	ret = lt8722_reg_write(channel, LT8722_SPIS_STATUS, 0);
+	LL_mDelay(1);
+	ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x00003A01);
+	/*
+	 * 5. Ramp the output voltage control DAC from 0xFF000000 to 0x00000000
+	 */
+	start_voltage = lt8722_dac_to_voltage(0xFF000000);
+	end_voltage = lt8722_dac_to_voltage(0x00000000);
+	for (uint8_t i = 0;  i < 5; i++)
+	{
+		voltage = (start_voltage + (end_voltage - start_voltage) * i / 4);
+		dac = lt8722_voltage_to_dac(voltage);
+		ret = lt8722_set_dac(channel, dac);
 		LL_mDelay(1);
-		ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x00003A01);
-	//	ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x0002BA01);
-		/*
-		 * 5. Ramp the output voltage control DAC from 0xFF000000 to 0x00000000
-		 */
-		start_voltage = lt8722_dac_to_voltage(0xFF000000);
-		end_voltage = lt8722_dac_to_voltage(0x00000000);
-		for (uint8_t i = 0;  i < 5; i++)
-		{
-			voltage = (start_voltage + (end_voltage - start_voltage) * i / 4);
-			dac = lt8722_voltage_to_dac(voltage);
-			ret = lt8722_set_dac(channel, dac);
-			LL_mDelay(1);
-		}
-		/*
-		 * 6. Enable the PWM switching behavior
-		 */
-
-		LL_GPIO_SetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
-//		LL_GPIO_SetOutputPin(TEC_1_SWEN_GPIO_Port, TEC_1_SWEN_Pin);
-
-
-		ret = lt8722_set_swen_req(channel, LT8722_SWEN_REQ_ENABLED);
-		delay_us(180);
-		/*
-		 * 7. Set the desired output voltage
-		 */
 	}
+	/*
+	 * 6. Enable the PWM switching behavior
+	 */
+	LL_GPIO_SetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
+	ret = lt8722_set_swen_req(channel, LT8722_SWEN_REQ_ENABLED);
+	delay_us(200);
+
+	/*
+	 * 7. Set the desired output voltage
+	 */
+//		lt8722_set_output_voltage_channel(channel, TEC_COOL, 200000000);
+//
+//		delay_us(255);
+//		delay_us(255);
+//
+//		ret = lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
 	return ret;
 }
 

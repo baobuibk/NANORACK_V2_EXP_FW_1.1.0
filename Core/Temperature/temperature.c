@@ -120,41 +120,55 @@ static void temperature_update(void)
 //		temperature_enable_auto_control_TEC(3);
 //	}
 
+
 	if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC0_STATUS)) == (1 << TEC0_STATUS))	// Nếu TEC ON
 	{
+		lt8722_set_swen_req(0, LT8722_SWEN_REQ_ENABLED);
 		if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC0_MODE)) == (1 << TEC0_MODE))	// Nếu TEC COOL
 		{
 			lt8722_set_output_voltage_channel(0, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[0]);
 		}
 		else	// Nếu TEC HEAT
 		{
-			lt8722_set_output_voltage_channel(0, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[1]);
+			lt8722_set_output_voltage_channel(0, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[0]);
 		}
 	}
+	else
+		lt8722_set_swen_req(0, LT8722_SWEN_REQ_DISABLED);
+
 	if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC1_STATUS)) == (1 << TEC1_STATUS))	// Nếu TEC ON
 	{
+		lt8722_set_swen_req(1, LT8722_SWEN_REQ_ENABLED);
 		if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC1_MODE)) == (1 << TEC1_MODE))	// Nếu TEC COOL
 		{
 			lt8722_set_output_voltage_channel(1, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[1]);
 		}
 		else	// Nếu TEC HEAT
 		{
-			lt8722_set_output_voltage_channel(1, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[2]);
+			lt8722_set_output_voltage_channel(1, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[1]);
 		}
 	}
+	else
+		lt8722_set_swen_req(1, LT8722_SWEN_REQ_DISABLED);
+
 	if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC2_STATUS)) == (1 << TEC2_STATUS))	// Nếu TEC ON
 	{
+		lt8722_set_swen_req(2, LT8722_SWEN_REQ_ENABLED);
 		if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC2_MODE)) == (1 << TEC2_MODE))	// Nếu TEC COOL
 		{
 			lt8722_set_output_voltage_channel(2, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[2]);
 		}
 		else	// Nếu TEC HEAT
 		{
-			lt8722_set_output_voltage_channel(2, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[0]);
+			lt8722_set_output_voltage_channel(2, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[2]);
 		}
 	}
+	else
+		lt8722_set_swen_req(2, LT8722_SWEN_REQ_DISABLED);
+
 	if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC3_STATUS)) == (1 << TEC3_STATUS))	// Nếu TEC ON
 	{
+		lt8722_set_swen_req(3, LT8722_SWEN_REQ_ENABLED);
 		if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC3_MODE)) == (1 << TEC3_MODE))	// Nếu TEC COOL
 		{
 			lt8722_set_output_voltage_channel(3, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[3]);
@@ -164,51 +178,8 @@ static void temperature_update(void)
 			lt8722_set_output_voltage_channel(3, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[3]);
 		}
 	}
-
-//	if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC0_STATUS)) == (1 << TEC0_STATUS))	// Nếu TEC ON
-//		{
-//			if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC0_MODE)) == (1 << TEC0_MODE))	// Nếu TEC COOL
-//			{
-//				lt8722_set_output_voltage_channel(0, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[0]);
-//			}
-//			else	// Nếu TEC HEAT
-//			{
-//				lt8722_set_output_voltage_channel(0, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[1]);
-//			}
-//		}
-//		if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC1_STATUS)) == (1 << TEC1_STATUS))	// Nếu TEC ON
-//		{
-//			if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC1_MODE)) == (1 << TEC1_MODE))	// Nếu TEC COOL
-//			{
-//				lt8722_set_output_voltage_channel(1, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[1]);
-//			}
-//			else	// Nếu TEC HEAT
-//			{
-//				lt8722_set_output_voltage_channel(1, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[2]);
-//			}
-//		}
-//		if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC2_STATUS)) == (1 << TEC2_STATUS))	// Nếu TEC ON
-//		{
-//			if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC2_MODE)) == (1 << TEC2_MODE))	// Nếu TEC COOL
-//			{
-//				lt8722_set_output_voltage_channel(2, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[2]);
-//			}
-//			else	// Nếu TEC HEAT
-//			{
-//				lt8722_set_output_voltage_channel(2, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[0]);
-//			}
-//		}
-//		if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC3_STATUS)) == (1 << TEC3_STATUS))	// Nếu TEC ON
-//		{
-//			if ((s_Temperature_CurrentState.TEC_status_mode & (1 << TEC3_MODE)) == (1 << TEC3_MODE))	// Nếu TEC COOL
-//			{
-//				lt8722_set_output_voltage_channel(3, TEC_COOL, s_Temperature_CurrentState.Tec_voltage[3]);
-//			}
-//			else	// Nếu TEC HEAT
-//			{
-//				lt8722_set_output_voltage_channel(3, TEC_HEAT, s_Temperature_CurrentState.Tec_voltage[3]);
-//			}
-//		}
+	else
+		lt8722_set_swen_req(3, LT8722_SWEN_REQ_DISABLED);
 
 
 	if ((s_Temperature_CurrentState.Temp_status & (1 << TEMP0_AUTO)) == (1 << TEMP0_AUTO))	 //channel 0 is auto
@@ -303,7 +274,7 @@ void temperature_manual_ctrl(uint8_t channel)
 
 void Temperature_GetSet_Init(void)
 {
-	lt8722_init();
+//	lt8722_init(channel);
 	return;
 }
 
@@ -441,9 +412,25 @@ void temperature_set_ctrl(mode_ctrl_temp_t mode_0, mode_ctrl_temp_t mode_1, mode
 void tec_set_mode(mode_ctrl_tec_t mode_0, mode_ctrl_tec_t mode_1, mode_ctrl_tec_t mode_2, mode_ctrl_tec_t mode_3)
 {
 	s_Temperature_CurrentState.TEC_status_mode |= ((mode_0 << TEC0_MODE) | (mode_1 << TEC1_MODE) | (mode_2 <<TEC2_MODE ) | (mode_3 << TEC3_MODE));
+	if (!mode_0)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC0_MODE);
+	if (!mode_1)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC1_MODE);
+	if (!mode_2)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC2_MODE);
+	if (!mode_3)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC3_MODE);
 }
 
 void tec_on(uint8_t on_0, uint8_t on_1, uint8_t on_2, uint8_t on_3)
 {
 	s_Temperature_CurrentState.TEC_status_mode |= ((on_0 << TEC0_STATUS)  | (on_1 << TEC1_STATUS) | (on_2 <<TEC2_STATUS ) | (on_3 << TEC3_STATUS));
+	if (!on_0)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC0_STATUS);
+	if (!on_1)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC1_STATUS);
+	if (!on_2)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC2_STATUS);
+	if (!on_3)
+		s_Temperature_CurrentState.TEC_status_mode &= ~(1 << TEC3_STATUS);
 }
