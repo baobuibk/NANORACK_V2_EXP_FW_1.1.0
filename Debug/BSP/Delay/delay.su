@@ -1,0 +1,2 @@
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_cortex.h:229:26:LL_SYSTICK_IsActiveCounterFlag	4	static
+../BSP/Delay/delay.c:13:6:delay_us	24	static

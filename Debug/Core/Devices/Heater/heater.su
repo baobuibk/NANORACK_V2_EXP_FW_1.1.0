@@ -1,0 +1,5 @@
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2120:22:LL_TIM_OC_SetCompareCH1	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2137:22:LL_TIM_OC_SetCompareCH2	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2154:22:LL_TIM_OC_SetCompareCH3	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:2171:22:LL_TIM_OC_SetCompareCH4	16	static
+../Core/Devices/Heater/heater.c:12:6:heater_set_duty_pwm_channel	16	static
