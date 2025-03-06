@@ -1,0 +1,10 @@
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:320:26:LL_SPI_IsEnabled	2
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:742:26:LL_SPI_IsActiveFlag_TXE	2
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:793:26:LL_SPI_IsActiveFlag_BSY	2
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:1098:22:LL_SPI_TransmitData8	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:881:22:LL_GPIO_SetOutputPin	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:910:22:LL_GPIO_ResetOutputPin	1
+../Core/Devices/ADG1414/adg1414.c:11:13:ADG1414_Chain_Write	5
+../Core/Devices/ADG1414/adg1414.c:28:6:ADG1414_Chain_Init	3
+../Core/Devices/ADG1414/adg1414.c:57:6:ADG1414_Chain_SwitchOn	10
+../Core/Devices/ADG1414/adg1414.c:126:6:ADG1414_Chain_SwitchAllOff	2

@@ -10,5 +10,6 @@
 ../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:17:10:dac2v	1
 ../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:23:13:MCP4902_Write	8
 ../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:54:6:MCP4902_Shutdown	5
-../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:74:6:MCP4902_Set_Voltage	1
-../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:80:6:MCP4902_Device_Init	3
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:74:6:MCP4902_Set_DAC	1
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:80:6:MCP4902_Set_Voltage	1
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:86:6:MCP4902_Device_Init	3

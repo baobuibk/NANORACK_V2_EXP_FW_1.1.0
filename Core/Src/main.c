@@ -39,7 +39,7 @@
 #include "date_time.h"
 #include "auto_run.h"
 #include "laser_board.h"
-
+#include "photo_board.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,8 +59,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc3;
-
-SPI_HandleTypeDef hspi2;
 
 TIM_HandleTypeDef htim4;
 
@@ -139,9 +137,10 @@ int main(void)
   // Initialize all preset for schedule task
   Ex_Watchdog_Init();
   LED_Status_Init();
-  CommandLine_Init(USART6);
+  CommandLine_Init(USART1);
   NTC_DMA_ADC_Init();
   Laser_board_init();
+  Photo_board_init();
   SCH_Initialize();
 
   // Create task scheduler
@@ -185,17 +184,28 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSE);
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSE, LL_RCC_PLLM_DIV_4, 72, LL_RCC_PLLP_DIV_6);
+  LL_RCC_PLL_Enable();
 
-   /* Wait till System clock is ready */
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSE)
+   /* Wait till PLL is ready */
+  while(LL_RCC_PLL_IsReady() != 1)
   {
 
   }
-  LL_SetSystemCoreClock(8000000);
+  while (LL_PWR_IsActiveFlag_VOS() == 0)
+  {
+  }
+  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
+
+   /* Wait till System clock is ready */
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
+  {
+
+  }
+  LL_SetSystemCoreClock(24000000);
 
    /* Update the time base */
   if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
@@ -555,7 +565,7 @@ static void MX_SPI1_Init(void)
   SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
   SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
   SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
-  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV8;
+  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV32;
   SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
   SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
   SPI_InitStruct.CRCPoly = 10;
@@ -579,28 +589,45 @@ static void MX_SPI2_Init(void)
 
   /* USER CODE END SPI2_Init 0 */
 
+  LL_SPI_InitTypeDef SPI_InitStruct = {0};
+
+  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* Peripheral clock enable */
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_SPI2);
+
+  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
+  /**SPI2 GPIO Configuration
+  PB13   ------> SPI2_SCK
+  PB14   ------> SPI2_MISO
+  PB15   ------> SPI2_MOSI
+  */
+  GPIO_InitStruct.Pin = PHOTO_SCK_Pin|PHOTO_MISO_Pin|PHOTO_MOSI_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_5;
+  LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /* USER CODE BEGIN SPI2_Init 1 */
 
   /* USER CODE END SPI2_Init 1 */
   /* SPI2 parameter configuration*/
-  hspi2.Instance = SPI2;
-  hspi2.Init.Mode = SPI_MODE_MASTER;
-  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_2EDGE;
-  hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
-  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi2.Init.CRCPolynomial = 10;
-  if (HAL_SPI_Init(&hspi2) != HAL_OK)
-  {
-    Error_Handler();
-  }
+  SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
+  SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;
+  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;
+  SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
+  SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
+  SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
+  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV16;
+  SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
+  SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
+  SPI_InitStruct.CRCPoly = 10;
+  LL_SPI_Init(SPI2, &SPI_InitStruct);
+  LL_SPI_SetStandard(SPI2, LL_SPI_PROTOCOL_MOTOROLA);
   /* USER CODE BEGIN SPI2_Init 2 */
-
+  LL_SPI_Enable(SPI2);
   /* USER CODE END SPI2_Init 2 */
 
 }
@@ -974,27 +1001,29 @@ static void MX_GPIO_Init(void)
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOE, TEC_3_SWEN_Pin|TEC_4_SWEN_Pin|TEC_2_SWEN_Pin|TEC_1_SWEN_Pin
-                          |TEC_1_EN_Pin|LED_G_Pin|LED_B_Pin|LASER_DAC_CS_Pin
-                          |LASER_SW_EXT_CS_Pin|LASER_SW_INT_CS_Pin|LASER_DAC_LATCH_Pin);
+                          |TEC_1_EN_Pin|LED_G_Pin|LED_B_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOC, TEC_2_EN_Pin|TEC_3_EN_Pin|TEC_4_EN_Pin|PHOTO_ADC_EOC_Pin);
+  LL_GPIO_ResetOutputPin(GPIOC, TEC_2_EN_Pin|TEC_3_EN_Pin|TEC_4_EN_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(WD_DONE_GPIO_Port, WD_DONE_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOD, EXP_RS485_NRE_Pin|PHOTO_PD_CS_Pin|PHOTO_ADC_CS_Pin|PHOTO_ADC_CONV_Pin
-                          |FRAM_CS_Pin|EF_5_EN_Pin|TEC_ADC_CS_Pin);
+  LL_GPIO_ResetOutputPin(GPIOD, EXP_RS485_NRE_Pin|FRAM_CS_Pin|EF_5_EN_Pin|TEC_ADC_CS_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOB, SENSOR2_EN_Pin|SENSOR1_EN_Pin);
 
   /**/
+  LL_GPIO_SetOutputPin(GPIOE, LASER_DAC_CS_Pin|LASER_SW_EXT_CS_Pin|LASER_SW_INT_CS_Pin|LASER_DAC_LATCH_Pin
+                          |TEC_2_CS_Pin|TEC_1_CS_Pin);
+
+  /**/
   LL_GPIO_SetOutputPin(GPIOB, EXP_RS485_DE_Pin|TEC_4_CS_Pin|TEC_3_CS_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(GPIOE, TEC_2_CS_Pin|TEC_1_CS_Pin);
+  LL_GPIO_SetOutputPin(GPIOD, PHOTO_PD_CS_Pin|PHOTO_ADC_CS_Pin|PHOTO_ADC_CONV_Pin);
 
   /**/
   GPIO_InitStruct.Pin = TEC_3_SWEN_Pin|TEC_1_SWEN_Pin;
@@ -1015,7 +1044,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = TEC_2_EN_Pin|TEC_3_EN_Pin|TEC_4_EN_Pin|PHOTO_ADC_EOC_Pin;
+  GPIO_InitStruct.Pin = TEC_2_EN_Pin|TEC_3_EN_Pin|TEC_4_EN_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -1053,6 +1082,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = PHOTO_ADC_EOC_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+  LL_GPIO_Init(PHOTO_ADC_EOC_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = IRQ1_Pin;

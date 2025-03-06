@@ -71,6 +71,12 @@ void MCP4902_Shutdown(MCP4902_Device_t *dev, uint8_t channel)
 	LL_GPIO_SetOutputPin(dev->latch_port, dev->latch_pin);
 }
 
+void MCP4902_Set_DAC(MCP4902_Device_t *dev, uint8_t channel, uint8_t DAC_val)
+{
+	dev->dac_channel[channel] = DAC_val;
+	MCP4902_Write(dev);
+}
+
 void MCP4902_Set_Voltage(MCP4902_Device_t *dev, uint8_t channel, uint16_t voltage)
 {
 	dev->dac_channel[channel] = v2dac(voltage);
@@ -113,3 +119,4 @@ void MCP4902_Device_Init(	MCP4902_Device_t *dev,
 	while (!LL_SPI_IsEnabled(dev->spi));
 	MCP4902_Write(dev);
 }
+

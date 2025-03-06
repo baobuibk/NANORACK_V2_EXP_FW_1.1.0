@@ -35,6 +35,7 @@ typedef struct {
 uint8_t v2dac(uint16_t voltage);
 uint16_t dac2v(uint8_t dac);
 void MCP4902_Shutdown(MCP4902_Device_t *dev, uint8_t channel);
+void MCP4902_Set_DAC(MCP4902_Device_t *dev, uint8_t channel, uint8_t DAC_val);
 void MCP4902_Set_Voltage(MCP4902_Device_t *dev, uint8_t channel, uint16_t voltage);
 void MCP4902_Device_Init(MCP4902_Device_t *dev, SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint32_t cs_pin, GPIO_TypeDef *latch_port, uint32_t latch_pin);
 

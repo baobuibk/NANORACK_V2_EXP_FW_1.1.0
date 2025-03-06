@@ -47,7 +47,7 @@ void ADG1414_Chain_Init(ADG1414_Device_t *dev, SPI_TypeDef *spi, GPIO_TypeDef *c
         dev->switch_state[i] = 0x00;
     }
 
-    LL_SPI_Enable(dev->spi);
+//    LL_SPI_Enable(dev->spi);
     while (!LL_SPI_IsEnabled(dev->spi));
 
     ADG1414_Chain_Write(dev);
@@ -56,11 +56,11 @@ void ADG1414_Chain_Init(ADG1414_Device_t *dev, SPI_TypeDef *spi, GPIO_TypeDef *c
 /* Hàm bật một switch */
 void ADG1414_Chain_SwitchOn(ADG1414_Device_t *dev, uint8_t channel_num)
 {
-    if ((channel_num >= INTERNAL_CHAIN_CHANNEL_NUM)&&
+    if ((channel_num > INTERNAL_CHAIN_CHANNEL_NUM)&&
     	(dev->num_of_sw == INTERNAL_CHAIN_SWITCH_NUM))
     	return;  // Kiểm tra giới hạn
 
-    if ((channel_num >= EXTERNAL_CHAIN_CHANNEL_NUM)&&
+    if ((channel_num > EXTERNAL_CHAIN_CHANNEL_NUM)&&
 		(dev->num_of_sw == EXTERNAL_CHAIN_SWITCH_NUM))
 		return;  // Kiểm tra giới hạn
 

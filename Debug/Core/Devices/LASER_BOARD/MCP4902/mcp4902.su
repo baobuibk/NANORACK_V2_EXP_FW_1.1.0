@@ -10,5 +10,6 @@
 ../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:17:10:dac2v	16	static
 ../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:23:13:MCP4902_Write	24	static,ignoring_inline_asm
 ../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:54:6:MCP4902_Shutdown	24	static,ignoring_inline_asm
-../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:74:6:MCP4902_Set_Voltage	24	static
-../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:80:6:MCP4902_Device_Init	56	static
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:74:6:MCP4902_Set_DAC	16	static
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:80:6:MCP4902_Set_Voltage	24	static
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:86:6:MCP4902_Device_Init	56	static

@@ -8,6 +8,8 @@
 #ifndef DEVICES_AUTO_RUN_AUTO_RUN_H_
 #define DEVICES_AUTO_RUN_AUTO_RUN_H_
 #include "main.h"
+#include "laser_board.h"
+#include "photo_board.h"
 
 extern volatile uint32_t laser_interval;
 extern volatile uint8_t times_adc;

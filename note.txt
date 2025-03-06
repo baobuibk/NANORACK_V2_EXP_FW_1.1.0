@@ -1,5 +1,0 @@
-những việc đã làm trong code EXP_110, ngày 28/2/2025
-
-sửa hàm Cmd_tec_init
-sửa vấn đề trên lệnh get_temp (NTC)
-

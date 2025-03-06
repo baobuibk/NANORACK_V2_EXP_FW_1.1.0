@@ -29,7 +29,6 @@ Core/CMDLine/command.o: ../Core/CMDLine/command.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
@@ -58,10 +57,12 @@ Core/CMDLine/command.o: ../Core/CMDLine/command.c \
  D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h \
  D:/STworkspace/EXP_V110/Core/Devices/IR_LED/ir_led.h \
  D:/STworkspace/EXP_V110/Core/Devices/Auto_run/auto_run.h \
- D:/STworkspace/EXP_V110/Core/Devices/DateTime/date_time.h \
  D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/laser_board.h \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/ADG1414/adg1414.h \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h
+ D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h \
+ D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h \
+ D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h \
+ D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
+ D:/STworkspace/EXP_V110/Core/Devices/DateTime/date_time.h
 D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
@@ -92,7 +93,6 @@ D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
@@ -123,7 +123,9 @@ D:/STworkspace/EXP_V110/BSP/I2C/i2c.h:
 D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h:
 D:/STworkspace/EXP_V110/Core/Devices/IR_LED/ir_led.h:
 D:/STworkspace/EXP_V110/Core/Devices/Auto_run/auto_run.h:
-D:/STworkspace/EXP_V110/Core/Devices/DateTime/date_time.h:
 D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/laser_board.h:
-D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/ADG1414/adg1414.h:
+D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
 D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
+D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h:
+D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
+D:/STworkspace/EXP_V110/Core/Devices/DateTime/date_time.h:

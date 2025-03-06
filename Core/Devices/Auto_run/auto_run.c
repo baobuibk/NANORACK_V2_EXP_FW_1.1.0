@@ -16,7 +16,7 @@
 
 uint8_t data_times = 0;
 #define UART_CMDLINE USART1
-extern SPI_HandleTypeDef hspi2;
+//extern SPI_HandleTypeDef hspi2;
 
 /* Private typedef -----------------------------------------------------------*/
 typedef struct AUTO_RUN_TaskContextTypedef_
@@ -211,73 +211,27 @@ void auto_get_temp()
 
 void auto_set_pd(uint8_t pd_slot)
 {
-	uint8_t data[6] = {0, 0, 0, 0, 0, 0};
 
-	if (pd_slot > 0 && pd_slot <= 36)
-	{
-
-		uint8_t chip_index = (pd_slot - 1) / 6;
-		uint8_t port_index = (pd_slot - 1) % 6;
-
-		data[chip_index] = (1 << port_index);
-	}
-
-	uint8_t reversed_data[6];
-	for (int i = 0; i < 6; i++)
-	{
-		reversed_data[i] = data[5 - i];
-	}
-
-	LL_GPIO_ResetOutputPin(PHOTO_PD_CS_GPIO_Port, PHOTO_PD_CS_Pin);
-	HAL_SPI_Transmit(&hspi2, reversed_data, 6, 1000);
-	LL_GPIO_SetOutputPin(PHOTO_PD_CS_GPIO_Port, PHOTO_PD_CS_Pin);
+	if (pd_slot > INTERNAL_CHAIN_CHANNEL_NUM)	return;
+	ADG1414_Chain_SwitchOn(&photo_sw, pd_slot);
 }
 
 void auto_set_ls(uint8_t ls_slot)
 {
-	uint8_t data[6] = {0, 0, 0, 0, 0, 0};
 
-	if (ls_slot > 0 && ls_slot <= 36)
-	{
-
-		uint8_t chip_index = (ls_slot - 1) / 6;
-		uint8_t port_index = (ls_slot - 1) % 6;
-
-		data[chip_index] = (1 << port_index);
-	}
-
-	LL_GPIO_ResetOutputPin(LASER_SW_INT_CS_GPIO_Port, LASER_SW_INT_CS_Pin);
-
-	for (int i = 5; i >= 0; i--)
-	{
-		LL_SPI_TransmitData8(SPI1, data[i]);
-		while (!LL_SPI_IsActiveFlag_TXE(SPI1))
-			;
-	}
-
-	while (LL_SPI_IsActiveFlag_BSY(SPI1))
-		;
-
-	LL_GPIO_SetOutputPin(LASER_SW_INT_CS_GPIO_Port, LASER_SW_INT_CS_Pin);
+	if (ls_slot > INTERNAL_CHAIN_CHANNEL_NUM)	return;
+	ADG1414_Chain_SwitchOn(&laser_int, ls_slot);
 }
 
 void read_adc(void)
 {
-	uint8_t rxData[2] = {0};
 	uint32_t result = 0;
 	float voltage = 0.0;
 	const float vref = 3.0;
 	int32_t voltage_int = 0, voltage_frac = 0;
 
-	LL_GPIO_ResetOutputPin(PHOTO_ADC_CONV_GPIO_Port, PHOTO_ADC_CONV_Pin);
-	__asm__("NOP");
-	LL_GPIO_SetOutputPin(PHOTO_ADC_CONV_GPIO_Port, PHOTO_ADC_CONV_Pin);
 
-	LL_GPIO_ResetOutputPin(PHOTO_ADC_CS_GPIO_Port, PHOTO_ADC_CS_Pin);
-	HAL_SPI_Receive(&hspi2, rxData, 2, 1000);
-	LL_GPIO_SetOutputPin(PHOTO_ADC_CS_GPIO_Port, PHOTO_ADC_CS_Pin);
-
-	result = ((uint32_t)rxData[0] << 8) | rxData[1];
+	result = ADS8327_Read_Data_Polling(&photo_adc);
 	voltage = (result / 65536.0f) * vref;
 
 	voltage_int = (int32_t)voltage;
@@ -290,18 +244,9 @@ void read_adc(void)
 
 void read_adc_without_LF(void)
 {
-	uint8_t rxData[2] = {0};
 	uint16_t result = 0;
 
-	LL_GPIO_ResetOutputPin(PHOTO_ADC_CONV_GPIO_Port, PHOTO_ADC_CONV_Pin);
-	__asm__("NOP");
-	LL_GPIO_SetOutputPin(PHOTO_ADC_CONV_GPIO_Port, PHOTO_ADC_CONV_Pin);
-
-	LL_GPIO_ResetOutputPin(PHOTO_ADC_CS_GPIO_Port, PHOTO_ADC_CS_Pin);
-	HAL_SPI_Receive(&hspi2, rxData, 2, 1000);
-	LL_GPIO_SetOutputPin(PHOTO_ADC_CS_GPIO_Port, PHOTO_ADC_CS_Pin);
-
-	result = ((uint16_t)rxData[0] << 8) | rxData[1];
+	result = ADS8327_Read_Data_Polling(&photo_adc);
 
 	char buffer[50];
 	snprintf(buffer, sizeof(buffer), "  [T: %d]-[ADC: %d]", data_times, result);
