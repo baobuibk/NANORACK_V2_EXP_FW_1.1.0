@@ -29,6 +29,9 @@ typedef struct _Temperature_CurrentStateTypedef_
 	uint8_t 					Tec_Heater_status;	// heater3_on heater2_on heater1_on heater0_on tec3_on tec2_on tec1_on tec0_on (LSB)
 } Temperature_CurrentStateTypedef_t;
 
+extern Temperature_CurrentStateTypedef_t	s_Temperature_CurrentState;
+
+
 void Temperature_GetSet_Init(void);
 void Temperature_GetSet_CreateTask(void);
 

@@ -9,5 +9,5 @@
 ../Core/Temperature/temperature.c:186:10:temperature_get_tec_vol	16	static
 ../Core/Temperature/temperature.c:191:6:temperature_set_heater_duty	16	static
 ../Core/Temperature/temperature.c:197:9:temperature_get_heater_duty	16	static
-../Core/Temperature/temperature.c:202:6:temperature_set_auto_ctrl	16	static
-../Core/Temperature/temperature.c:210:6:tec_set_dir	16	static
+../Core/Temperature/temperature.c:202:6:temperature_set_auto_ctrl	24	static
+../Core/Temperature/temperature.c:216:6:tec_set_dir	16	static

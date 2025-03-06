@@ -10,4 +10,4 @@
 ../Core/Temperature/temperature.c:191:6:temperature_set_heater_duty	2
 ../Core/Temperature/temperature.c:197:9:temperature_get_heater_duty	1
 ../Core/Temperature/temperature.c:202:6:temperature_set_auto_ctrl	1
-../Core/Temperature/temperature.c:210:6:tec_set_dir	1
+../Core/Temperature/temperature.c:216:6:tec_set_dir	1

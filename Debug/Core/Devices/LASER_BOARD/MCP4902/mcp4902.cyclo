@@ -1,0 +1,14 @@
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:297:22:LL_SPI_Enable	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:320:26:LL_SPI_IsEnabled	2
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:742:26:LL_SPI_IsActiveFlag_TXE	2
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:793:26:LL_SPI_IsActiveFlag_BSY	2
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:1098:22:LL_SPI_TransmitData8	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:1115:22:LL_SPI_TransmitData16	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:881:22:LL_GPIO_SetOutputPin	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:910:22:LL_GPIO_ResetOutputPin	1
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:12:9:v2dac	1
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:17:10:dac2v	1
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:23:13:MCP4902_Write	8
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:54:6:MCP4902_Shutdown	5
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:74:6:MCP4902_Set_Voltage	1
+../Core/Devices/LASER_BOARD/MCP4902/mcp4902.c:80:6:MCP4902_Device_Init	3

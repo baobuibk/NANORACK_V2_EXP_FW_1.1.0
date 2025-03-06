@@ -38,6 +38,8 @@
 
 #include "date_time.h"
 #include "auto_run.h"
+#include "laser_board.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -139,7 +141,7 @@ int main(void)
   LED_Status_Init();
   CommandLine_Init(USART6);
   NTC_DMA_ADC_Init();
-  // copc_init();
+  Laser_board_init();
   SCH_Initialize();
 
   // Create task scheduler
@@ -147,7 +149,6 @@ int main(void)
   LED_Status_CreateTask();
   CommandLine_CreateTask();
   Temperature_GetSet_CreateTask();
-  // copc_create_task();
   // sensor_i2c_create_task();
   AutoRun_CreateTask();
   SoftTime_CreateTask();
@@ -973,8 +974,8 @@ static void MX_GPIO_Init(void)
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOE, TEC_3_SWEN_Pin|TEC_4_SWEN_Pin|TEC_2_SWEN_Pin|TEC_1_SWEN_Pin
-                          |TEC_1_EN_Pin|LED_G_Pin|LED_B_Pin|LASER_SW_EXT_CS_Pin
-                          |LASER_SW_INT_CS_Pin|LASER_DAC_LATCH_Pin);
+                          |TEC_1_EN_Pin|LED_G_Pin|LED_B_Pin|LASER_DAC_CS_Pin
+                          |LASER_SW_EXT_CS_Pin|LASER_SW_INT_CS_Pin|LASER_DAC_LATCH_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOC, TEC_2_EN_Pin|TEC_3_EN_Pin|TEC_4_EN_Pin|PHOTO_ADC_EOC_Pin);
@@ -990,10 +991,10 @@ static void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(GPIOB, SENSOR2_EN_Pin|SENSOR1_EN_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(GPIOE, LASER_DAC_CS_Pin|TEC_2_CS_Pin|TEC_1_CS_Pin);
+  LL_GPIO_SetOutputPin(GPIOB, EXP_RS485_DE_Pin|TEC_4_CS_Pin|TEC_3_CS_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(GPIOB, EXP_RS485_DE_Pin|TEC_4_CS_Pin|TEC_3_CS_Pin);
+  LL_GPIO_SetOutputPin(GPIOE, TEC_2_CS_Pin|TEC_1_CS_Pin);
 
   /**/
   GPIO_InitStruct.Pin = TEC_3_SWEN_Pin|TEC_1_SWEN_Pin;
@@ -1005,8 +1006,8 @@ static void MX_GPIO_Init(void)
 
   /**/
   GPIO_InitStruct.Pin = TEC_4_SWEN_Pin|TEC_2_SWEN_Pin|TEC_1_EN_Pin|LED_G_Pin
-                          |LED_B_Pin|LASER_SW_EXT_CS_Pin|LASER_SW_INT_CS_Pin|LASER_DAC_LATCH_Pin
-                          |TEC_2_CS_Pin|TEC_1_CS_Pin;
+                          |LED_B_Pin|LASER_DAC_CS_Pin|LASER_SW_EXT_CS_Pin|LASER_SW_INT_CS_Pin
+                          |LASER_DAC_LATCH_Pin|TEC_2_CS_Pin|TEC_1_CS_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -1034,14 +1035,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(EF_12_AUX_GPIO_Port, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = LASER_DAC_CS_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-  LL_GPIO_Init(LASER_DAC_CS_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = EXP_RS485_DE_Pin|SENSOR2_EN_Pin|SENSOR1_EN_Pin|TEC_4_CS_Pin

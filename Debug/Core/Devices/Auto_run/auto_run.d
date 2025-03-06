@@ -47,7 +47,7 @@ Core/Devices/Auto_run/auto_run.o: ../Core/Devices/Auto_run/auto_run.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
  D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
  D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/Core/Devices/DAC/mcp4902.h \
+ D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h \
  D:/STworkspace/EXP_V110/BSP/UART/uart.h \
  D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h
 ../Core/Devices/Auto_run/auto_run.h:
@@ -99,6 +99,6 @@ Core/Devices/Auto_run/auto_run.o: ../Core/Devices/Auto_run/auto_run.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
 D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
 D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/Core/Devices/DAC/mcp4902.h:
+D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
 D:/STworkspace/EXP_V110/BSP/UART/uart.h:
 D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h:

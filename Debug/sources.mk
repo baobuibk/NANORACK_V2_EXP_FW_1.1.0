@@ -33,10 +33,12 @@ Core/CMDLine \
 Core/COPC \
 Core/Devices/Auto_run \
 Core/Devices/BMP390 \
-Core/Devices/DAC \
 Core/Devices/DateTime \
 Core/Devices/Heater \
 Core/Devices/IR_LED \
+Core/Devices/LASER_BOARD/ADG1414 \
+Core/Devices/LASER_BOARD/MCP4902 \
+Core/Devices/LASER_BOARD \
 Core/Devices/LT8722 \
 Core/Devices/NTC \
 Core/LED \

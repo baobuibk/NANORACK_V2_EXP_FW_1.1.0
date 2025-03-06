@@ -66,7 +66,7 @@ static Temp_TaskContextTypedef           temp_task_context =
 	},
 };
 
-static	Temperature_CurrentStateTypedef_t	s_Temperature_CurrentState =
+Temperature_CurrentStateTypedef_t	s_Temperature_CurrentState =
 {
 	 0,								// Temp_change_flag
 	{250, 250, 250, 250},			// Temp_setpoint[4]		(250 mean 25.0*C)
@@ -111,7 +111,7 @@ void temperature_auto_ctrl(int16_t temperature_now, uint8_t channel)
 	// Using: TEC
 	if (temperature_now > s_Temperature_CurrentState.Temp_setpoint[channel] + s_Temperature_CurrentState.High_Threshold)
 	{
-//		UART_SendStringRing(UART_CMDLINE, "nhiet cao");
+		// UART_SendStringRing(UART_CMDLINE, "nhiet cao");
 		// turn off heater
 		heater_set_duty_pwm_channel(channel, 0);
 		// turn on tec with COOL
@@ -126,7 +126,7 @@ void temperature_auto_ctrl(int16_t temperature_now, uint8_t channel)
 	// Using: Heater
 	else if (temperature_now < s_Temperature_CurrentState.Temp_setpoint[channel] - s_Temperature_CurrentState.Low_Threshold)
 	{
-//		UART_SendStringRing(UART_CMDLINE, "nhiet thap");
+		// UART_SendStringRing(UART_CMDLINE, "nhiet thap");
 		// turn off tec
 		lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
 		// turn on heater
@@ -139,7 +139,7 @@ void temperature_auto_ctrl(int16_t temperature_now, uint8_t channel)
 	// Using: none
 	else
 	{
-//		UART_SendStringRing(UART_CMDLINE, "nhiet bang");
+		// UART_SendStringRing(UART_CMDLINE, "nhiet bang");
 		// turn off both tec and heater
 		lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
 		heater_set_duty_pwm_channel(channel, 0);
@@ -201,17 +201,21 @@ uint8_t temperature_get_heater_duty(uint8_t channel)
 
 void temperature_set_auto_ctrl(uint8_t auto_0, uint8_t auto_1, uint8_t auto_2, uint8_t auto_3)
 {
-	s_Temperature_CurrentState.Temp_auto =
-        (s_Temperature_CurrentState.Temp_auto & ~((1 << TEMP0_AUTO) | (1 << TEMP1_AUTO) | (1 << TEMP2_AUTO) | (1 << TEMP3_AUTO))) |
-        ((auto_0 << TEMP0_AUTO) | (auto_1 << TEMP1_AUTO) | (auto_2 << TEMP2_AUTO) | (auto_3 << TEMP3_AUTO));
-	return;
+    s_Temperature_CurrentState.Temp_auto = (auto_0 << TEMP0_AUTO) | (auto_1 << TEMP1_AUTO) | (auto_2 << TEMP2_AUTO) | (auto_3 << TEMP3_AUTO);
+	lt8722_set_swen_req(0, LT8722_SWEN_REQ_DISABLED);
+	heater_set_duty_pwm_channel(0, 0);
+	lt8722_set_swen_req(1, LT8722_SWEN_REQ_DISABLED);
+	heater_set_duty_pwm_channel(1, 0);
+	lt8722_set_swen_req(2, LT8722_SWEN_REQ_DISABLED);
+	heater_set_duty_pwm_channel(2, 0);
+	lt8722_set_swen_req(3, LT8722_SWEN_REQ_DISABLED);
+	heater_set_duty_pwm_channel(3, 0);
+    return;
 }
 
 void tec_set_dir(tec_dir_t dir_0, tec_dir_t dir_1, tec_dir_t dir_2, tec_dir_t dir_3)
 {
     s_Temperature_CurrentState.Temp_change_flag = 1;
-    s_Temperature_CurrentState.Tec_dir =
-        (s_Temperature_CurrentState.Tec_dir & ~((1 << TEC0_DIR) | (1 << TEC1_DIR) | (1 << TEC2_DIR) | (1 << TEC3_DIR))) |
-        ((dir_0 << TEC0_DIR) | (dir_1 << TEC1_DIR) | (dir_2 << TEC2_DIR) | (dir_3 << TEC3_DIR));
+    s_Temperature_CurrentState.Tec_dir = (dir_0 << TEC0_DIR) | (dir_1 << TEC1_DIR) | (dir_2 << TEC2_DIR) | (dir_3 << TEC3_DIR);
     return;
 }

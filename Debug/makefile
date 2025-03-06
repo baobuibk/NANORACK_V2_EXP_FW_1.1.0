@@ -20,10 +20,12 @@ RM := rm -rf
 -include Core/LED/subdir.mk
 -include Core/Devices/NTC/subdir.mk
 -include Core/Devices/LT8722/subdir.mk
+-include Core/Devices/LASER_BOARD/MCP4902/subdir.mk
+-include Core/Devices/LASER_BOARD/ADG1414/subdir.mk
+-include Core/Devices/LASER_BOARD/subdir.mk
 -include Core/Devices/IR_LED/subdir.mk
 -include Core/Devices/Heater/subdir.mk
 -include Core/Devices/DateTime/subdir.mk
--include Core/Devices/DAC/subdir.mk
 -include Core/Devices/BMP390/subdir.mk
 -include Core/Devices/Auto_run/subdir.mk
 -include Core/COPC/subdir.mk
