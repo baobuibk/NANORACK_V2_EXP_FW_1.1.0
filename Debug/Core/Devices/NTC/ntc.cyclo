@@ -12,5 +12,5 @@
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:1019:22:LL_DMA_SetChannelSelection	1
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:1436:22:LL_DMA_SetMemoryAddress	1
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:1459:22:LL_DMA_SetPeriphAddress	1
-../Core/Devices/NTC/ntc.c:506:6:NTC_DMA_ADC_Init	2
-../Core/Devices/NTC/ntc.c:537:6:NTC_get_temperature	4
+../Core/Devices/NTC/ntc.c:507:6:NTC_DMA_ADC_Init	2
+../Core/Devices/NTC/ntc.c:538:6:NTC_get_temperature	4

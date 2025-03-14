@@ -16,6 +16,7 @@
 "./Core/Devices/LASER_BOARD/MCP4902/mcp4902.o"
 "./Core/Devices/LASER_BOARD/laser_board.o"
 "./Core/Devices/LT8722/lt8722.o"
+"./Core/Devices/MB85RS2MT/mb85rs2mt.o"
 "./Core/Devices/NTC/ntc.o"
 "./Core/Devices/PHOTO_BOARD/ADS8327/ads8327.o"
 "./Core/Devices/PHOTO_BOARD/photo_board.o"

@@ -1,6 +1,6 @@
 Core/Devices/Auto_run/auto_run.o: ../Core/Devices/Auto_run/auto_run.c \
- ../Core/Devices/Auto_run/auto_run.h ../Core/Inc/main.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+ D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/../../Auto_run/auto_run.h \
+ ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -53,7 +53,7 @@ Core/Devices/Auto_run/auto_run.o: ../Core/Devices/Auto_run/auto_run.c \
  D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
  D:/STworkspace/EXP_V110/BSP/UART/uart.h \
  D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h
-../Core/Devices/Auto_run/auto_run.h:
+D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/../../Auto_run/auto_run.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:

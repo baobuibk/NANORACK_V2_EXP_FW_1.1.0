@@ -40,6 +40,7 @@ Core/Devices/IR_LED \
 Core/Devices/LASER_BOARD/MCP4902 \
 Core/Devices/LASER_BOARD \
 Core/Devices/LT8722 \
+Core/Devices/MB85RS2MT \
 Core/Devices/NTC \
 Core/Devices/PHOTO_BOARD/ADS8327 \
 Core/Devices/PHOTO_BOARD \

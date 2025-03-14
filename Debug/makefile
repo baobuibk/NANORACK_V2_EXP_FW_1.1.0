@@ -21,6 +21,7 @@ RM := rm -rf
 -include Core/Devices/PHOTO_BOARD/ADS8327/subdir.mk
 -include Core/Devices/PHOTO_BOARD/subdir.mk
 -include Core/Devices/NTC/subdir.mk
+-include Core/Devices/MB85RS2MT/subdir.mk
 -include Core/Devices/LT8722/subdir.mk
 -include Core/Devices/LASER_BOARD/MCP4902/subdir.mk
 -include Core/Devices/LASER_BOARD/subdir.mk

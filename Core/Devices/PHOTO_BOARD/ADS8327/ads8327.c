@@ -7,20 +7,46 @@
 #include "ads8327.h"
 
 static uint16_t CFR_user_default = 0x0EFD;		//0000 1110 1111 1101
+volatile uint8_t ads8327_timeout = 0;
 
-
-static void ADS8327_Transmit16(ADS8327_Device_t *dev, uint16_t data)
+static void ADS8327_set_timeout(uint8_t mS)
 {
-	while (!LL_SPI_IsActiveFlag_TXE(dev->spi));
+	ads8327_timeout = mS;
+}
 
-	LL_SPI_TransmitData8(dev->spi, (uint8_t)(data>>8));
-	while (!LL_SPI_IsActiveFlag_TXE(dev->spi));  // Đợi TXE
-	while (LL_SPI_IsActiveFlag_BSY(dev->spi));   // Đợi BSY
+static uint8_t ADS8327_get_timeout(void)
+{
+	return ads8327_timeout;
+}
 
-	LL_SPI_TransmitData8(dev->spi, (uint8_t)data);
-	while (!LL_SPI_IsActiveFlag_TXE(dev->spi));  // Đợi TXE
-	while (LL_SPI_IsActiveFlag_BSY(dev->spi));   // Đợi BSY
+static uint16_t ADS8327_Transmit16(ADS8327_Device_t *dev, uint16_t TxData)
+{
+	uint16_t RxData = 0;
+	LL_GPIO_ResetOutputPin(dev->cs_port, dev->cs_pin);
 
+	ADS8327_set_timeout(10);
+	while ((!LL_SPI_IsActiveFlag_TXE(dev->spi)) && ADS8327_get_timeout());
+	LL_SPI_TransmitData8(dev->spi, (uint8_t)(TxData>>8));
+	ADS8327_set_timeout(10);
+	while (LL_SPI_IsActiveFlag_BSY(dev->spi) && ADS8327_get_timeout());
+	ADS8327_set_timeout(10);
+	while ((!LL_SPI_IsActiveFlag_RXNE(dev->spi)) && ADS8327_get_timeout());
+	RxData = LL_SPI_ReceiveData8(dev->spi) << 8;
+	ADS8327_set_timeout(10);
+	while (LL_SPI_IsActiveFlag_BSY(dev->spi) && ADS8327_get_timeout());
+	ADS8327_set_timeout(10);
+	while ((!LL_SPI_IsActiveFlag_TXE(dev->spi)) && ADS8327_get_timeout());
+	LL_SPI_TransmitData8(dev->spi, (uint8_t)TxData);
+	ADS8327_set_timeout(10);
+	while (LL_SPI_IsActiveFlag_BSY(dev->spi) && ADS8327_get_timeout());
+	ADS8327_set_timeout(10);
+	while ((!LL_SPI_IsActiveFlag_RXNE(dev->spi)) && ADS8327_get_timeout());
+	RxData |= LL_SPI_ReceiveData8(dev->spi);
+	ADS8327_set_timeout(10);
+	while (LL_SPI_IsActiveFlag_BSY(dev->spi) && ADS8327_get_timeout());
+
+	LL_GPIO_SetOutputPin(dev->cs_port, dev->cs_pin);
+	return RxData;
 }
 
 
@@ -68,35 +94,16 @@ void ADS8327_Default_CFR(ADS8327_Device_t *dev, CFR_default_t CFR_default)
 
 uint16_t ADS8327_Read_Data_Polling(ADS8327_Device_t *dev)
 {
-	uint16_t data;
 	LL_GPIO_ResetOutputPin(dev->convst_port, dev->convst_pin);
 
-//	while(LL_GPIO_IsInputPinSet(dev->EOC_port, dev->EOC_pin));
-//	while(!LL_GPIO_IsInputPinSet(dev->EOC_port, dev->EOC_pin));
-//
-//	LL_GPIO_SetOutputPin(dev->convst_port, dev->convst_pin);
-//
-//	LL_GPIO_ResetOutputPin(dev->cs_port, dev->cs_pin);
-//
-//	while (!LL_SPI_IsActiveFlag_TXE(dev->spi));
-//	LL_SPI_TransmitData8(dev->spi, 0);
-//	while (LL_SPI_IsActiveFlag_BSY(dev->spi));
-//
-//	while (!LL_SPI_IsActiveFlag_RXNE(dev->spi));
-//	data = LL_SPI_ReceiveData8(dev->spi) << 8;
-//	while (LL_SPI_IsActiveFlag_BSY(dev->spi));
-//
-//	while (!LL_SPI_IsActiveFlag_TXE(dev->spi));
-//	LL_SPI_TransmitData8(dev->spi, 0);
-//	while (LL_SPI_IsActiveFlag_BSY(dev->spi));
-//
-//	while (!LL_SPI_IsActiveFlag_RXNE(dev->spi));
-//	data |= LL_SPI_ReceiveData8(dev->spi);
-//	//ADS8327_Transmit16(dev, dev->CMD);
-//	//dev->ADC_val = ADS8327_Receive16(dev);
-//	while (LL_SPI_IsActiveFlag_BSY(dev->spi));
-//	LL_GPIO_SetOutputPin(dev->cs_port, dev->cs_pin);
-	dev->ADC_val = data;
+	ADS8327_set_timeout(10);
+	while (LL_GPIO_IsInputPinSet(dev->EOC_port, dev->EOC_pin) && ADS8327_get_timeout());
+	ADS8327_set_timeout(10);
+	while ((!LL_GPIO_IsInputPinSet(dev->EOC_port, dev->EOC_pin)) && ADS8327_get_timeout());
+
+	LL_GPIO_SetOutputPin(dev->convst_port, dev->convst_pin);
+
+	dev->ADC_val = ADS8327_Transmit16(dev, 0);
 	return dev->ADC_val;
 }
 
@@ -119,7 +126,6 @@ void ADS8327_Device_Init(	ADS8327_Device_t *dev,
 	dev->EOC_port = EOC_port;
 	dev->EOC_pin = EOC_pin;
 
-//	LL_SPI_Enable(dev->spi);
 	while (!LL_SPI_IsEnabled(dev->spi));
 
 	ADS8327_Default_CFR(dev, USER_DEFAULT);

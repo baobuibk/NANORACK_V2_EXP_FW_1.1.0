@@ -6,8 +6,9 @@
 ../Core/Temperature/temperature.c:169:9:temperature_get_setpoint	1
 ../Core/Temperature/temperature.c:174:9:temperature_get_temp_NTC	1
 ../Core/Temperature/temperature.c:179:6:temperature_set_tec_vol	2
-../Core/Temperature/temperature.c:186:10:temperature_get_tec_vol	1
-../Core/Temperature/temperature.c:191:6:temperature_set_heater_duty	2
-../Core/Temperature/temperature.c:197:9:temperature_get_heater_duty	1
-../Core/Temperature/temperature.c:202:6:temperature_set_auto_ctrl	1
-../Core/Temperature/temperature.c:216:6:tec_set_dir	1
+../Core/Temperature/temperature.c:186:10:temperature_get_tec_vol_set	1
+../Core/Temperature/temperature.c:191:10:temperature_get_tec_vol_adc	1
+../Core/Temperature/temperature.c:196:6:temperature_set_heater_duty	2
+../Core/Temperature/temperature.c:202:9:temperature_get_heater_duty	1
+../Core/Temperature/temperature.c:207:6:temperature_set_auto_ctrl	1
+../Core/Temperature/temperature.c:221:6:tec_set_dir	1

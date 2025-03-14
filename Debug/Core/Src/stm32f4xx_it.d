@@ -50,7 +50,9 @@ Core/Src/stm32f4xx_it.o: ../Core/Src/stm32f4xx_it.c ../Core/Inc/main.h \
  D:/STworkspace/EXP_V110/BSP/UART/uart.h \
  D:/STworkspace/EXP_V110/Core/COPC/copc.h \
  D:/STworkspace/EXP_V110/BSP/I2C_Slave/i2c_slave.h \
- D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h
+ D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h \
+ D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
+ D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -105,3 +107,5 @@ D:/STworkspace/EXP_V110/BSP/UART/uart.h:
 D:/STworkspace/EXP_V110/Core/COPC/copc.h:
 D:/STworkspace/EXP_V110/BSP/I2C_Slave/i2c_slave.h:
 D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h:
+D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
+D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:

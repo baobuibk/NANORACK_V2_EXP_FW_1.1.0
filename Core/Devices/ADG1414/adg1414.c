@@ -1,133 +1,159 @@
 /*
- * adg1414_chain8.c
+ * adg1414.c
  *
- *  Created on: Feb 28, 2025
- *      Author: Admin
+ *  Created on: Mar 13, 2025
+ *      Author: HTSANG
  */
 
-#include <adg1414.h>
 
+#include "adg1414.h"
+#include "stm32f4xx_ll_spi.h"
 
-static void ADG1414_Chain_Write(ADG1414_Device_t *dev)
+///////////////////////////////////////////////////////////////////////////////////////////////
+//private function
+///////////////////////////////////////////////////////////////////////////////////////////////
+volatile uint8_t adg1414_timeout = 0;
+
+static void adg1414_set_timeout(uint8_t mS)
 {
+	adg1414_timeout = mS;
+}
 
-	while (!LL_SPI_IsActiveFlag_TXE(dev->spi));
-	LL_GPIO_ResetOutputPin(dev->cs_port, dev->cs_pin);
+static uint8_t adg1414_get_timeout(void)
+{
+	return adg1414_timeout;
+}
 
-    for (int i = dev->num_of_sw - 1; i >= 0; i--)
-    {
-        LL_SPI_TransmitData8(dev->spi, dev->switch_state[i]);
-        while (!LL_SPI_IsActiveFlag_TXE(dev->spi));  // Đợi TXE
-        while (LL_SPI_IsActiveFlag_BSY(dev->spi));   // Đợi BSY
-    }
+static inline void adg1414_Select(adg1414_dev_t *dev)
+{
+    LL_GPIO_ResetOutputPin(dev->cs_port, dev->cs_pin);
+}
 
+static inline void adg1414_Deselect(adg1414_dev_t *dev)
+{
     LL_GPIO_SetOutputPin(dev->cs_port, dev->cs_pin);
 }
 
-/* Hàm khởi tạo module ADG1414 */
-void ADG1414_Chain_Init(ADG1414_Device_t *dev, SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint32_t cs_pin, uint8_t num_of_sw)
+static void adg1414_SPI_Transmit(adg1414_dev_t *dev, uint8_t *data, uint16_t size)
 {
-	dev->spi = spi;
-	dev->num_of_sw = num_of_sw;
-	dev->cs_port = cs_port;
-	dev->cs_pin = cs_pin;
-
-    LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = dev->cs_pin;
-    GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-    GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-    LL_GPIO_Init(dev->cs_port, &GPIO_InitStruct);
-
-    LL_GPIO_SetOutputPin(dev->cs_port, dev->cs_pin);
-
-    for (int i = 0; i < dev->num_of_sw; i++)
+    for (int8_t i = size - 1; i >= 0; i--)
     {
-        dev->switch_state[i] = 0x00;
+        adg1414_set_timeout(10);
+        while ((!LL_SPI_IsActiveFlag_TXE(dev->hspi)) && adg1414_get_timeout());
+        LL_SPI_TransmitData8(dev->hspi, data[i]);
+        adg1414_set_timeout(10);
+        while (LL_SPI_IsActiveFlag_BSY(dev->hspi) && adg1414_get_timeout());   // Đợi BSY
     }
-
-//    LL_SPI_Enable(dev->spi);
-    while (!LL_SPI_IsEnabled(dev->spi));
-
-    ADG1414_Chain_Write(dev);
 }
 
-/* Hàm bật một switch */
-void ADG1414_Chain_SwitchOn(ADG1414_Device_t *dev, uint8_t channel_num)
-{
-    if ((channel_num > INTERNAL_CHAIN_CHANNEL_NUM)&&
-    	(dev->num_of_sw == INTERNAL_CHAIN_SWITCH_NUM))
-    	return;  // Kiểm tra giới hạn
-
-    if ((channel_num > EXTERNAL_CHAIN_CHANNEL_NUM)&&
-		(dev->num_of_sw == EXTERNAL_CHAIN_SWITCH_NUM))
-		return;  // Kiểm tra giới hạn
-
-    if (dev->num_of_sw == INTERNAL_CHAIN_SWITCH_NUM)
-	{
-    	for (int i = 0; i < dev->num_of_sw; i++)
-		{
-			dev->switch_state[i] = 0x00;
-		}
-    	if (channel_num)
-    	{
-    		uint8_t chip_idx = (channel_num-1) / 6;
-			uint8_t bit_idx = (channel_num-1) % 6;
-			dev->switch_state[(uint8_t)chip_idx] = (1 << bit_idx)&0x3F;
-    	}
-	}
-
-    else if (dev->num_of_sw == EXTERNAL_CHAIN_SWITCH_NUM)
-	{
-    	if(channel_num)
-    	{
-    		dev->switch_state[0] = (1 << (channel_num - 1));
-    	}
-
-    	else
-    	{
-    		dev->switch_state[0] = 0;
-		}
-	}
-
-    ADG1414_Chain_Write(dev);
-}
-
-///* Hàm tắt một switch */
-//void ADG1414_Chain_SwitchOff(ADG1414_Device_t *dev, uint8_t channel_num)
+//static void adg1414_SPI_Receive(adg1414_dev_t *dev, uint8_t *data, uint16_t size)
 //{
-//	if (!channel_num) return;
-//
-//	if ((channel_num >= INTERNAL_CHAIN_CHANNEL_NUM)&&
-//		(dev->num_of_sw == INTERNAL_CHAIN_SWITCH_NUM))
-//		return;  // Kiểm tra giới hạn
-//
-//	if ((channel_num >= EXTERNAL_CHAIN_CHANNEL_NUM)&&
-//		(dev->num_of_sw == EXTERNAL_CHAIN_SWITCH_NUM))
-//		return;  // Kiểm tra giới hạn
-//
-//	if (dev->num_of_sw == INTERNAL_CHAIN_SWITCH_NUM)
-//	{
-//		uint8_t chip_idx = (channel_num - 1) / 6;
-//		uint8_t bit_idx = (channel_num - 1) % 6;
-//		dev->switch_state[(uint8_t)chip_idx] &= ~(1 << bit_idx);
-//	}
-//
-//	else if (dev->num_of_sw == EXTERNAL_CHAIN_SWITCH_NUM)
-//	{
-//		dev->switch_state[0] &= ~(1 << channel_num);
-//	}
-//
-//	ADG1414_Chain_Write(dev);
+//    for (uint16_t i = 0; i < size; i++)
+//    {
+//		adg1414_set_timeout(10);
+//		while ((!LL_SPI_IsActiveFlag_TXE(dev->hspi)) && adg1414_get_timeout());
+//		LL_SPI_TransmitData8(dev->hspi, 0xFF);
+//		adg1414_set_timeout(10);
+//		while ((!LL_SPI_IsActiveFlag_RXNE(dev->hspi)) && adg1414_get_timeout());
+//		data[i] = LL_SPI_ReceiveData8(dev->hspi);
+//    }
 //}
 
-/* Hàm tắt tất cả các switch */
-void ADG1414_Chain_SwitchAllOff(ADG1414_Device_t *dev)
+///////////////////////////////////////////////////////////////////////////////////////////////
+//public function
+///////////////////////////////////////////////////////////////////////////////////////////////
+uint8_t adg1414_init(adg1414_dev_t *dev)
 {
-    for (int i = 0; i < dev->num_of_sw; i++)
-    {
-        dev->switch_state[i] = 0x00;
-    }
-    ADG1414_Chain_Write(dev);
+	adg1414_Deselect(dev);
+	uint8_t TxData = 0x00;
+	adg1414_Select(dev);
+	adg1414_SPI_Transmit(dev, &TxData, 1);
+	adg1414_Deselect(dev);
+	return 0;
+}
+
+uint8_t adg1414_SetSwChannel(adg1414_dev_t *dev, uint8_t channel)
+{
+	if (channel > dev->channel_per_dev) return 1;
+	uint8_t TxData = (1 << (channel - 1));
+	adg1414_Select(dev);
+	adg1414_SPI_Transmit(dev, &TxData, 1);
+	adg1414_Deselect(dev);
+	return 0;
+}
+
+uint8_t adg1414_ResetSwChannel(adg1414_dev_t *dev, uint8_t channel)
+{
+	if (channel > dev->channel_per_dev) return 1;
+	uint8_t TxData = 0x00;
+	adg1414_Select(dev);
+	adg1414_SPI_Transmit(dev, &TxData, 1);
+	adg1414_Deselect(dev);
+	return 0;
+}
+
+
+/* Function to initial one chain shift */
+uint8_t adg1414_Chain_init(adg1414_chain_t *chain)
+{
+	adg1414_Deselect(&chain->dev);
+	uint8_t TxData[chain->num_of_chain];
+	for (uint8_t i = 0; i < chain->num_of_chain; i++)
+	{
+		TxData[i] = 0x00;
+	}
+	adg1414_Select(&chain->dev);
+	adg1414_SPI_Transmit(&chain->dev, TxData, chain->num_of_chain);
+	adg1414_Deselect(&chain->dev);
+	return 0;
+}
+
+/* Function to turn on a switch */
+uint8_t adg1414_Chain_SetSwChannel(adg1414_chain_t *chain, uint8_t channel)
+{
+	if (channel > (chain->num_of_chain * chain->dev.channel_per_dev)) return 1;
+
+	uint8_t TxData[chain->num_of_chain];
+	for (uint8_t i = 0; i < chain->num_of_chain; i++)
+	{
+		TxData[i] = 0x00;
+	}
+	uint8_t chip_idx = (channel-1) / chain->dev.channel_per_dev;
+	uint8_t bit_idx  = (channel-1) % chain->dev.channel_per_dev;
+	TxData[(uint8_t)chip_idx] = (1 << bit_idx) & 0x3F;
+	adg1414_Select(&chain->dev);
+	adg1414_SPI_Transmit(&chain->dev, TxData, chain->num_of_chain);
+	adg1414_Deselect(&chain->dev);
+	return 0;
+}
+/* Function to turn off a switch */
+uint8_t adg1414_Chain_ResetSwChannel(adg1414_chain_t *chain, uint8_t channel)
+{
+	if (channel > (chain->num_of_chain * chain->dev.channel_per_dev)) return 1;
+
+	uint8_t TxData[chain->num_of_chain];
+	for (uint8_t i; i < chain->num_of_chain; i++)
+	{
+		TxData[i] = 0x00;
+	}
+	uint8_t chip_idx = (channel-1) / chain->dev.channel_per_dev;
+	uint8_t bit_idx  = (channel-1) % chain->dev.channel_per_dev;
+	TxData[(uint8_t)chip_idx] &= ~(1 << bit_idx);
+	adg1414_Select(&chain->dev);
+	adg1414_SPI_Transmit(&chain->dev, TxData, chain->num_of_chain);
+	adg1414_Deselect(&chain->dev);
+	return 0;
+}
+/* Function to turn off all switches */
+uint8_t adg1414_Chain_ResetSwAll(adg1414_chain_t *chain)
+{
+	uint8_t TxData[chain->num_of_chain];
+	for (uint8_t i = 0; i < (chain->num_of_chain); i++)
+	{
+		TxData[i] = 0x00;
+	}
+	adg1414_Select(&chain->dev);
+	adg1414_SPI_Transmit(&chain->dev, TxData, chain->num_of_chain);
+	adg1414_Deselect(&chain->dev);
+	return 0;
 }

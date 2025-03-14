@@ -13,8 +13,11 @@
 #include "mcp4902.h"
 
 extern MCP4902_Device_t DAC_device;
-extern ADG1414_Device_t laser_int;
-extern ADG1414_Device_t laser_ext;
+extern adg1414_chain_t int_laser;
+extern adg1414_dev_t ext_laser;
+
+//extern ADG1414_Device_t laser_int;
+//extern ADG1414_Device_t laser_ext;
 
 void Laser_board_init(void);
 

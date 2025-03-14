@@ -1,4 +1,4 @@
-../Core/Devices/Auto_run/auto_run.c:65:13:auto_run_task_update	19
+../Core/Devices/Auto_run/auto_run.c:66:13:auto_run_task_update	19
 ../Core/Devices/Auto_run/auto_run.c:180:6:auto_get_temp	4
 ../Core/Devices/Auto_run/auto_run.c:212:6:auto_set_pd	2
 ../Core/Devices/Auto_run/auto_run.c:219:6:auto_set_ls	2

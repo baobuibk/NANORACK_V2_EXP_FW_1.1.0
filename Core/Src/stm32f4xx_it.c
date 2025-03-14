@@ -26,6 +26,8 @@
 #include "command.h"
 #include "copc.h"
 #include "i2c_slave.h"
+#include "ads8327.h"
+#include "adg1414.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -190,6 +192,8 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 	g_systick_count++;
 	SCH_RunSystemTickTimer();
+	if (ads8327_timeout > 0) ads8327_timeout--;
+	if (ads8327_timeout > 0) adg1414_timeout--;
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */

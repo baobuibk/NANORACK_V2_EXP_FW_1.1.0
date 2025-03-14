@@ -5,8 +5,8 @@
  *      Author: CAO HIEU
  */
 
-#ifndef DEVICES_AUTO_RUN_AUTO_RUN_H_
-#define DEVICES_AUTO_RUN_AUTO_RUN_H_
+#ifndef AUTO_RUN_AUTO_RUN_H_
+#define AUTO_RUN_AUTO_RUN_H_
 #include "main.h"
 #include "laser_board.h"
 #include "photo_board.h"
@@ -26,4 +26,4 @@ extern volatile uint8_t run_inf;
 
 void AutoRun_CreateTask(void);
 
-#endif /* DEVICES_AUTO_RUN_AUTO_RUN_H_ */
+#endif /* AUTO_RUN_AUTO_RUN_H_ */

@@ -183,7 +183,12 @@ void temperature_set_tec_vol(uint8_t channel, uint16_t voltage)
 	s_Temperature_CurrentState.Tec_vol[channel] = voltage*1000000;
 }
 
-uint16_t temperature_get_tec_vol(uint8_t channel)
+uint16_t temperature_get_tec_vol_set(uint8_t channel)
+{
+	return (s_Temperature_CurrentState.Tec_vol[channel]/1000000);
+}
+
+uint16_t temperature_get_tec_vol_adc(uint8_t channel)
 {
 	return (s_Temperature_CurrentState.Tec_vol[channel]/1000000);
 }

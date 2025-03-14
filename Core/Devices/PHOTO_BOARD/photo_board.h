@@ -12,7 +12,9 @@
 #include "adg1414.h"
 #include "main.h"
 
-extern ADG1414_Device_t photo_sw;
+//extern ADG1414_Device_t photo_sw;
+
+extern adg1414_chain_t photo_sw;
 extern ADS8327_Device_t photo_adc;
 
 void Photo_board_init(void);

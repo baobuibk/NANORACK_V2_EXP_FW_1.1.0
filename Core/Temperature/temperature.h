@@ -21,6 +21,7 @@ typedef struct _Temperature_CurrentStateTypedef_
 	int16_t						High_Threshold;
 	int16_t						Low_Threshold;
 	int64_t						Tec_vol[4];			// nanoVoltage
+//	int64
 	uint8_t						Tec_dir;			// xxxx dir3 dir2 dir1 dir0 (LSB)
 	int16_t						Heater_duty[4];		// 0-999
 	int16_t						NTC_temp[8];
@@ -39,7 +40,8 @@ void temperature_set_setpoint(uint8_t channel, int16_t setpoint);
 int16_t temperature_get_setpoint(uint8_t channel);
 int16_t temperature_get_temp_NTC(uint8_t channel);
 void temperature_set_tec_vol(uint8_t channel, uint16_t voltage);
-uint16_t temperature_get_tec_vol(uint8_t channel);
+uint16_t temperature_get_tec_vol_set(uint8_t channel);
+uint16_t temperature_get_tec_vol_adc(uint8_t channel);
 void temperature_set_heater_duty(uint8_t channel, uint8_t duty);
 uint8_t temperature_get_heater_duty(uint8_t channel);
 void temperature_set_auto_ctrl(uint8_t auto_0, uint8_t auto_1, uint8_t auto_2, uint8_t auto_3);

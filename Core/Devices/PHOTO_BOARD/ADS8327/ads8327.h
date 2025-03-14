@@ -83,6 +83,8 @@ typedef struct {
 } ADS8327_Device_t;
 
 
+extern volatile uint8_t ads8327_timeout;
+
 void ADS8327_Wake_Up(ADS8327_Device_t *dev);
 void ADS8327_Write_CFR(ADS8327_Device_t *dev, uint16_t CFR);
 void ADS8327_Default_CFR(ADS8327_Device_t *dev, CFR_default_t CFR_default);
@@ -95,9 +97,5 @@ void ADS8327_Device_Init(	ADS8327_Device_t *dev,
 							uint32_t convst_pin,
 							GPIO_TypeDef *EOC_port,
 							uint32_t EOC_pin);
-
-
-
-
 
 #endif /* ADS8327_H_ */

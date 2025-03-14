@@ -110,8 +110,7 @@ tCmdLineEntry g_psCmdTable[] =
 
 		/* Internal laser board commands */
 		{ "int_ls_dac", Cmd_int_ls_dac, ": Set DAC output (Details not provided) | format: dac_set <value>" },
-		{ "int_ls_set", Cmd_int_ls_set,
-				": Set light sensor parameters (Details not provided) | format: ls_set <value>" },
+		{ "int_ls_set", Cmd_int_ls_set, ": Set light sensor parameters (Details not provided) | format: ls_set <value>" },
 		{ "int_ls_auto", Cmd_int_ls_auto, ": Auto_laser [interval] [interval adc] [userdelay]" },
 
 		/* External laser board commands */
@@ -349,7 +348,7 @@ int Cmd_help(int argc, char *argv[]) {
 	while (pEntry->pcCmd) {
 		char buffer[256];
 		size_t cmdLength = strlen(pEntry->pcCmd);
-		int padding = (int) (maxCmdLength - cmdLength + 4);
+		int padding = (int) (maxCmdLength - cmdLength + 2);
 		snprintf(buffer, sizeof(buffer), "\r\n[%s]%*s: %s", pEntry->pcCmd,
 				padding, "", pEntry->pcHelp);
 		UART_SendStringRing(UART_CMDLINE, buffer);
@@ -434,8 +433,7 @@ int Cmd_set_temp(int argc, char *argv[]) {
 	for (uint8_t i = 0; i < 4; i++) {
 		setpoint[i] = atoi(argv[i + 1]);
 		temperature_set_setpoint(i, setpoint[i]);
-		snprintf(buffer, sizeof(buffer), "\r\n--> Setpoint[%d]: %i", i,
-				setpoint[i]);
+		snprintf(buffer, sizeof(buffer), "\r\n--> Setpoint[%d]: %i", i, setpoint[i]);
 		UART_SendStringRing(UART_CMDLINE, buffer);
 	}
 	return CMDLINE_OK;
@@ -461,11 +459,9 @@ int Cmd_get_temp(int argc, char *argv[]) {
 	for (uint8_t channel = 0; channel < 8; channel++) {
 		temp = NTC_Temperature[channel];
 		if (temp == 0x7FFF) {
-			snprintf(buffer, sizeof(buffer), "\r\n--> NTC[%d] is fail",
-					channel);
+			snprintf(buffer, sizeof(buffer), "\r\n--> NTC[%d] is fail", channel);
 		} else {
-			snprintf(buffer, sizeof(buffer), "\r\n--> NTC[%d]: %i", channel,
-					temp);
+			snprintf(buffer, sizeof(buffer), "\r\n--> NTC[%d]: %i", channel, temp);
 		}
 		UART_SendStringRing(UART_CMDLINE, buffer);
 	}
@@ -478,8 +474,7 @@ int Cmd_get_temp_setpoint(int argc, char *argv[]) {
 	char buffer[60];
 	for (uint8_t channel = 0; channel < 4; channel++) {
 		setpoint = temperature_get_setpoint(channel);
-		snprintf(buffer, sizeof(buffer), "\r\n--> Setpoint[%d]:%i", channel,
-				setpoint);
+		snprintf(buffer, sizeof(buffer), "\r\n--> Setpoint[%d]:%i", channel, setpoint);
 		UART_SendStringRing(UART_CMDLINE, buffer);
 	}
 	return (CMDLINE_OK);
@@ -500,11 +495,9 @@ int Cmd_tec_init(int argc, char *argv[]) {
 				lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
 			lt8722_reg_read(channel, LT8722_SPIS_STATUS, &data);
 			if (!data)
-				snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init success",
-						channel);
+				snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init success", channel);
 			else
-				snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init fail",
-						channel);
+				snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init fail", channel);
 			UART_SendStringRing(UART_CMDLINE, buffer);
 		}
 		return CMDLINE_OK;
@@ -517,11 +510,9 @@ int Cmd_tec_init(int argc, char *argv[]) {
 			lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
 		lt8722_reg_read(channel, LT8722_SPIS_STATUS, &data);
 		if (!data)
-			snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init success",
-					channel);
+			snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init success", channel);
 		else
-			snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init fail",
-					channel);
+			snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init fail", channel);
 		UART_SendStringRing(UART_CMDLINE, buffer);
 		return CMDLINE_OK;
 	}
@@ -536,8 +527,7 @@ int Cmd_tec_set_vol(int argc, char *argv[]) {
 	char buffer[80];
 	for (uint8_t i = 0; i < 4; i++) {
 		temperature_set_tec_vol(i, atoi(argv[i + 1]));
-		snprintf(buffer, sizeof(buffer), "\r\n--> Tec vol[%d]: %i mV", i,
-				atoi(argv[i + 1]));
+		snprintf(buffer, sizeof(buffer), "\r\n--> Tec[%d]: set %i mV", i, atoi(argv[i + 1]));
 		UART_SendStringRing(UART_CMDLINE, buffer);
 	}
 	return CMDLINE_OK;
@@ -546,12 +536,14 @@ int Cmd_tec_set_vol(int argc, char *argv[]) {
 int Cmd_tec_get_vol(int argc, char *argv[]) {
 	if (argc > 2)
 		return CMDLINE_TOO_MANY_ARGS;
-	uint16_t vol[4];
+	uint16_t vol_set = 0;
+	uint16_t vol_adc = 0;
 	char buffer[80];
 	for (uint8_t i = 0; i < 4; i++) {
-		vol[i] = temperature_get_tec_vol(i);
-		snprintf(buffer, sizeof(buffer), "\r\n--> Tec voltage[%d]: %i mV", i,
-				vol[i]);
+		vol_set = temperature_get_tec_vol_set(i);
+//		vol_adc = temperature_get_tec_vol_adc(i);
+		vol_adc = 12345;
+		snprintf(buffer, sizeof(buffer), "\r\nTec[%d]: set %imV, ADC %imV", i, vol_set, vol_adc);
 		UART_SendStringRing(UART_CMDLINE, buffer);
 	}
 	return CMDLINE_OK;
@@ -886,201 +878,6 @@ int Cmd_pressure_get(int argc, char *argv[]) {
 	return (CMDLINE_OK);
 }
 
-//int Cmd_dac_set(int argc, char *argv[])
-//{
-//    if (argc > 3)
-//        return CMDLINE_TOO_MANY_ARGS;
-//    if (argc < 3)
-//        return CMDLINE_TOO_FEW_ARGS;
-//    uint16_t voltage = atoi(argv[1]);
-//    if (voltage > 210)
-//        return CMDLINE_INVALID_ARG;
-//    char buffer[60];
-//    snprintf(buffer, sizeof(buffer), "\r\n--> DAC Point: %d", voltage);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//    MCP4902_Set_Voltage(&DAC_device, MCP4902_CHA, voltage);
-//    return CMDLINE_OK;
-//}
-
-//int Cmd_ls_set(int argc, char *argv[])
-//{
-//    if (argc > 3)
-//        return CMDLINE_TOO_MANY_ARGS;
-//    if (argc < 3)
-//        return CMDLINE_TOO_FEW_ARGS;
-//    uint8_t ls_slot = atoi(argv[1]);
-//    if (ls_slot > 36)
-//    	return CMDLINE_INVALID_ARG;
-//    ADG1414_Chain_SwitchOn(&laser_int, ls_slot);
-//    return CMDLINE_OK;
-//}
-
-//int Cmd_pd_set(int argc, char *argv[])
-//{
-//    if (argc > 3)
-//        return CMDLINE_TOO_MANY_ARGS;
-//    if (argc < 3)
-//        return CMDLINE_TOO_FEW_ARGS;
-//    uint8_t pd_slot = atoi(argv[1]);
-//    if (pd_slot > 36)
-//        return CMDLINE_INVALID_ARG;
-//    uint8_t data[6] = {0, 0, 0, 0, 0, 0};
-//    if (pd_slot > 0 && pd_slot <= 36)
-//    {
-//        uint8_t chip_index = (pd_slot - 1) / 6;
-//        uint8_t port_index = (pd_slot - 1) % 6;
-//        data[chip_index] = (1 << port_index);
-//    }
-//    uint8_t reversed_data[6];
-//    for (int i = 0; i < 6; i++)
-//    {
-//        reversed_data[i] = data[5 - i];
-//    }
-//    LL_GPIO_ResetOutputPin(PHOTO_PD_CS_GPIO_Port, PHOTO_PD_CS_Pin);
-//    HAL_SPI_Transmit(&hspi2, reversed_data, 6, 1000);
-//    LL_GPIO_SetOutputPin(PHOTO_PD_CS_GPIO_Port, PHOTO_PD_CS_Pin);
-//    return CMDLINE_OK;
-//}
-
-//int Cmd_get_adc(int argc, char *argv[])
-//{
-//    if (argc > 2)
-//        return CMDLINE_TOO_MANY_ARGS;
-//    if (argc < 2)
-//        return CMDLINE_TOO_FEW_ARGS;
-//    uint8_t rxData[2] = {0};
-//    uint32_t result = 0;
-//    LL_GPIO_ResetOutputPin(PHOTO_ADC_CONV_GPIO_Port, PHOTO_ADC_CONV_Pin);
-//    __asm__("NOP");
-//    LL_GPIO_SetOutputPin(PHOTO_ADC_CONV_GPIO_Port, PHOTO_ADC_CONV_Pin);
-//    LL_GPIO_ResetOutputPin(PHOTO_ADC_CS_GPIO_Port, PHOTO_ADC_CS_Pin);
-//    HAL_SPI_Receive(&hspi2, rxData, 2, 1000);
-//    LL_GPIO_SetOutputPin(PHOTO_ADC_CS_GPIO_Port, PHOTO_ADC_CS_Pin);
-//    result = ((uint32_t)rxData[0] << 8) | rxData[1];
-//
-//    char buffer[60];
-//    snprintf(buffer, sizeof(buffer), "Got ADC: %ld \r\n", result);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//    return CMDLINE_OK;
-//}
-
-//int Cmd_auto_laser(int argc, char *argv[])
-//{
-//    if (argc > 8)
-//        return CMDLINE_TOO_MANY_ARGS;
-//    if (argc < 8)
-//        return CMDLINE_TOO_FEW_ARGS;
-//
-//    uint32_t interval = atoi(argv[1]);
-//    uint32_t times = atoi(argv[2]);
-//    uint32_t udelay = atoi(argv[3]);
-//    uint8_t s_do_time = atoi(argv[4]);
-//    uint32_t s_rest_time = atoi(argv[5]);
-//    uint32_t dac = atoi(argv[6]);
-//
-//    char buffer[80];
-//
-//    if (interval % 100 != 0 || interval < 400)
-//    {
-//        snprintf(buffer, sizeof(buffer), "Error: Interval must be a multiple of 100ms and > 400ms.\r\n");
-//        UART_SendStringRing(UART_CMDLINE, buffer);
-//        return CMDLINE_INVALID_ARG;
-//    }
-//
-//    if (times < 200 || times % 100 != 0 || times > interval)
-//    {
-//        snprintf(buffer, sizeof(buffer), "Error: Times must be <= interval, > 200ms, mulof100ms.\r\n");
-//        UART_SendStringRing(UART_CMDLINE, buffer);
-//        return CMDLINE_INVALID_ARG;
-//    }
-//
-//    if (udelay > 500)
-//    {
-//        snprintf(buffer, sizeof(buffer), "Error: udelay <= 500\r\n");
-//        UART_SendStringRing(UART_CMDLINE, buffer);
-//        return CMDLINE_INVALID_ARG;
-//    }
-//
-//    if (s_do_time > 200)
-//    {
-//        snprintf(buffer, sizeof(buffer), "Error: Do only < 200 or = 0 to infinity\r\n");
-//        UART_SendStringRing(UART_CMDLINE, buffer);
-//        return CMDLINE_INVALID_ARG;
-//    }
-//
-//    run_inf = (s_do_time == 0) ? 1 : 0;
-//
-//    if (dac > 255)
-//        return CMDLINE_INVALID_ARG;
-//
-//    snprintf(buffer, sizeof(buffer), "DAC Point: %ld\r\n", dac);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    int16_t temp = 0;
-//
-//    if (temp == 0x7FFF)
-//    {
-//        UART_SendStringRing(UART_CMDLINE, "\r\nTemp BMP390 = [FAIL]\r\n");
-//    }
-//    else
-//    {
-//        snprintf(buffer, sizeof(buffer), "\r\nTemp BMP390 = [%i]\r\n", temp);
-//        UART_SendStringRing(UART_CMDLINE, buffer);
-//    }
-//
-//    for (uint8_t channel = 0; channel < 8; channel++)
-//    {
-//        temp = NTC_Temperature[channel];
-//        if (temp == 0x7FFF)
-//        {
-//            snprintf(buffer, sizeof(buffer), " | NTC[%d] = [FAIL]\r\n", channel);
-//        }
-//        else
-//        {
-//            snprintf(buffer, sizeof(buffer), " | NTC[%d] = [%i]\r\n", channel, temp);
-//        }
-//        UART_SendStringRing(UART_CMDLINE, buffer);
-//    }
-//
-//    laser_interval = interval;
-//    adc_interval = times;
-//    user_delay = udelay;
-//    rest_time = s_rest_time;
-//    do_time = s_do_time;
-//    run_system = 1;
-//
-//    snprintf(buffer, sizeof(buffer), "Run system with interval: %ld ms, times: %ld, delay: %ld. Enter to End\r\n", interval, times, udelay);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    return CMDLINE_OK;
-//}
-
-//int Cmd_auto_adc(int argc, char *argv[])
-//{
-//    if (argc > 3)
-//        return CMDLINE_TOO_MANY_ARGS;
-//    if (argc < 3)
-//        return CMDLINE_TOO_FEW_ARGS;
-//
-//    uint32_t interval = atoi(argv[1]);
-//    char buffer[80];
-//
-//    if (interval % 100 != 0 || interval < 500)
-//    {
-//        snprintf(buffer, sizeof(buffer), "Error: Interval must be a multiple of 100ms and > 500ms.\r\n");
-//        UART_SendStringRing(UART_CMDLINE, buffer);
-//        return CMDLINE_INVALID_ARG;
-//    }
-//
-//    adc_interval = interval;
-//    run_adc = 1;
-//
-//    snprintf(buffer, sizeof(buffer), "Run auto ADC with interval: %ld ms. Enter to End\r\n", interval);
-//    UART_SendStringRing(UART_CMDLINE, buffer);
-//
-//    return CMDLINE_OK;
-//}
-
 /* Internal laser board commands */
 int Cmd_int_ls_dac(int argc, char *argv[]) {
 	if (argc > 3)
@@ -1103,9 +900,9 @@ int Cmd_int_ls_set(int argc, char *argv[]) {
 	if (argc < 3)
 		return CMDLINE_TOO_FEW_ARGS;
 	uint8_t ls_slot = atoi(argv[1]);
-	if (ls_slot > INTERNAL_CHAIN_CHANNEL_NUM)
+	if (ls_slot > int_laser.num_of_chain*int_laser.dev.channel_per_dev)
 		return CMDLINE_INVALID_ARG;
-	ADG1414_Chain_SwitchOn(&laser_int, ls_slot);
+	adg1414_Chain_SetSwChannel(&int_laser, ls_slot);
 	return CMDLINE_OK;
 }
 int Cmd_int_ls_auto(int argc, char *argv[]) {
@@ -1146,6 +943,7 @@ int Cmd_int_ls_auto(int argc, char *argv[]) {
 	run_inf = (s_do_time == 0) ? 1 : 0;
 	if (dac > 255)
 		return CMDLINE_INVALID_ARG;
+	MCP4902_Set_DAC(&DAC_device, MCP4902_CHA, dac);
 	snprintf(buffer, sizeof(buffer), "DAC Point: %ld\r\n", dac);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 	int16_t temp = 0;
@@ -1158,11 +956,9 @@ int Cmd_int_ls_auto(int argc, char *argv[]) {
 	for (uint8_t channel = 0; channel < 8; channel++) {
 		temp = NTC_Temperature[channel];
 		if (temp == 0x7FFF) {
-			snprintf(buffer, sizeof(buffer), " | NTC[%d] = [FAIL]\r\n",
-					channel);
+			snprintf(buffer, sizeof(buffer), " | NTC[%d] = [FAIL]\r\n", channel);
 		} else {
-			snprintf(buffer, sizeof(buffer), " | NTC[%d] = [%i]\r\n", channel,
-					temp);
+			snprintf(buffer, sizeof(buffer), " | NTC[%d] = [%i]\r\n", channel, temp);
 		}
 		UART_SendStringRing(UART_CMDLINE, buffer);
 	}
@@ -1172,9 +968,7 @@ int Cmd_int_ls_auto(int argc, char *argv[]) {
 	rest_time = s_rest_time;
 	do_time = s_do_time;
 	run_system = 1;
-	snprintf(buffer, sizeof(buffer),
-			"Run system with interval: %ld ms, times: %ld, delay: %ld. Enter to End\r\n",
-			interval, times, udelay);
+	snprintf(buffer, sizeof(buffer), "Run system with interval: %ld ms, times: %ld, delay: %ld. Enter to End\r\n", interval, times, udelay);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 	return CMDLINE_OK;
 }
@@ -1200,9 +994,9 @@ int Cmd_ext_ls_set(int argc, char *argv[]) {
 	if (argc < 3)
 		return CMDLINE_TOO_FEW_ARGS;
 	uint8_t ls_slot = atoi(argv[1]);
-	if (ls_slot > EXTERNAL_CHAIN_CHANNEL_NUM)
+	if (ls_slot > ext_laser.channel_per_dev)
 		return CMDLINE_INVALID_ARG;
-	ADG1414_Chain_SwitchOn(&laser_ext, ls_slot);
+	adg1414_SetSwChannel(&ext_laser, ls_slot);
 	return CMDLINE_OK;
 }
 int Cmd_ext_ls_auto(int argc, char *argv[]) {
@@ -1216,9 +1010,9 @@ int Cmd_pd_set(int argc, char *argv[]) {
 	if (argc < 3)
 		return CMDLINE_TOO_FEW_ARGS;
 	uint8_t pd_slot = atoi(argv[1]);
-	if (pd_slot > INTERNAL_CHAIN_CHANNEL_NUM)
+	if (pd_slot > photo_sw.num_of_chain * photo_sw.dev.channel_per_dev)
 		return CMDLINE_INVALID_ARG;
-	ADG1414_Chain_SwitchOn(&photo_sw, pd_slot);
+	adg1414_Chain_SetSwChannel(&photo_sw, pd_slot);
 	return CMDLINE_OK;
 }
 int Cmd_pd_get_adc(int argc, char *argv[]) {
@@ -1243,45 +1037,31 @@ int Cmd_pd_auto(int argc, char *argv[]) {
 	uint32_t interval = atoi(argv[1]);
 	char buffer[80];
 	if (interval % 100 != 0 || interval < 500) {
-		snprintf(buffer, sizeof(buffer),
-				"Error: Interval must be a multiple of 100ms and > 500ms.\r\n");
+		snprintf(buffer, sizeof(buffer), "\r\nError: Interval must be a multiple of 100ms and > 500ms.");
 		UART_SendStringRing(UART_CMDLINE, buffer);
 		return CMDLINE_INVALID_ARG;
 	}
 	adc_interval = interval;
 	run_adc = 1;
-	snprintf(buffer, sizeof(buffer),
-			"Run auto ADC with interval: %ld ms. Enter to End\r\n", interval);
+	snprintf(buffer, sizeof(buffer), "\r\nRun auto ADC with interval: %ld ms. Enter to End", interval);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 	return CMDLINE_OK;
 }
 
 void CommandLine_CreateTask(void) {
-	SCH_TASK_CreateTask(&s_CommandTaskContext.taskHandle,
-			&s_CommandTaskContext.taskProperty);
+	SCH_TASK_CreateTask(&s_CommandTaskContext.taskHandle, &s_CommandTaskContext.taskProperty);
 }
 
 void Command_SendSplash(void) {
-	UART_SendStringRing(UART_CMDLINE,
-			"┌──────────────────────────────────────────────────────────────┐\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"│        █▀ █▀█ ▄▀█ █▀▀ █▀▀ █   █ █ █▄ █ ▀█▀ █▀▀ █▀▀ █ █       │\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"│        ▄█ █▀▀ █▀█ █▄▄ ██▄ █▄▄ █ █ █ ▀█  █  ██▄ █▄▄ █▀█       │\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"└──────────────────────────────────────────────────────────────┘\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"███████╗██╗  ██╗██████╗░░░░░░░░░██╗░░░██╗ ██╗░░░██╗░░░░██████╗░░\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"██╔════╝╚██╗██╔╝██╔══██╗░░░░░░░░██║░░░██║███║░░███║░░░██╔═████╗░\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"█████╗░░░╚███╔╝░██████╔╝░█████╗░██║░░░██║╚██║░░╚██║░░░██║██╔██║░\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"██╔══╝░░░██╔██╗░██╔═══╝░░╚════╝░╚██╗░██╔╝░██║░░░██║░░░████╔╝██║░\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"███████╗██╔╝ ██╗██║░░░░░░░░░░░░░░╚████╔╝░░██║██╗██║██╗╚██████╔╝░\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"╚══════╝╚═╝░░╚═╝╚═╝░░░░░░░░░░░░░░░╚═══╝░░░╚═╝╚═╝╚═╝╚═╝░╚═════╝░░\r\n");
-	UART_SendStringRing(UART_CMDLINE,
-			"├──────────────────────────────────────────────────────────────┤\r\n");
+	UART_SendStringRing(UART_CMDLINE, "┌──────────────────────────────────────────────────────────────┐\r\n");
+	UART_SendStringRing(UART_CMDLINE, "│        █▀ █▀█ ▄▀█ █▀▀ █▀▀ █   █ █ █▄ █ ▀█▀ █▀▀ █▀▀ █ █       │\r\n");
+	UART_SendStringRing(UART_CMDLINE, "│        ▄█ █▀▀ █▀█ █▄▄ ██▄ █▄▄ █ █ █ ▀█  █  ██▄ █▄▄ █▀█       │\r\n");
+	UART_SendStringRing(UART_CMDLINE, "└──────────────────────────────────────────────────────────────┘\r\n");
+	UART_SendStringRing(UART_CMDLINE, "███████╗██╗  ██╗██████╗░░░░░░░░░██╗░░░██╗ ██╗░░░██╗░░░░██████╗░░\r\n");
+	UART_SendStringRing(UART_CMDLINE, "██╔════╝╚██╗██╔╝██╔══██╗░░░░░░░░██║░░░██║███║░░███║░░░██╔═████╗░\r\n");
+	UART_SendStringRing(UART_CMDLINE, "█████╗░░░╚███╔╝░██████╔╝░█████╗░██║░░░██║╚██║░░╚██║░░░██║██╔██║░\r\n");
+	UART_SendStringRing(UART_CMDLINE, "██╔══╝░░░██╔██╗░██╔═══╝░░╚════╝░╚██╗░██╔╝░██║░░░██║░░░████╔╝██║░\r\n");
+	UART_SendStringRing(UART_CMDLINE, "███████╗██╔╝ ██╗██║░░░░░░░░░░░░░░╚████╔╝░░██║██╗██║██╗╚██████╔╝░\r\n");
+	UART_SendStringRing(UART_CMDLINE, "╚══════╝╚═╝░░╚═╝╚═╝░░░░░░░░░░░░░░░╚═══╝░░░╚═╝╚═╝╚═╝╚═╝░╚═════╝░░\r\n");
+	UART_SendStringRing(UART_CMDLINE, "├──────────────────────────────────────────────────────────────┤\r\n");
 }

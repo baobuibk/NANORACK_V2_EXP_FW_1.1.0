@@ -40,6 +40,8 @@
 #include "auto_run.h"
 #include "laser_board.h"
 #include "photo_board.h"
+
+#include "mb85rs2mt.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -134,10 +136,26 @@ int main(void)
   MX_USART1_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  // Initialize for device
+  mb85rs2mt_dev_t fram = {
+		  .hspi = SPI3,
+		  .cs_port = FRAM_CS_GPIO_Port,
+		  .cs_pin = FRAM_CS_Pin
+  };
+  MB85RS2MT_Init(&fram);
+
+  adg1414_dev_t exp_adg1414 = {
+		  .hspi = SPI3,
+		  .cs_port = TEC_ADC_CS_GPIO_Port,
+		  .cs_pin = TEC_ADC_CS_Pin,
+		  .channel_per_dev = 4
+  };
+  adg1414_init(&exp_adg1414);
+
   // Initialize all preset for schedule task
   Ex_Watchdog_Init();
   LED_Status_Init();
-  CommandLine_Init(USART1);
+  CommandLine_Init(USART6);
   NTC_DMA_ADC_Init();
   Laser_board_init();
   Photo_board_init();

@@ -5,7 +5,8 @@
  *      Author: CAO HIEU
  */
 
-#include "auto_run.h"
+#include "../../Auto_run/auto_run.h"
+
 #include "stdio.h"
 #include "scheduler.h"
 
@@ -64,7 +65,6 @@ volatile uint8_t run_inf = 0;
 
 static void auto_run_task_update(void)
 {
-
 	if (run_adc)
 	{
 		if (SCH_TIM_HasCompleted(SCH_TIM_AUTO_ADC))
@@ -211,16 +211,16 @@ void auto_get_temp()
 
 void auto_set_pd(uint8_t pd_slot)
 {
-
-	if (pd_slot > INTERNAL_CHAIN_CHANNEL_NUM)	return;
-	ADG1414_Chain_SwitchOn(&photo_sw, pd_slot);
+	if (pd_slot > (photo_sw.num_of_chain * photo_sw.dev.channel_per_dev))
+		return;
+	adg1414_Chain_SetSwChannel(&photo_sw, pd_slot);
 }
 
 void auto_set_ls(uint8_t ls_slot)
 {
-
-	if (ls_slot > INTERNAL_CHAIN_CHANNEL_NUM)	return;
-	ADG1414_Chain_SwitchOn(&laser_int, ls_slot);
+	if (ls_slot > (int_laser.num_of_chain * int_laser.dev.channel_per_dev))
+		return;
+	adg1414_Chain_SetSwChannel(&int_laser, ls_slot);
 }
 
 void read_adc(void)
