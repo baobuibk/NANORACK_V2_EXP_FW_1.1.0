@@ -10,7 +10,6 @@
 #include "cmdline.h"
 #include "scheduler.h"
 #include "uart.h"
-#include "main.h"
 #include "board.h"
 #include "lt8722.h"
 #include "stm32f4xx_ll_gpio.h"
@@ -484,18 +483,21 @@ int Cmd_get_temp_setpoint(int argc, char *argv[]) {
 int Cmd_tec_init(int argc, char *argv[]) {
 	if (argc > 3)
 		return CMDLINE_TOO_MANY_ARGS;
-	uint32_t data = 1;
 	char buffer[60];
 	int8_t tec_init_channel = 0;
+	struct lt8722_dev *p_tec_dev;
+	struct lt8722_dev *p_tec_dev_table[] = {&tec_0, &tec_1, &tec_2, &tec_3};
 	if (argc == 2) {
+		/* Init TEC 0 -> 3 */
 		for (uint8_t channel = 0; channel < 4; channel++) {
-			tec_init_channel = lt8722_init(channel);
+			p_tec_dev = p_tec_dev_table[channel];
+			tec_init_channel = lt8722_init(p_tec_dev);
 			LL_mDelay(10);
-			if (!tec_init_channel)
-				lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
-			lt8722_reg_read(channel, LT8722_SPIS_STATUS, &data);
-			if (!data)
+			// if init is success
+			if (!tec_init_channel) {
+				lt8722_set_swen_req(p_tec_dev, LT8722_SWEN_REQ_DISABLED);
 				snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init success", channel);
+			}
 			else
 				snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init fail", channel);
 			UART_SendStringRing(UART_CMDLINE, buffer);
@@ -504,13 +506,14 @@ int Cmd_tec_init(int argc, char *argv[]) {
 	}
 	if (argc == 3) {
 		uint8_t channel = atoi(argv[1]);
-		tec_init_channel = lt8722_init(channel);
+		p_tec_dev = p_tec_dev_table[channel];
+		tec_init_channel = lt8722_init(p_tec_dev);
 		LL_mDelay(10);
-		if (!tec_init_channel)
-			lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
-		lt8722_reg_read(channel, LT8722_SPIS_STATUS, &data);
-		if (!data)
+		// if init is success
+		if (!tec_init_channel) {
+			lt8722_set_swen_req(p_tec_dev, LT8722_SWEN_REQ_DISABLED);
 			snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init success", channel);
+		}
 		else
 			snprintf(buffer, sizeof(buffer), "\r\n--> Tec %d init fail", channel);
 		UART_SendStringRing(UART_CMDLINE, buffer);
@@ -568,62 +571,71 @@ int Cmd_tec_ctrl(int argc, char *argv[]) {
 	if (argc > 6)
 		return CMDLINE_TOO_MANY_ARGS;
 	if (atoi(argv[1]))
-		lt8722_set_swen_req(0, LT8722_SWEN_REQ_ENABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_ENABLED);
 	else
-		lt8722_set_swen_req(0, LT8722_SWEN_REQ_DISABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
 	if (atoi(argv[2]))
-		lt8722_set_swen_req(1, LT8722_SWEN_REQ_ENABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_ENABLED);
 	else
-		lt8722_set_swen_req(1, LT8722_SWEN_REQ_DISABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
 	if (atoi(argv[3]))
-		lt8722_set_swen_req(2, LT8722_SWEN_REQ_ENABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_ENABLED);
 	else
-		lt8722_set_swen_req(2, LT8722_SWEN_REQ_DISABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
 	if (atoi(argv[4]))
-		lt8722_set_swen_req(3, LT8722_SWEN_REQ_ENABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_ENABLED);
 	else
-		lt8722_set_swen_req(3, LT8722_SWEN_REQ_DISABLED);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
 	return CMDLINE_OK;
 }
 
 int Cmd_tec_read(int argc, char *argv[]) {
 	uint32_t data;
 	char buffer[60];
+	struct lt8722_dev *p_dev;
 	uint8_t channel = atoi(argv[1]);
-	lt8722_reg_read(channel, LT8722_SPIS_COMMAND, &data);
+	if (channel == 0)
+		p_dev = &tec_0;
+	if (channel == 1)
+		p_dev = &tec_1;
+	if (channel == 2)
+		p_dev = &tec_2;
+	if (channel == 3)
+		p_dev = &tec_3;
+	lt8722_reg_read(p_dev, LT8722_SPIS_COMMAND, &data);
 	snprintf(buffer, sizeof(buffer), "\r\nSPIS_COMMAND: 0x%lX-%lX\r\n",
 			data >> 16, data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
-	lt8722_reg_read(channel, LT8722_SPIS_STATUS, &data);
+	lt8722_reg_read(p_dev, LT8722_SPIS_STATUS, &data);
 	snprintf(buffer, sizeof(buffer), "SPIS_STATUS: 0x%lX-%lX\r\n", data >> 16,
 			data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
-	lt8722_reg_read(channel, LT8722_SPIS_DAC_ILIMN, &data);
+	lt8722_reg_read(p_dev, LT8722_SPIS_DAC_ILIMN, &data);
 	snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMN: 0x%lX-%lX\r\n",
 			data >> 16, data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
-	lt8722_reg_read(channel, LT8722_SPIS_DAC_ILIMP, &data);
+	lt8722_reg_read(p_dev, LT8722_SPIS_DAC_ILIMP, &data);
 	snprintf(buffer, sizeof(buffer), "SPIS_DAC_ILIMP: 0x%lX-%lX\r\n",
 			data >> 16, data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
-	lt8722_reg_read(channel, LT8722_SPIS_DAC, &data);
+	lt8722_reg_read(p_dev, LT8722_SPIS_DAC, &data);
 	snprintf(buffer, sizeof(buffer), "SPIS_DAC: 0x%lX-%lX\r\n", data >> 16,
 			data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
-	lt8722_reg_read(channel, LT8722_SPIS_OV_CLAMP, &data);
+	lt8722_reg_read(p_dev, LT8722_SPIS_OV_CLAMP, &data);
 	snprintf(buffer, sizeof(buffer), "SPIS_OV_CLAMP: 0x%lX\r\n", data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
-	lt8722_reg_read(channel, LT8722_SPIS_UV_CLAMP, &data);
+	lt8722_reg_read(p_dev, LT8722_SPIS_UV_CLAMP, &data);
 	snprintf(buffer, sizeof(buffer), "SPIS_UV_CLAMP: 0x%lX\r\n", data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
-	lt8722_reg_read(channel, LT8722_SPIS_AMUX, &data);
+	lt8722_reg_read(p_dev, LT8722_SPIS_AMUX, &data);
 	snprintf(buffer, sizeof(buffer), "SPIS_AMUX: 0x%lX\r\n", data);
 	UART_SendStringRing(UART_CMDLINE, buffer);
 
@@ -730,11 +742,11 @@ int Cmd_temp_auto_1(int argc, char *argv[]) {
 	int16_t temp_setpoint_1 = atoi(argv[4]);
 
 	uint32_t data = 1;
-	uint8_t tec_init = lt8722_init(1);
+	uint8_t tec_init = lt8722_init(&tec_0);
 	LL_mDelay(10);
 	if (!tec_init)
-		lt8722_set_swen_req(1, LT8722_SWEN_REQ_DISABLED);
-	lt8722_reg_read(1, LT8722_SPIS_STATUS, &data);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
+	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
 	if (!data)
 		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 1 init success");
 	else {
@@ -772,11 +784,11 @@ int Cmd_temp_auto_2(int argc, char *argv[]) {
 	int16_t temp_setpoint_2 = atoi(argv[4]);
 
 	uint32_t data = 1;
-	uint8_t tec_init = lt8722_init(2);
+	uint8_t tec_init = lt8722_init(&tec_0);
 	LL_mDelay(10);
 	if (!tec_init)
-		lt8722_set_swen_req(2, LT8722_SWEN_REQ_DISABLED);
-	lt8722_reg_read(2, LT8722_SPIS_STATUS, &data);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
+	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
 	if (!data)
 		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 2 init success");
 	else {
@@ -814,11 +826,11 @@ int Cmd_temp_auto_3(int argc, char *argv[]) {
 	int16_t temp_setpoint_3 = atoi(argv[4]);
 
 	uint32_t data = 1;
-	uint8_t tec_init = lt8722_init(3);
+	uint8_t tec_init = lt8722_init(&tec_0);
 	LL_mDelay(10);
 	if (!tec_init)
-		lt8722_set_swen_req(3, LT8722_SWEN_REQ_DISABLED);
-	lt8722_reg_read(3, LT8722_SPIS_STATUS, &data);
+		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
+	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
 	if (!data)
 		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 3 init success");
 	else {

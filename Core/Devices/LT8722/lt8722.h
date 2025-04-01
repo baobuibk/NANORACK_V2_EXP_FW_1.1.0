@@ -13,8 +13,6 @@
 #include "stdbool.h"
 
 typedef enum {TEC_COOL = 0, TEC_HEAT = 1} tec_dir_t;
-extern int en_port[4];
-extern int en_pin[4];
 
 #define LT8722_CRC_POLYNOMIAL          			 0x07
 
@@ -327,32 +325,47 @@ struct lt8722_packet {
 	uint16_t status;
 };
 
+/**
+ * @struct lt8722_dev
+ * @brief Device descriptor for LT8722.
+ */
+struct lt8722_dev {
+	SPI_TypeDef *hspi;
+	GPIO_TypeDef *cs_port;
+	uint16_t cs_pin;
+	GPIO_TypeDef *en_port;
+	uint16_t en_pin;
+	GPIO_TypeDef *swen_port;
+	uint16_t swen_pin;
+	bool start_up_sequence;
+	uint16_t status;
+};
+
 int32_t lt8722_voltage_to_dac(int64_t voltage);
 int64_t lt8722_dac_to_voltage(int32_t dac);
-int8_t lt8722_transaction(uint8_t channel, struct lt8722_packet *packet);
-int8_t lt8722_reg_read(uint8_t channel, uint8_t address, uint32_t *data);
-int8_t lt8722_reg_write(uint8_t channel, uint8_t address, uint32_t data);
-int8_t lt8722_reg_write_mask(uint8_t channel, uint8_t address, uint32_t mask, uint32_t data);
+int8_t lt8722_transaction(struct lt8722_dev *dev, struct lt8722_packet *packet);
+int8_t lt8722_reg_read(struct lt8722_dev *dev, uint8_t address, uint32_t *data);
+int8_t lt8722_reg_write(struct lt8722_dev *dev, uint8_t address, uint32_t data);
+int8_t lt8722_reg_write_mask(struct lt8722_dev *dev, uint8_t address, uint32_t mask, uint32_t data);
 
-int8_t lt8722_set_enable_req(uint8_t channel, bool value);
-int8_t lt8722_set_swen_req(uint8_t channel, bool value);
-int8_t lt8722_reset(uint8_t channel);
+int8_t lt8722_set_enable_req(struct lt8722_dev *dev, bool value);
+int8_t lt8722_set_swen_req(struct lt8722_dev *dev, bool value);
+int8_t lt8722_reset(struct lt8722_dev *dev);
 
-int8_t lt8722_clear_faults(uint8_t channel);
-int8_t lt8722_clear_status(uint8_t channel);
-int8_t lt8722_get_status(uint8_t channel, uint16_t *status);
+int8_t lt8722_clear_faults(struct lt8722_dev *dev);
+int8_t lt8722_clear_status(struct lt8722_dev *dev);
+int8_t lt8722_get_status(struct lt8722_dev *dev, uint16_t *status);
 
-int8_t lt8722_set_dac(uint8_t channel, uint32_t value);
-int8_t lt8722_get_dac(uint8_t channel, uint32_t *value);
+int8_t lt8722_set_dac(struct lt8722_dev *dev, uint32_t value);
+int8_t lt8722_get_dac(struct lt8722_dev *dev, uint32_t *value);
 
-int8_t lt8722_set_spis_ov_clamp(uint8_t channel, uint8_t value);
-int8_t lt8722_get_spis_ov_clamp(uint8_t channel, uint8_t *value);
+int8_t lt8722_set_spis_ov_clamp(struct lt8722_dev *dev, uint8_t value);
+int8_t lt8722_get_spis_ov_clamp(struct lt8722_dev *dev, uint8_t *value);
 
-int8_t lt8722_set_spis_uv_clamp(uint8_t channel, uint8_t value);
-int8_t lt8722_get_spis_uv_clamp(uint8_t channel, uint8_t *value);
+int8_t lt8722_set_spis_uv_clamp(struct lt8722_dev *dev, uint8_t value);
+int8_t lt8722_get_spis_uv_clamp(struct lt8722_dev *dev, uint8_t *value);
 
-int8_t lt8722_init(uint8_t channel);
-//int8_t lt8722_set_output_voltage(uint8_t channel, int64_t value);
-int8_t lt8722_set_output_voltage_channel(uint8_t channel, tec_dir_t dir, int64_t value);
+int8_t lt8722_init(struct lt8722_dev *dev);
+int8_t lt8722_set_output_voltage_channel(struct lt8722_dev *dev, tec_dir_t dir, int64_t value);
 
 #endif /* DEVICES_LT8722_LT8722_H_ */

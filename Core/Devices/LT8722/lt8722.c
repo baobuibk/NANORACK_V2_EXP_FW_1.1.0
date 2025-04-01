@@ -48,43 +48,32 @@ struct lt8722_reg lt8722_regs[LT8722_NUM_REGISTERS] = {
 	},
 };
 
-int cs_port[4] = {(int)TEC_1_CS_GPIO_Port, (int)TEC_2_CS_GPIO_Port, (int)TEC_3_CS_GPIO_Port, (int)TEC_4_CS_GPIO_Port};
-int cs_pin[4] = {TEC_1_CS_Pin, TEC_2_CS_Pin, TEC_3_CS_Pin, TEC_4_CS_Pin};
-
-int en_port[4] = {(int)TEC_1_EN_GPIO_Port, (int)TEC_2_EN_GPIO_Port, (int)TEC_3_EN_GPIO_Port, (int)TEC_4_EN_GPIO_Port};
-int en_pin[4] = {TEC_1_EN_Pin, TEC_2_EN_Pin, TEC_3_EN_Pin, TEC_4_EN_Pin};
-
-int swen_port[4] = {(int)TEC_1_SWEN_GPIO_Port, (int)TEC_2_SWEN_GPIO_Port, (int)TEC_3_SWEN_GPIO_Port, (int)TEC_4_SWEN_GPIO_Port};
-int swen_pin[4] = {TEC_1_SWEN_Pin, TEC_2_SWEN_Pin, TEC_3_SWEN_Pin, TEC_4_SWEN_Pin};
-
 /* SPI support function --------------------------------------------------*/
-static inline void csLOW(uint8_t channel) {
-//	LL_GPIO_ResetOutputPin(TEC_1_CS_GPIO_Port, TEC_1_CS_Pin);
-	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)cs_port[channel], cs_pin[channel]);
+static inline void csLOW(struct lt8722_dev *dev) {
+	LL_GPIO_ResetOutputPin(dev->cs_port, dev->cs_pin);
 }
 
-static inline void csHIGH(uint8_t channel) {
-//	LL_GPIO_SetOutputPin(TEC_1_CS_GPIO_Port, TEC_1_CS_Pin);
-	LL_GPIO_SetOutputPin((GPIO_TypeDef*)cs_port[channel], cs_pin[channel]);
+static inline void csHIGH(struct lt8722_dev *dev) {
+	LL_GPIO_SetOutputPin(dev->cs_port, dev->cs_pin);
 }
 
-static uint8_t SPI_LL_Transmit(uint8_t data)
+static uint8_t SPI_LL_Transmit(struct lt8722_dev *dev, uint8_t data)
 {
 	LL_SPI_TransmitData8(SPI_TEC, data);
-	while(!LL_SPI_IsActiveFlag_RXNE(SPI_TEC));
+	while(!LL_SPI_IsActiveFlag_RXNE(dev->hspi));
 	return LL_SPI_ReceiveData8(SPI_TEC);
 }
 
-uint8_t SPI_write_and_read_buffer(uint8_t channel, uint8_t *buffer, uint8_t byte_number)
+uint8_t SPI_write_and_read_buffer(struct lt8722_dev *dev, uint8_t *buffer, uint8_t byte_number)
 {
     uint8_t received_data = 0;
-    csLOW(channel);
+    csLOW(dev);
     for (uint8_t i = 0; i < byte_number; i++)
     {
-        received_data = SPI_LL_Transmit(buffer[i]);
+        received_data = SPI_LL_Transmit(dev, buffer[i]);
         buffer[i] = received_data;
     }
-    csHIGH(channel);
+    csHIGH(dev);
     return received_data;
 }
 
@@ -125,7 +114,7 @@ int64_t lt8722_dac_to_voltage(int32_t dac)
  * @param packet - LT8722 packet.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_transaction(uint8_t channel, struct lt8722_packet *packet)
+int8_t lt8722_transaction(struct lt8722_dev *dev, struct lt8722_packet *packet)
 {
 	uint8_t buffer[8] = {0};
 	buffer[0] = packet->command.byte;
@@ -136,7 +125,7 @@ int8_t lt8722_transaction(uint8_t channel, struct lt8722_packet *packet)
 		buffer[6] = Calculate_CRC8(buffer, 6);
 	} else
 		buffer[2] = Calculate_CRC8(buffer, 2);
-	SPI_write_and_read_buffer(channel, buffer, packet->command.size);
+	SPI_write_and_read_buffer(dev, buffer, packet->command.size);
 	packet->status = (get_unaligned_be16(&buffer[0]) & GENMASK(10, 0));
 	if (packet->command.byte == LT8722_DATA_WRITE_COMMAND)
 	{
@@ -161,7 +150,7 @@ int8_t lt8722_transaction(uint8_t channel, struct lt8722_packet *packet)
  * @param data - Received data.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_reg_read(uint8_t channel, uint8_t address, uint32_t *data)
+int8_t lt8722_reg_read(struct lt8722_dev *dev, uint8_t address, uint32_t *data)
 {
 	int8_t ret = 0;
 	struct lt8722_packet packet;
@@ -171,7 +160,7 @@ int8_t lt8722_reg_read(uint8_t channel, uint8_t address, uint32_t *data)
 	};
 	packet.command = command;
 	packet.reg = lt8722_regs[address];
-	ret = lt8722_transaction(channel, &packet);
+	ret = lt8722_transaction(dev, &packet);
 	if (ret)
 		return ret;
 	*data = packet.data;
@@ -184,7 +173,7 @@ int8_t lt8722_reg_read(uint8_t channel, uint8_t address, uint32_t *data)
  * @param data - Data to be written.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_reg_write(uint8_t channel, uint8_t address, uint32_t data)
+int8_t lt8722_reg_write(struct lt8722_dev *dev, uint8_t address, uint32_t data)
 {
 	struct lt8722_packet packet;
 	struct lt8722_command command = {
@@ -194,7 +183,7 @@ int8_t lt8722_reg_write(uint8_t channel, uint8_t address, uint32_t data)
 	packet.command = command;
 	packet.reg = lt8722_regs[address];
 	packet.data = data;
-	return lt8722_transaction(channel, &packet);
+	return lt8722_transaction(dev, &packet);
 }
 
 /**
@@ -204,13 +193,13 @@ int8_t lt8722_reg_write(uint8_t channel, uint8_t address, uint32_t data)
  * @param data - Data to be written.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_reg_write_mask(uint8_t channel, uint8_t address, uint32_t mask, uint32_t data)
+int8_t lt8722_reg_write_mask(struct lt8722_dev *dev, uint8_t address, uint32_t mask, uint32_t data)
 {
 	uint32_t reg_data;
-	lt8722_reg_read(channel, address, &reg_data);
+	lt8722_reg_read(dev, address, &reg_data);
 	reg_data &= ~mask;
 	reg_data |= field_prep(mask, data);
-	return lt8722_reg_write(channel, address, reg_data);
+	return lt8722_reg_write(dev, address, reg_data);
 }
 
 /**
@@ -218,9 +207,9 @@ int8_t lt8722_reg_write_mask(uint8_t channel, uint8_t address, uint32_t mask, ui
  * @param value - Enable if true, disabled otherwise
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_set_enable_req(uint8_t channel, bool value)
+int8_t lt8722_set_enable_req(struct lt8722_dev *dev, bool value)
 {
-	return lt8722_reg_write_mask(channel, LT8722_SPIS_COMMAND, LT8722_ENABLE_REQ_MASK, value);
+	return lt8722_reg_write_mask(dev, LT8722_SPIS_COMMAND, LT8722_ENABLE_REQ_MASK, value);
 }
 
 /**
@@ -228,36 +217,36 @@ int8_t lt8722_set_enable_req(uint8_t channel, bool value)
  * @param value - Enable if true, disabled otherwise
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_set_swen_req(uint8_t channel, bool value)
+int8_t lt8722_set_swen_req(struct lt8722_dev *dev, bool value)
 {
-	return lt8722_reg_write_mask(channel, LT8722_SPIS_COMMAND, LT8722_SWEN_REQ_MASK, value);
+	return lt8722_reg_write_mask(dev, LT8722_SPIS_COMMAND, LT8722_SWEN_REQ_MASK, value);
 }
 
 /**
  * @brief Shutdown the LT8722 device.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_reset(uint8_t channel)
+int8_t lt8722_reset(struct lt8722_dev *dev)
 {
-	return lt8722_reg_write_mask(channel, LT8722_SPIS_COMMAND, LT8722_SPI_RST_MASK, LT8722_SPI_RST_RESET);
+	return lt8722_reg_write_mask(dev, LT8722_SPIS_COMMAND, LT8722_SPI_RST_MASK, LT8722_SPI_RST_RESET);
 }
 
 /**
  * @brief Clear LT8722 device faults.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_clear_faults(uint8_t channel)
+int8_t lt8722_clear_faults(struct lt8722_dev *dev)
 {
-	return lt8722_reg_write_mask(channel, LT8722_SPIS_STATUS, LT8722_FAULTS_MASK, 0);
+	return lt8722_reg_write_mask(dev, LT8722_SPIS_STATUS, LT8722_FAULTS_MASK, 0);
 }
 
 /**
  * @brief Clear LT8722 status register.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_clear_status(uint8_t channel)
+int8_t lt8722_clear_status(struct lt8722_dev *dev)
 {
-	return lt8722_reg_write(channel, LT8722_SPIS_STATUS, 0);
+	return lt8722_reg_write(dev, LT8722_SPIS_STATUS, 0);
 }
 
 /**
@@ -265,7 +254,7 @@ int8_t lt8722_clear_status(uint8_t channel)
  * @param status - Status value to be returned.
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_get_status(uint8_t channel, uint16_t *status)
+int8_t lt8722_get_status(struct lt8722_dev *dev, uint16_t *status)
 {
 	int8_t ret;
 	struct lt8722_packet packet;
@@ -275,7 +264,7 @@ int8_t lt8722_get_status(uint8_t channel, uint16_t *status)
 	};
 	packet.command = command;
 	packet.reg = lt8722_regs[LT8722_SPIS_STATUS];
-	ret = lt8722_transaction(channel, &packet);
+	ret = lt8722_transaction(dev, &packet);
 	if (ret)
 		return ret;
 	*status = packet.status;
@@ -287,9 +276,9 @@ int8_t lt8722_get_status(uint8_t channel, uint16_t *status)
  * @param value - DAC value
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_set_dac(uint8_t channel, uint32_t value)
+int8_t lt8722_set_dac(struct lt8722_dev *dev, uint32_t value)
 {
-	return lt8722_reg_write_mask(channel, LT8722_SPIS_DAC, LT8722_SPIS_DAC_MASK, value);
+	return lt8722_reg_write_mask(dev, LT8722_SPIS_DAC, LT8722_SPIS_DAC_MASK, value);
 }
 
 /**
@@ -297,11 +286,11 @@ int8_t lt8722_set_dac(uint8_t channel, uint32_t value)
  * @param value - DAC value
  * @return 0 in case of succes, negative error code otherwise
  */
-int8_t lt8722_get_dac(uint8_t channel, uint32_t *value)
+int8_t lt8722_get_dac(struct lt8722_dev *dev, uint32_t *value)
 {
 	int ret;
 	uint32_t data;
-	ret = lt8722_reg_read(channel, LT8722_SPIS_DAC, &data);
+	ret = lt8722_reg_read(dev, LT8722_SPIS_DAC, &data);
 	if (ret)
 		return ret;
 	*value = field_get(LT8722_SPIS_DAC_MASK, data);
@@ -313,9 +302,9 @@ int8_t lt8722_get_dac(uint8_t channel, uint32_t *value)
  * @param value - Positive output voltage limit value
  * @return 0 in case of success, negative error code otherwise
  */
-int8_t lt8722_set_spis_ov_clamp(uint8_t channel, uint8_t value)
+int8_t lt8722_set_spis_ov_clamp(struct lt8722_dev *dev, uint8_t value)
 {
-	return lt8722_reg_write_mask(channel, LT8722_SPIS_OV_CLAMP, LT8722_SPIS_OV_CLAMP_MASK, value);
+	return lt8722_reg_write_mask(dev, LT8722_SPIS_OV_CLAMP, LT8722_SPIS_OV_CLAMP_MASK, value);
 }
 
 /**
@@ -323,11 +312,11 @@ int8_t lt8722_set_spis_ov_clamp(uint8_t channel, uint8_t value)
  * @param value - Positive output voltage limit value
  * @return 0 in case of success, negative error code otherwise
  */
-int8_t lt8722_get_spis_ov_clamp(uint8_t channel, uint8_t *value)
+int8_t lt8722_get_spis_ov_clamp(struct lt8722_dev *dev, uint8_t *value)
 {
 	int ret;
 	uint32_t data;
-	ret = lt8722_reg_read(channel, LT8722_SPIS_OV_CLAMP, &data);
+	ret = lt8722_reg_read(dev, LT8722_SPIS_OV_CLAMP, &data);
 	if (ret)
 		return ret;
 	*value = field_get(LT8722_SPIS_OV_CLAMP_MASK, data);
@@ -339,9 +328,9 @@ int8_t lt8722_get_spis_ov_clamp(uint8_t channel, uint8_t *value)
  * @param value - Negative output voltage limit value
  * @return 0 in case of success, negative error code otherwise
  */
-int8_t lt8722_set_spis_uv_clamp(uint8_t channel, uint8_t value)
+int8_t lt8722_set_spis_uv_clamp(struct lt8722_dev *dev, uint8_t value)
 {
-	return lt8722_reg_write_mask(channel, LT8722_SPIS_UV_CLAMP, LT8722_SPIS_UV_CLAMP_MASK, value);
+	return lt8722_reg_write_mask(dev, LT8722_SPIS_UV_CLAMP, LT8722_SPIS_UV_CLAMP_MASK, value);
 }
 
 /**
@@ -349,11 +338,11 @@ int8_t lt8722_set_spis_uv_clamp(uint8_t channel, uint8_t value)
  * @param value - Negative output voltage limit value
  * @return 0 in case of success, negative error code otherwise
  */
-int8_t lt8722_get_spis_uv_clamp(uint8_t channel, uint8_t *value)
+int8_t lt8722_get_spis_uv_clamp(struct lt8722_dev *dev, uint8_t *value)
 {
 	int ret;
 	uint32_t data;
-	ret = lt8722_reg_read(channel, LT8722_SPIS_UV_CLAMP, &data);
+	ret = lt8722_reg_read(dev, LT8722_SPIS_UV_CLAMP, &data);
 	if (ret)
 		return ret;
 	*value = field_get(LT8722_SPIS_UV_CLAMP_MASK, data);
@@ -366,43 +355,46 @@ int8_t lt8722_get_spis_uv_clamp(uint8_t channel, uint8_t *value)
  * 		LT8722 device to be initialized.
  * @return 0 in case of success, negative error code otherwise
 */
-int8_t lt8722_init(uint8_t channel)
+int8_t lt8722_init(struct lt8722_dev *dev)
 {
 	int8_t ret = 0;
 	int32_t dac;
 	int64_t voltage;
 	int64_t start_voltage;
 	int64_t end_voltage;
-	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
-	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
+//	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
+//	LL_GPIO_ResetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
+	LL_GPIO_ResetOutputPin(dev->en_port, dev->en_pin);
+	LL_GPIO_ResetOutputPin(dev->swen_port, dev->swen_pin);
 //		LL_GPIO_ResetOutputPin(TEC_1_EN_GPIO_Port, TEC_1_EN_Pin);
 //		LL_GPIO_ResetOutputPin(TEC_1_SWEN_GPIO_Port, TEC_1_SWEN_Pin);
 	/*
 	 * Reset LT8722
 	 */
-	lt8722_reset(channel);
+	lt8722_reset(dev);
 	/*
 	 * Start-up sequence
 	 * 1. Apply proper VIN and VDDIO voltages
 	 *
 	 * 2. Enable VCC LDO and other LT8722 circuitry
 	 */
-	ret = lt8722_clear_faults(channel);
+	ret = lt8722_clear_faults(dev);
 
-	LL_GPIO_SetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
+//	LL_GPIO_SetOutputPin((GPIO_TypeDef*)en_port[channel], en_pin[channel]);
+	LL_GPIO_SetOutputPin(dev->en_port, dev->en_pin);
 
-	ret = lt8722_set_enable_req(channel, LT8722_ENABLE_REQ_ENABLED);
-	ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x00003A01);
+	ret = lt8722_set_enable_req(dev, LT8722_ENABLE_REQ_ENABLED);
+	ret = lt8722_reg_write(dev, LT8722_SPIS_COMMAND, 0x00003A01);
 	/*
 	 * 3. Configure output voltage control DAC to 0xFF000000
 	 */
-	ret = lt8722_set_dac(channel, 0xFF000000);
+	ret = lt8722_set_dac(dev, 0xFF000000);
 	/*
 	 * 4. Write all SPIS_STATUS registers to 0
 	 */
-	ret = lt8722_reg_write(channel, LT8722_SPIS_STATUS, 0);
+	ret = lt8722_reg_write(dev, LT8722_SPIS_STATUS, 0);
 	LL_mDelay(1);
-	ret = lt8722_reg_write(channel, LT8722_SPIS_COMMAND, 0x00003A01);
+	ret = lt8722_reg_write(dev, LT8722_SPIS_COMMAND, 0x00003A01);
 	/*
 	 * 5. Ramp the output voltage control DAC from 0xFF000000 to 0x00000000
 	 */
@@ -412,14 +404,15 @@ int8_t lt8722_init(uint8_t channel)
 	{
 		voltage = (start_voltage + (end_voltage - start_voltage) * i / 4);
 		dac = lt8722_voltage_to_dac(voltage);
-		ret = lt8722_set_dac(channel, dac);
+		ret = lt8722_set_dac(dev, dac);
 		LL_mDelay(1);
 	}
 	/*
 	 * 6. Enable the PWM switching behavior
 	 */
-	LL_GPIO_SetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
-	ret = lt8722_set_swen_req(channel, LT8722_SWEN_REQ_ENABLED);
+//	LL_GPIO_SetOutputPin((GPIO_TypeDef*)swen_port[channel], swen_pin[channel]);
+	LL_GPIO_SetOutputPin(dev->swen_port, dev->swen_pin);
+	ret = lt8722_set_swen_req(dev, LT8722_SWEN_REQ_ENABLED);
 	delay_us(200);
 
 	/*
@@ -440,7 +433,7 @@ int8_t lt8722_init(uint8_t channel)
  * @param value - Output voltage value in nanovolts.
  * @return 0 in case of success, negative error code otherwise
  */
-int8_t lt8722_set_output_voltage_channel(uint8_t channel, tec_dir_t dir, int64_t value)
+int8_t lt8722_set_output_voltage_channel(struct lt8722_dev *dev, tec_dir_t dir, int64_t value)
 {
 	uint8_t ret = 0;
 	int64_t vdac = 0;
@@ -450,7 +443,7 @@ int8_t lt8722_set_output_voltage_channel(uint8_t channel, tec_dir_t dir, int64_t
 	if (dir == TEC_HEAT)
 		vdac = LT8722_DAC_OFFSET + value / 16;
 	dac = lt8722_voltage_to_dac(vdac);
-	ret = lt8722_set_dac(channel, dac);
+	ret = lt8722_set_dac(dev, dac);
 	return ret;
 }
 

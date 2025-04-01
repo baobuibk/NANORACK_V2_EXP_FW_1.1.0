@@ -14,7 +14,7 @@
 #define ADG1414_CHAIN_NUM_CHIPS_MAX    16   // Maximum chips in daisy chain
 #define ADG1414_DATA_BYTES             8    // 8 bytes (1 byte per chip, only 6 lower bits used)
 
-typedef struct _adg1414_dev_t {
+typedef struct adg1414_dev {
 	SPI_TypeDef *hspi;
 	GPIO_TypeDef *cs_port;
 	uint16_t cs_pin;

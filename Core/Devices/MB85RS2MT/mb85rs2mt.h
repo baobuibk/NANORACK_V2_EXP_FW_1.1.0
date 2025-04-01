@@ -22,7 +22,7 @@
 #define MB85RS2MT_CMD_RDID  	0xAB  // Wake Up
 
 
-typedef struct _mb85rs2mt_dev_t
+typedef struct mb85rs2mt_dev
 {
     SPI_TypeDef *hspi;				// Peripheral SPI (SPI1, SPI2, v.v.)
     GPIO_TypeDef *cs_port;			// Port của chân CS

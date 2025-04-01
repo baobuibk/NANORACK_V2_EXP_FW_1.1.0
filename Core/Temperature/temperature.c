@@ -207,13 +207,13 @@ uint8_t temperature_get_heater_duty(uint8_t channel)
 void temperature_set_auto_ctrl(uint8_t auto_0, uint8_t auto_1, uint8_t auto_2, uint8_t auto_3)
 {
     s_Temperature_CurrentState.Temp_auto = (auto_0 << TEMP0_AUTO) | (auto_1 << TEMP1_AUTO) | (auto_2 << TEMP2_AUTO) | (auto_3 << TEMP3_AUTO);
-	lt8722_set_swen_req(0, LT8722_SWEN_REQ_DISABLED);
+	lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
 	heater_set_duty_pwm_channel(0, 0);
-	lt8722_set_swen_req(1, LT8722_SWEN_REQ_DISABLED);
+	lt8722_set_swen_req(&tec_1, LT8722_SWEN_REQ_DISABLED);
 	heater_set_duty_pwm_channel(1, 0);
-	lt8722_set_swen_req(2, LT8722_SWEN_REQ_DISABLED);
+	lt8722_set_swen_req(&tec_2, LT8722_SWEN_REQ_DISABLED);
 	heater_set_duty_pwm_channel(2, 0);
-	lt8722_set_swen_req(3, LT8722_SWEN_REQ_DISABLED);
+	lt8722_set_swen_req(&tec_3, LT8722_SWEN_REQ_DISABLED);
 	heater_set_duty_pwm_channel(3, 0);
     return;
 }
