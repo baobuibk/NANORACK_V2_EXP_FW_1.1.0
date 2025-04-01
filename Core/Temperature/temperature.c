@@ -89,7 +89,7 @@ static void temperature_update(void)
 		for (uint8_t channel = 0; channel < 4; channel ++)
 		{
 			Tec_dir = ((s_Temperature_CurrentState.Tec_dir & (1 << channel)) == (1 << channel)) ? TEC_HEAT : TEC_COOL;
-			lt8722_set_output_voltage_channel(channel, Tec_dir, s_Temperature_CurrentState.Tec_vol[channel]);
+			lt8722_set_output_voltage_channel(tec_table[channel], Tec_dir, s_Temperature_CurrentState.Tec_vol[channel]);
 			heater_set_duty_pwm_channel(channel, s_Temperature_CurrentState.Heater_duty[channel]);
 		}
 		s_Temperature_CurrentState.Temp_change_flag = 0;
@@ -116,8 +116,8 @@ void temperature_auto_ctrl(int16_t temperature_now, uint8_t channel)
 		heater_set_duty_pwm_channel(channel, 0);
 		// turn on tec with COOL
 		s_Temperature_CurrentState.Tec_dir &= ~(1 << channel);
-		lt8722_set_output_voltage_channel(channel, TEC_COOL, s_Temperature_CurrentState.Tec_vol[channel]);
-		lt8722_set_swen_req(channel, LT8722_SWEN_REQ_ENABLED);
+		lt8722_set_output_voltage_channel(tec_table[channel], TEC_COOL, s_Temperature_CurrentState.Tec_vol[channel]);
+		lt8722_set_swen_req(tec_table[channel], LT8722_SWEN_REQ_ENABLED);
 		// update status
 		s_Temperature_CurrentState.Tec_Heater_status |= (1 << channel);
 		s_Temperature_CurrentState.Tec_Heater_status &= ~(1 << (channel + 4));
@@ -128,7 +128,7 @@ void temperature_auto_ctrl(int16_t temperature_now, uint8_t channel)
 	{
 		// UART_SendStringRing(UART_CMDLINE, "nhiet thap");
 		// turn off tec
-		lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
+		lt8722_set_swen_req(tec_table[channel], LT8722_SWEN_REQ_DISABLED);
 		// turn on heater
 		heater_set_duty_pwm_channel(channel, s_Temperature_CurrentState.Heater_duty[channel]);
 		// update status
@@ -141,7 +141,7 @@ void temperature_auto_ctrl(int16_t temperature_now, uint8_t channel)
 	{
 		// UART_SendStringRing(UART_CMDLINE, "nhiet bang");
 		// turn off both tec and heater
-		lt8722_set_swen_req(channel, LT8722_SWEN_REQ_DISABLED);
+		lt8722_set_swen_req(tec_table[channel], LT8722_SWEN_REQ_DISABLED);
 		heater_set_duty_pwm_channel(channel, 0);
 		// update status
 		s_Temperature_CurrentState.Tec_Heater_status &= ~((1 << (channel + 4)) | (1 << channel));

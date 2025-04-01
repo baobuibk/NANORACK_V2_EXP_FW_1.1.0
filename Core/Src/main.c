@@ -138,6 +138,8 @@ struct lt8722_dev tec_3 = {
 		  .status = 4
 };
 
+struct lt8722_dev * tec_table[] = {&tec_0, &tec_1, &tec_2, &tec_3};
+
 struct mb85rs2mt_dev fram = {
 		  .hspi = SPI3,
 		  .cs_port = FRAM_CS_GPIO_Port,
