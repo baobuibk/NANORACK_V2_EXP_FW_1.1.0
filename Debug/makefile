@@ -17,6 +17,9 @@ RM := rm -rf
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include Core/Sensor_I2C/subdir.mk
+-include Core/MIN_Proto/min_app/subdir.mk
+-include Core/MIN_Proto/min/subdir.mk
+-include Core/MIN_Proto/subdir.mk
 -include Core/LED/subdir.mk
 -include Core/Devices/PHOTO_BOARD/ADS8327/subdir.mk
 -include Core/Devices/PHOTO_BOARD/subdir.mk
@@ -33,8 +36,13 @@ RM := rm -rf
 -include Core/Devices/ADG1414/subdir.mk
 -include Core/COPC/subdir.mk
 -include Core/CMDLine/subdir.mk
+-include Core/CLI_Terminal/CLI_Src/subdir.mk
+-include Core/CLI_Terminal/CLI_Setup/subdir.mk
+-include Core/CLI_Terminal/CLI_Command/subdir.mk
+-include Core/Board/subdir.mk
 -include BSP/UART/subdir.mk
 -include BSP/SysTick/subdir.mk
+-include BSP/RingBuffer/subdir.mk
 -include BSP/I2C_Slave/subdir.mk
 -include BSP/I2C/subdir.mk
 -include BSP/Delay/subdir.mk

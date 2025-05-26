@@ -44,6 +44,13 @@ typedef enum {CLOSE = 0, OPEN = !CLOSE} OpenCloseStatus;
 
 //typedef enum {ERROR = 0, SUCCESS = ! ERROR} ErrorStatus;
 
+typedef enum
+{
+    E_OK       = 0x00U,  /* Operation successful */
+    E_ERROR    = 0x01U,  /* Operation failed */
+    E_BUSY     = 0x02U,  /* Resource is busy */
+    E_TIMEOUT  = 0x03U   /* Operation timed out */
+} Std_ReturnType;
 
 /* Exported defines ----------------------------------------------------------*/
 #define TRUE                        (uint16_t)(1 == 1)

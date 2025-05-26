@@ -27,8 +27,13 @@ SUBDIRS := \
 BSP/Delay \
 BSP/I2C \
 BSP/I2C_Slave \
+BSP/RingBuffer \
 BSP/SysTick \
 BSP/UART \
+Core/Board \
+Core/CLI_Terminal/CLI_Command \
+Core/CLI_Terminal/CLI_Setup \
+Core/CLI_Terminal/CLI_Src \
 Core/CMDLine \
 Core/COPC \
 Core/Devices/ADG1414 \
@@ -45,6 +50,9 @@ Core/Devices/NTC \
 Core/Devices/PHOTO_BOARD/ADS8327 \
 Core/Devices/PHOTO_BOARD \
 Core/LED \
+Core/MIN_Proto/min \
+Core/MIN_Proto/min_app \
+Core/MIN_Proto \
 Core/Sensor_I2C \
 Core/Src \
 Core/Startup \

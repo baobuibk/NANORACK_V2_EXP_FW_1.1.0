@@ -1,0 +1,3 @@
+../Core/MIN_Proto/min_app/min_command.c:229:6:MIN_Handler_NTC_TEMP_CMD	24	static
+../Core/MIN_Proto/min_app/min_command.c:341:22:MIN_GetCommandTable	4	static
+../Core/MIN_Proto/min_app/min_command.c:345:5:MIN_GetCommandTableSize	4	static

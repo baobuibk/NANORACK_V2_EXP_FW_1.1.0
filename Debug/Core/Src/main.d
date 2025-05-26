@@ -69,7 +69,15 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h \
  D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h \
  D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
- D:/STworkspace/EXP_V110/Core/Devices/MB85RS2MT/mb85rs2mt.h
+ D:/STworkspace/EXP_V110/Core/Devices/MB85RS2MT/mb85rs2mt.h \
+ D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Command/cli_command.h \
+ D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h \
+ D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h \
+ D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h \
+ D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -142,3 +150,11 @@ D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
 D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h:
 D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
 D:/STworkspace/EXP_V110/Core/Devices/MB85RS2MT/mb85rs2mt.h:
+D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Command/cli_command.h:
+D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h:
+D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h:
+D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h:
+D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h:

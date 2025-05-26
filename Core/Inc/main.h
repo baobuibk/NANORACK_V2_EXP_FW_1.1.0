@@ -50,11 +50,6 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-extern struct lt8722_dev tec_0;
-extern struct lt8722_dev tec_1;
-extern struct lt8722_dev tec_2;
-extern struct lt8722_dev tec_3;
-extern struct lt8722_dev * tec_table[];
 
 /* USER CODE END ET */
 

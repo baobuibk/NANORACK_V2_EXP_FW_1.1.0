@@ -1,0 +1,4 @@
+../Core/MIN_Proto/min_process.c:25:6:MIN_Timeout_Handler	1
+../Core/MIN_Proto/min_process.c:39:6:MIN_Process_Init	1
+../Core/MIN_Proto/min_process.c:44:6:MIN_Processing	3
+../Core/MIN_Proto/min_process.c:55:6:MIN_CreateTask	1

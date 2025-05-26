@@ -28,6 +28,7 @@
 #include "i2c_slave.h"
 #include "ads8327.h"
 #include "adg1414.h"
+#include "uart_driver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -269,7 +270,8 @@ void USART6_IRQHandler(void)
 
   /* USER CODE END USART6_IRQn 0 */
   /* USER CODE BEGIN USART6_IRQn 1 */
-	UART_Ring_ISR(USART6);
+//	UART_Ring_ISR(USART6);
+	UART_Driver_ISR(USART6);
   /* USER CODE END USART6_IRQn 1 */
 }
 

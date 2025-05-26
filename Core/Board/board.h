@@ -12,15 +12,15 @@
 //*****************************************************************************
 // UART_CONSOLE
 //*****************************************************************************
-//#define EXP_UART_HANDLE       USART1
-//#define EXP_UART_IRQ          USART1_IRQn
+#define EXP_UART_HANDLE       USART6
+#define EXP_UART_IRQ          USART6_IRQn
 
 
 //*****************************************************************************
 // UART_COPC
 //*****************************************************************************
-#define EXP_RS485_HANDLE       USART6
-#define EXP_RS485_IRQ          USART6_IRQn
+#define EXP_RS485_HANDLE       USART1
+#define EXP_RS485_IRQ          USART1_IRQn
 
 
 //*****************************************************************************
@@ -41,6 +41,12 @@
 //*****************************************************************************
 #define SPI_TEC				SPI3
 
-
+extern struct lt8722_dev tec_0;
+extern struct lt8722_dev tec_1;
+extern struct lt8722_dev tec_2;
+extern struct lt8722_dev tec_3;
+extern struct lt8722_dev * tec_table[];
+extern struct mb85rs2mt_dev fram;
+extern struct adg1414_dev exp_adg1414;
 
 #endif /* BOARD_BOARD_H_ */

@@ -127,6 +127,7 @@ int IsDataAvailable(USART_TypeDef *uart) {
     ring_buffer *rx_buffer = &buffer->rx_buffer;
     return (uint16_t)(rx_buffer->size + rx_buffer->head - rx_buffer->tail) % rx_buffer->size;
 }
+
 /* sends the string to the uart
  */
 void UART_SendStringRing (USART_TypeDef *uart, const char *s)

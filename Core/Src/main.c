@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "stdio.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "board.h"
@@ -41,6 +41,9 @@
 #include "photo_board.h"
 #include "mb85rs2mt.h"
 #include "lt8722.h"
+#include "cli_command.h"
+#include "min_process.h"
+#include "uart_driver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,70 +92,7 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-struct lt8722_dev tec_0 = {
-		  .hspi = SPI3,
-		  .cs_port = TEC_1_CS_GPIO_Port,
-		  .cs_pin = TEC_1_CS_Pin,
-		  .en_port = TEC_1_EN_GPIO_Port,
-		  .en_pin = TEC_1_EN_Pin,
-		  .swen_port = TEC_1_SWEN_GPIO_Port,
-		  .swen_pin = TEC_1_SWEN_Pin,
-		  .start_up_sequence = 1,
-		  .status = 1
-};
-
-struct lt8722_dev tec_1 = {
-		  .hspi = SPI3,
-		  .cs_port = TEC_2_CS_GPIO_Port,
-		  .cs_pin = TEC_2_CS_Pin,
-		  .en_port = TEC_2_EN_GPIO_Port,
-		  .en_pin = TEC_2_EN_Pin,
-		  .swen_port = TEC_1_SWEN_GPIO_Port,
-		  .swen_pin = TEC_2_SWEN_Pin,
-		  .start_up_sequence = 2,
-		  .status = 2
-};
-
-struct lt8722_dev tec_2 = {
-		  .hspi = SPI3,
-		  .cs_port = TEC_3_CS_GPIO_Port,
-		  .cs_pin = TEC_3_CS_Pin,
-		  .en_port = TEC_3_EN_GPIO_Port,
-		  .en_pin = TEC_3_EN_Pin,
-		  .swen_port = TEC_3_SWEN_GPIO_Port,
-		  .swen_pin = TEC_3_SWEN_Pin,
-		  .start_up_sequence = 3,
-		  .status = 3
-};
-
-struct lt8722_dev tec_3 = {
-		  .hspi = SPI3,
-		  .cs_port = TEC_4_CS_GPIO_Port,
-		  .cs_pin = TEC_4_CS_Pin,
-		  .en_port = TEC_4_EN_GPIO_Port,
-		  .en_pin = TEC_4_EN_Pin,
-		  .swen_port = TEC_4_SWEN_GPIO_Port,
-		  .swen_pin = TEC_4_SWEN_Pin,
-		  .start_up_sequence = 4,
-		  .status = 4
-};
-
-struct lt8722_dev * tec_table[] = {&tec_0, &tec_1, &tec_2, &tec_3};
-
-struct mb85rs2mt_dev fram = {
-		  .hspi = SPI3,
-		  .cs_port = FRAM_CS_GPIO_Port,
-		  .cs_pin = FRAM_CS_Pin
-};
-
-struct adg1414_dev exp_adg1414 = {
-		  .hspi = SPI3,
-		  .cs_port = TEC_ADC_CS_GPIO_Port,
-		  .cs_pin = TEC_ADC_CS_Pin,
-		  .channel_per_dev = 4
-};
-
+#define PRINTF_USART6 int __io_putchar(int data)
 /* USER CODE END 0 */
 
 /**
@@ -200,26 +140,36 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // Initialize for device
-  MB85RS2MT_Init(&fram);
-  adg1414_init(&exp_adg1414);
+//  MB85RS2MT_Init(&fram);
+//  adg1414_init(&exp_adg1414);
 
   // Initialize all preset for schedule task
-  Ex_Watchdog_Init();
+//  Ex_Watchdog_Init();
   LED_Status_Init();
-  CommandLine_Init(USART6);
-  NTC_DMA_ADC_Init();
-  Laser_board_init();
-  Photo_board_init();
+//  CommandLine_Init(EXP_UART_HANDLE);
+//  CLI_Command_Init(EXP_UART_HANDLE);
+//  NTC_DMA_ADC_Init();
+//  Laser_board_init();
+//  Photo_board_init();
+
+
+  UART_Driver_Init();
+  MIN_Process_Init();
+
+
   SCH_Initialize();
 
   // Create task scheduler
-  Ex_Watchdog_CreateTask();
+//  Ex_Watchdog_CreateTask();
   LED_Status_CreateTask();
-  CommandLine_CreateTask();
-  Temperature_GetSet_CreateTask();
+//  CommandLine_CreateTask();
+//  CLI_Command_CreateTask();
+//  Temperature_GetSet_CreateTask();
   // sensor_i2c_create_task();
-  AutoRun_CreateTask();
-  SoftTime_CreateTask();
+//  AutoRun_CreateTask();
+//  SoftTime_CreateTask();
+  MIN_CreateTask();
+
   SCH_StartSchedular();
   /* USER CODE END 2 */
 
@@ -1181,7 +1131,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+PRINTF_USART6 {
+    while (!LL_USART_IsActiveFlag_TXE(USART6));
+    LL_USART_TransmitData8(USART6, data);
+    return data;
+}
 /* USER CODE END 4 */
 
 /**

@@ -52,7 +52,12 @@ Core/LED/status_led.o: ../Core/LED/status_led.c ../Core/LED/status_led.h \
  D:/STworkspace/EXP_V110/BSP/I2C/i2c.h \
  D:/STworkspace/EXP_V110/Core/Board/board.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
- D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h
+ D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_command.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h \
+ D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h
 ../Core/LED/status_led.h:
 D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
 D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
@@ -109,3 +114,8 @@ D:/STworkspace/EXP_V110/BSP/I2C/i2c.h:
 D:/STworkspace/EXP_V110/Core/Board/board.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
 D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_command.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h:
+D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h:

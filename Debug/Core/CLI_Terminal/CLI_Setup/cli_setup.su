@@ -1,0 +1,3 @@
+../Core/CLI_Terminal/CLI_Setup/cli_setup.c:50:13:writeCharToCli_UARTCM4	24	static
+../Core/CLI_Terminal/CLI_Setup/cli_setup.c:58:16:SystemCLI_Init	16	static
+../Core/CLI_Terminal/CLI_Setup/cli_setup.c:115:14:getUartCm4CliPointer	4	static

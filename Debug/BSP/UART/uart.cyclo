@@ -21,7 +21,7 @@
 ../BSP/UART/uart.c:87:5:UART_ReadRing	3
 ../BSP/UART/uart.c:104:6:UART_WriteRing	4
 ../BSP/UART/uart.c:123:5:IsDataAvailable	2
-../BSP/UART/uart.c:132:6:UART_SendStringRing	2
-../BSP/UART/uart.c:150:6:UART_Flush_RingRx	2
-../BSP/UART/uart.c:160:6:UART_Flush_RingTx	2
-../BSP/UART/uart.c:170:6:UART_Ring_ISR	10
+../BSP/UART/uart.c:133:6:UART_SendStringRing	2
+../BSP/UART/uart.c:151:6:UART_Flush_RingRx	2
+../BSP/UART/uart.c:161:6:UART_Flush_RingTx	2
+../BSP/UART/uart.c:171:6:UART_Ring_ISR	10
