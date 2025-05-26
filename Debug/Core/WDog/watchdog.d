@@ -1,6 +1,6 @@
 Core/WDog/watchdog.o: ../Core/WDog/watchdog.c ../Core/WDog/watchdog.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
@@ -47,8 +47,8 @@ Core/WDog/watchdog.o: ../Core/WDog/watchdog.c ../Core/WDog/watchdog.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h
 ../Core/WDog/watchdog.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:

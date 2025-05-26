@@ -9,4 +9,4 @@
 ../Core/MIN_Proto/min_app/min_app.c:106:6:MIN_RegisterTimeoutCallback	16	static
 ../Core/MIN_Proto/min_app/min_app.c:110:6:MIN_App_Poll	32	static
 ../Core/MIN_Proto/min_app/min_app.c:133:6:MIN_Send	24	static
-../Core/MIN_Proto/min_app/min_app.c:158:6:min_application_handler	32	static
+../Core/MIN_Proto/min_app/min_app.c:158:6:min_application_handler	48	static

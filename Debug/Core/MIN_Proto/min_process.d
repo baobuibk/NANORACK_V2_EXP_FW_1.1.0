@@ -1,9 +1,9 @@
 Core/MIN_Proto/min_process.o: ../Core/MIN_Proto/min_process.c \
  ../Core/MIN_Proto/min_process.h ../Core/MIN_Proto/min_app/min_app.h \
  ../Core/MIN_Proto/min_app/../min/min.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h ../Core/Inc/main.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -47,13 +47,13 @@ Core/MIN_Proto/min_process.o: ../Core/MIN_Proto/min_process.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h \
- D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h
 ../Core/MIN_Proto/min_process.h:
 ../Core/MIN_Proto/min_app/min_app.h:
 ../Core/MIN_Proto/min_app/../min/min.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -99,5 +99,5 @@ D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h:
-D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h:

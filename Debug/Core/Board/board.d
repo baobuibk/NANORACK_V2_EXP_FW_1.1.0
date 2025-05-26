@@ -6,8 +6,8 @@ Core/Board/board.o: ../Core/Board/board.c ../Core/Board/board.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
  ../Drivers/CMSIS/Include/mpu_armv7.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h \
- D:/STworkspace/EXP_V110/Core/Devices/LT8722/lt8722.h \
- D:/STworkspace/EXP_V110/Core/Board/board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LT8722/lt8722.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
@@ -33,7 +33,7 @@ Core/Board/board.o: ../Core/Board/board.c ../Core/Board/board.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h \
  ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
@@ -48,8 +48,8 @@ Core/Board/board.o: ../Core/Board/board.c ../Core/Board/board.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
- D:/STworkspace/EXP_V110/Core/Devices/MB85RS2MT/mb85rs2mt.h
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/MB85RS2MT/mb85rs2mt.h
 ../Core/Board/board.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
 ../Drivers/CMSIS/Include/core_cm4.h:
@@ -58,8 +58,8 @@ Core/Board/board.o: ../Core/Board/board.c ../Core/Board/board.h \
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
 ../Drivers/CMSIS/Include/mpu_armv7.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h:
-D:/STworkspace/EXP_V110/Core/Devices/LT8722/lt8722.h:
-D:/STworkspace/EXP_V110/Core/Board/board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LT8722/lt8722.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
@@ -85,7 +85,7 @@ D:/STworkspace/EXP_V110/Core/Board/board.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
-D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:
@@ -100,5 +100,5 @@ D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
-D:/STworkspace/EXP_V110/Core/Devices/MB85RS2MT/mb85rs2mt.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/MB85RS2MT/mb85rs2mt.h:

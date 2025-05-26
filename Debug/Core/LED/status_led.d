@@ -1,7 +1,7 @@
 Core/LED/status_led.o: ../Core/LED/status_led.c ../Core/LED/status_led.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h ../Core/Inc/main.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -45,22 +45,22 @@ Core/LED/status_led.o: ../Core/LED/status_led.c ../Core/LED/status_led.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/command.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
- D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h \
- D:/STworkspace/EXP_V110/BSP/I2C/i2c.h \
- D:/STworkspace/EXP_V110/Core/Board/board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
- D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_command.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_app.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/../min/min.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_process.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_app.h
 ../Core/LED/status_led.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -106,16 +106,16 @@ D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/command.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
-D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h:
-D:/STworkspace/EXP_V110/BSP/I2C/i2c.h:
-D:/STworkspace/EXP_V110/Core/Board/board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
-D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_command.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_app.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/../min/min.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_process.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_app.h:

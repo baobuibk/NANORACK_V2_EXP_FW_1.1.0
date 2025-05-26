@@ -1,5 +1,5 @@
 Core/Devices/Auto_run/auto_run.o: ../Core/Devices/Auto_run/auto_run.c \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/../../Auto_run/auto_run.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/../../Auto_run/auto_run.h \
  ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -44,16 +44,16 @@ Core/Devices/Auto_run/auto_run.o: ../Core/Devices/Auto_run/auto_run.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/laser_board.h \
- D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h \
- D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h \
- D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
- D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h
-D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/../../Auto_run/auto_run.h:
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/laser_board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/photo_board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/../../Auto_run/auto_run.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -99,12 +99,12 @@ D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/../../Auto_run/auto_run
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/laser_board.h:
-D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
-D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
-D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h:
-D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
-D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/laser_board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/photo_board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h:

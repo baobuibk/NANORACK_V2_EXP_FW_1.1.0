@@ -68,40 +68,40 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := EXP_V110
+BUILD_ARTIFACT_NAME := EXP_V110_TEST_MIN
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-EXP_V110.elf \
+EXP_V110_TEST_MIN.elf \
 
 MAP_FILES += \
-EXP_V110.map \
+EXP_V110_TEST_MIN.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-EXP_V110.list \
+EXP_V110_TEST_MIN.list \
 
 OBJCOPY_HEX += \
-EXP_V110.hex \
+EXP_V110_TEST_MIN.hex \
 
 OBJCOPY_BIN += \
-EXP_V110.bin \
+EXP_V110_TEST_MIN.bin \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: EXP_V110.elf secondary-outputs
+main-build: EXP_V110_TEST_MIN.elf secondary-outputs
 
 # Tool invocations
-EXP_V110.elf EXP_V110.map: $(OBJS) $(USER_OBJS) D:\STworkspace\EXP_V110\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "EXP_V110.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\STworkspace\EXP_V110\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EXP_V110.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+EXP_V110_TEST_MIN.elf EXP_V110_TEST_MIN.map: $(OBJS) $(USER_OBJS) D:\STworkspace\EXP_V110_TEST_MIN\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "EXP_V110_TEST_MIN.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\STworkspace\EXP_V110_TEST_MIN\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EXP_V110_TEST_MIN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -110,24 +110,24 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-EXP_V110.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "EXP_V110.list"
+EXP_V110_TEST_MIN.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "EXP_V110_TEST_MIN.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-EXP_V110.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "EXP_V110.hex"
+EXP_V110_TEST_MIN.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "EXP_V110_TEST_MIN.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-EXP_V110.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "EXP_V110.bin"
+EXP_V110_TEST_MIN.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "EXP_V110_TEST_MIN.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) EXP_V110.bin EXP_V110.elf EXP_V110.hex EXP_V110.list EXP_V110.map default.size.stdout
+	-$(RM) EXP_V110_TEST_MIN.bin EXP_V110_TEST_MIN.elf EXP_V110_TEST_MIN.hex EXP_V110_TEST_MIN.list EXP_V110_TEST_MIN.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)

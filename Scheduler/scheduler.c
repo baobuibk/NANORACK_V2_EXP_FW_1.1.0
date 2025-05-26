@@ -10,7 +10,6 @@
 #include <string.h>
 #include "systick.h"
 #include "stm32f4xx.h"
-//#include "stm32f4xx_ll_gpio.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef struct SCH_TaskContextTypedef

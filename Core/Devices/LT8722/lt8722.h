@@ -12,6 +12,8 @@
 #include "stm32f4xx_ll_spi.h"
 #include "stdbool.h"
 
+extern uint8_t LT8722_Status;  // 4 high bit is success/fail, 4 low bit is request init
+
 typedef enum {TEC_COOL = 0, TEC_HEAT = 1} tec_dir_t;
 
 #define LT8722_CRC_POLYNOMIAL          			 0x07

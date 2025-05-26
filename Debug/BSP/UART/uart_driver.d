@@ -31,8 +31,8 @@ BSP/UART/uart_driver.o: ../BSP/UART/uart_driver.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h
 ../BSP/UART/uart_driver.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
@@ -65,5 +65,5 @@ BSP/UART/uart_driver.o: ../BSP/UART/uart_driver.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
-D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:

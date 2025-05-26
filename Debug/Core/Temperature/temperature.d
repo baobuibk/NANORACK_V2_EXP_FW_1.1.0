@@ -44,18 +44,16 @@ Core/Temperature/temperature.o: ../Core/Temperature/temperature.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/Core/Board/board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
- D:/STworkspace/EXP_V110/Core/Devices/LT8722/lt8722.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/command.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h \
- D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h \
- D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h \
- D:/STworkspace/EXP_V110/BSP/I2C/i2c.h \
- D:/STworkspace/EXP_V110/Core/Devices/Heater/heater.h
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LT8722/lt8722.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/Heater/heater.h
 ../Core/Temperature/temperature.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -102,15 +100,13 @@ Core/Temperature/temperature.o: ../Core/Temperature/temperature.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/Core/Board/board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
-D:/STworkspace/EXP_V110/Core/Devices/LT8722/lt8722.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/command.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
-D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h:
-D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h:
-D:/STworkspace/EXP_V110/BSP/I2C/i2c.h:
-D:/STworkspace/EXP_V110/Core/Devices/Heater/heater.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LT8722/lt8722.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/Heater/heater.h:

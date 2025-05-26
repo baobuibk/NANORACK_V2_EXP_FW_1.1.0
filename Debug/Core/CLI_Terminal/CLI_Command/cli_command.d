@@ -1,10 +1,10 @@
 Core/CLI_Terminal/CLI_Command/cli_command.o: \
  ../Core/CLI_Terminal/CLI_Command/cli_command.c \
  ../Core/CLI_Terminal/CLI_Command/cli_command.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Src/embedded_cli.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Setup/cli_setup.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
@@ -51,13 +51,13 @@ Core/CLI_Terminal/CLI_Command/cli_command.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h
 ../Core/CLI_Terminal/CLI_Command/cli_command.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Src/embedded_cli.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Setup/cli_setup.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
@@ -104,5 +104,5 @@ D:/STworkspace/EXP_V110/BSP/UART/uart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h:

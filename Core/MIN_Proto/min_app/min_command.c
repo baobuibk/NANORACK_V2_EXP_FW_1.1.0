@@ -8,6 +8,13 @@
 #include "min_command.h"
 #include <string.h>
 #include "stdio.h"
+#include "main.h"
+#include "lt8722.h"
+#include "board.h"
+#include "uart.h"
+#include "temperature.h"
+
+
 
 #define MAX_SIZE (100 * 1024) // 100KB
 #define RAM_D2_200KB_SIZE  (200 * 1024) // 200KB
@@ -31,19 +38,19 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 // Command Handlers
 // =================================================================
 
-//static void MIN_Handler_COLLECT_DATA(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    printf("Payload (%u bytes):", len);
-//    for (uint8_t i = 0; i < len; i++) {
-//        printf(" %02X", payload[i]);
+//static void MIN_Handler_COLLECT_DATA(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+//    printf("min_payload (%u bytes):", len_payload);
+//    for (uint8_t i = 0; i < len_payload; i++) {
+//        printf(" %02X", min_payload[i]);
 //    }
 //    printf("\r\n");
 //
-//    if (len < 6) {
-//        printf("Invalid payload length.\r\n");
+//    if (len_payload < 6) {
+//        printf("Invalid min_payload len_payloadgth.\r\n");
 //        return;
 //    }
-//    uint16_t chunk_size = (payload[1] << 8) | payload[0];
-//    uint32_t sample = (payload[5] << 24) | (payload[4] << 16) | (payload[3] << 8) | payload[2];
+//    uint16_t chunk_size = (min_payload[1] << 8) | min_payload[0];
+//    uint32_t sample = (min_payload[5] << 24) | (min_payload[4] << 16) | (min_payload[3] << 8) | min_payload[2];
 //
 //    printf("Message -Hex: chunk_size = %u (0x%04X), sample = %lu (0x%08lX)\r\n",
 //           chunk_size, chunk_size, (unsigned long)sample, (unsigned long)sample);
@@ -64,20 +71,20 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 //    return crc;
 //}
 
-//static void MIN_Handler_SAMPLERATE_SET(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    if (len < 4) {
-//        printf("Invalid payload length.\r\n");
+//static void MIN_Handler_SAMPLERATE_SET(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+//    if (len_payload < 4) {
+//        printf("Invalid min_payload len_payloadgth.\r\n");
 //        return;
 //    }
 //
-//    g_sample_rate = (payload[3] << 24) | (payload[2] << 16) | (payload[1] << 8) | payload[0];
+//    g_sample_rate = (min_payload[3] << 24) | (min_payload[2] << 16) | (min_payload[1] << 8) | min_payload[0];
 //
 //    printf("Sample rate set to %lu Hz\r\n", (unsigned long)g_sample_rate);
 //    MIN_Send(ctx, DONE, NULL, 0);
 //}
 //
-//static void MIN_Handler_SAMPLERATE_GET(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
+//static void MIN_Handler_SAMPLERATE_GET(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+//    (void)min_payload; (void)len_payload;
 //    uint8_t response[4];
 //
 //    response[0] = (uint8_t)(g_sample_rate & 0xFF);
@@ -89,17 +96,17 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 //    MIN_Send(ctx, SAMPLERATE_GET_ACK, response, sizeof(response));
 //}
 
-//static void MIN_Handler_COLLECT_DATA(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
+//static void MIN_Handler_COLLECT_DATA(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
 //
 //	toOBC_SetState(toOBC_BUSY);
 //
-//    if (len < 4) {
-//        printf("Invalid payload length.\r\n");
+//    if (len_payload < 4) {
+//        printf("Invalid min_payload len_payloadgth.\r\n");
 //    	toOBC_SetState(toOBC_ERROR);
 //        return;
 //    }
 //
-//    uint32_t sample = (payload[3] << 24) | (payload[2] << 16) | (payload[1] << 8) | payload[0];
+//    uint32_t sample = (min_payload[3] << 24) | (min_payload[2] << 16) | (min_payload[1] << 8) | min_payload[0];
 //    uint32_t total_size = sample * 2;
 //
 //    if (total_size > RAM_D2_200KB_SIZE) {
@@ -123,9 +130,9 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 //	toOBC_SetState(toOBC_READYSEND);
 //}
 
-//static void MIN_Handler_PRE_DATA(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    if (len < 2) {
-//        printf("Invalid payload length.\r\n");
+//static void MIN_Handler_PRE_DATA(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+//    if (len_payload < 2) {
+//        printf("Invalid min_payload len_payloadgth.\r\n");
 //        return;
 //    }
 //
@@ -134,7 +141,7 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 //        return;
 //    }
 //
-//    uint16_t chunk_size = (payload[1] << 8) | payload[0];
+//    uint16_t chunk_size = (min_payload[1] << 8) | min_payload[0];
 //    g_chunk_size = chunk_size;
 //
 //    uint32_t num_chunks = (g_total_size + g_chunk_size - 1) / g_chunk_size;
@@ -168,13 +175,13 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 //    }
 //}
 
-//static void MIN_Handler_PRE_CHUNK(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    if (len < 1) {
-//        printf("Invalid payload length.\r\n");
+//static void MIN_Handler_PRE_CHUNK(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+//    if (len_payload < 1) {
+//        printf("Invalid min_payload len_payloadgth.\r\n");
 //        return;
 //    }
 //
-//    uint8_t chunk_num = payload[0];
+//    uint8_t chunk_num = min_payload[0];
 //    uint32_t num_chunks = (g_total_size + g_chunk_size - 1) / g_chunk_size;
 //
 //    if (chunk_num >= num_chunks) {
@@ -200,8 +207,8 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 //           chunk_num, (unsigned long)size, g_chunk_crcs[chunk_num]);
 //}
 
-//static void MIN_Handler_COLLECT_PACKAGE(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
+//static void MIN_Handler_COLLECT_PACKAGE(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+//    (void)min_payload; (void)len_payload;
 //    const uint32_t package_size = SPI_RAM_SIZE;
 //    const uint32_t sample_count = package_size / 2;
 //
@@ -226,111 +233,316 @@ uint16_t g_chunk_crcs[MAX_CHUNKS];
 //    MIN_Send(ctx, COLLECT_PACKAGE_ACK, response, sizeof(response));
 //}
 
-void MIN_Handler_NTC_TEMP_CMD(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-    (void)payload; (void)len;
-    static const uint8_t response[] = "25.3";
-
-    MIN_Send(ctx, NTC_TEMP_CMD, response, sizeof(response) - 1);
+void MIN_Handler_DEV_STATUS_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	return;
 }
 
-//static void MIN_Handler_NTC_TEMP_CMD(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    printf("Payload (%u bytes):", len);
-//    for (uint8_t i = 0; i < len; i++) {
-//        printf(" %02X", payload[i]);
-//    }
-//    printf("\r\n");
-//
-//    static const uint8_t response[] = "OK";
-//    MIN_Send(ctx, CONTROL_TEMP_ACK, response, sizeof(response) - 1);
-//}
-//
-//
-//static void MIN_Handler_HEARTBEAT_CMD(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    static const uint8_t response[] = "HB";
-//    MIN_Send(ctx, HEARTBEAT_ACK, response, sizeof(response) - 1);
-//}
-//
-//static void MIN_Handler_GET_STATUS_CMD(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    static const uint8_t response[] = "OK";
-//    MIN_Send(ctx, STATUS_RESPONSE, response, sizeof(response) - 1);
-//}
-//
-//static void MIN_Handler_RESET_CMD(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    MIN_ReInit(ctx);
-//}
-//
-//static void MIN_Handler_PING_CMD(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    MIN_Send(ctx, PONG_CMD, NULL, 0);
-//}
-//
-//static void MIN_Handler_DUMMY_CMD_1(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    static const uint8_t response[] = "D1";
-//    MIN_Send(ctx, DUMMY_CMD_1, response, sizeof(response) - 1);
-//}
-//
-//static void MIN_Handler_DUMMY_CMD_2(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    static const uint8_t response[] = "D2";
-//    MIN_Send(ctx, DUMMY_CMD_2, response, sizeof(response) - 1);
-//}
-//
-//static void MIN_Handler_CUSTOM_CMD_1(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    static const uint8_t response[] = "C1";
-//    MIN_Send(ctx, CUSTOM_CMD_1_ACK, response, sizeof(response) - 1);
-//}
-//
-//static void MIN_Handler_CUSTOM_CMD_2(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len) {
-//    (void)payload; (void)len;
-//    static const uint8_t response[] = "C2";
-//    MIN_Send(ctx, CUSTOM_CMD_2_ACK, response, sizeof(response) - 1);
-//}
+void MIN_Handler_NTC_TEMP_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+//    uint8_t response[5];
+//    response[0] = *(min_payload);
+//    response[1] = '2';
+//    response[2] = '5';
+//    response[3] = '.';
+//    response[4] = '3';
+
+
+	uint8_t option = *(min_payload + 1);
+	NTC_get_temperature(NTC_Temperature);
+	if (option == 0x0F) {
+	    uint8_t response[17] = {*(min_payload)};
+		for (uint8_t i = 0; i < 8; i++) {
+			response[2*i + 1] = (uint8_t)((NTC_Temperature[i] >> 8) & 0xFF);
+			response[2*i + 2] = (uint8_t)(NTC_Temperature[i] & 0xFF);
+		}
+	    MIN_Send(ctx, min_id, (const uint8_t *)response, 17);
+	    return;
+	}
+	else if (option == 0x01 || option == 0x02 || option == 0x04 || option == 0x08 ||
+			 option == 0x10 || option == 0x20 || option == 0x40 || option == 0x80) {
+		uint8_t ntc_temp_H = 0;
+		uint8_t ntc_temp_L = 0;
+		for (uint8_t i = 0; i < 8; i++) {
+			if ((option >> i) & 0x01) {
+				ntc_temp_H = (uint8_t)((NTC_Temperature[i] >> 8) & 0xFF);
+				ntc_temp_L = (uint8_t)(NTC_Temperature[i] & 0xFF);
+				break;
+			}
+		}
+		uint8_t response[3] = {*(min_payload), ntc_temp_H, ntc_temp_L};
+		MIN_Send(ctx, min_id, (const uint8_t *)response, 3);
+		return;
+	}
+	else {
+		uint8_t response[2] = {*(min_payload), MIN_NAK};
+		MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+		return;
+	}
+}
+
+void MIN_Handler_PWR_5V_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	if (*(min_payload + 1))
+		LL_GPIO_SetOutputPin(EF_5_EN_GPIO_Port, EF_5_EN_Pin);
+	else
+		LL_GPIO_ResetOutputPin(EF_5_EN_GPIO_Port, EF_5_EN_Pin);
+
+	uint8_t response[2]= {*(min_payload), MIN_ACK};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_PWR_5V_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+    uint8_t pwr_status = LL_GPIO_IsOutputPinSet(EF_5_EN_GPIO_Port, EF_5_EN_Pin) & 0x01;
+    uint8_t response[2] = {*(min_payload), pwr_status};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_TEC_INIT_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+	uint8_t option = *(min_payload + 1);
+	if (option == 0x0F || option == 0x01 || option == 0x02 || option == 0x04 || option == 0x08)
+		LT8722_Status = (LT8722_Status & 0xF0) | option;
+	else
+		response[1] = MIN_NAK;
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_TEC_STATUS_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+    uint8_t status = (LT8722_Status >> 4) & 0x0F;
+    uint8_t response[2] = {*(min_payload), status};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_TEC_VOLT_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+	uint16_t volt[4];
+	volt[0] = ((uint16_t)*(min_payload + 1) << 8) | (*(min_payload + 2));
+	volt[1] = ((uint16_t)*(min_payload + 3) << 8) | (*(min_payload + 4));
+	volt[2] = ((uint16_t)*(min_payload + 5) << 8) | (*(min_payload + 6));
+	volt[3] = ((uint16_t)*(min_payload + 7) << 8) | (*(min_payload + 8));
+	for (uint8_t i = 0; i < 4; i++) {
+		temperature_set_tec_vol(i, volt[i]);
+	}
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_TEC_VOLT_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t option = *(min_payload + 1);
+	if (option == 0x0F) {
+	    uint16_t volt_0 = temperature_get_tec_vol_set(0);
+	    uint16_t volt_1 = temperature_get_tec_vol_set(1);
+	    uint16_t volt_2 = temperature_get_tec_vol_set(2);
+	    uint16_t volt_3 = temperature_get_tec_vol_set(3);
+	    uint8_t response[9] = {*(min_payload), (volt_0 >> 8) & 0xFF, volt_0 & 0xFF, (volt_1 >> 8) & 0xFF, volt_1 & 0xFF, (volt_2 >> 8) & 0xFF, volt_2 & 0xFF, (volt_3 >> 8) & 0xFF, volt_3 & 0xFF};
+	    MIN_Send(ctx, min_id, (const uint8_t *)response, 9);
+	}
+	else if (option == 0x01 || option == 0x02 || option == 0x04 || option == 0x08) {
+		uint16_t volt = 0;
+		for (uint8_t i = 0; i < 4; i++) {
+			if ((option >> i) & 0x01) {
+				volt = temperature_get_tec_vol_set(i);
+				break;
+			}
+		}
+		uint8_t response[3] = {*(min_payload), (volt >> 8) & 0xFF, volt & 0xFF};
+		MIN_Send(ctx, min_id, (const uint8_t *)response, 3);
+	}
+	else {
+		uint8_t response[2] = {*(min_payload), MIN_NAK};
+		MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+		return;
+	}
+}
+
+void MIN_Handler_TEC_DIR_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t dir = (uint8_t)*(min_payload + 1);
+	temperature_set_tec_dir((tec_dir_t)(dir & 0x01), (tec_dir_t)((dir >> 1) & 0x01), (tec_dir_t)((dir >> 2) & 0x01), (tec_dir_t)((dir >> 3) & 0x01));
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_TEC_DIR_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+    uint8_t tec_dir = 0;
+    temperature_get_tec_dir(&tec_dir);
+    uint8_t response[2] = {*(min_payload), tec_dir};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_HTR_DUTY_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t duty[4];
+	duty[0] = (uint8_t)*(min_payload + 1);
+	duty[1] = (uint8_t)*(min_payload + 2);
+	duty[2] = (uint8_t)*(min_payload + 3);
+	duty[3] = (uint8_t)*(min_payload + 4);
+	for (uint8_t i = 0; i < 4; i++) {
+		temperature_set_heater_duty(i, duty[i]);
+	}
+
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_HTR_DUTY_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t option = *(min_payload + 1);
+	if (option == 0x0F) {
+		uint8_t duty_0 = temperature_get_heater_duty(0);
+		uint8_t duty_1 = temperature_get_heater_duty(1);
+		uint8_t duty_2 = temperature_get_heater_duty(2);
+		uint8_t duty_3 = temperature_get_heater_duty(3);
+	    uint8_t response[5] = {*(min_payload), duty_0, duty_1, duty_2, duty_3};
+	    MIN_Send(ctx, min_id, (const uint8_t *)response, 5);
+	}
+	else if (option == 0x01 || option == 0x02 || option == 0x04 || option == 0x08) {
+		uint8_t duty = 0;
+		for (uint8_t i = 0; i < 4; i++) {
+			if ((option >> i) & 0x01) {
+				duty = temperature_get_heater_duty(i);
+				break;
+			}
+		}
+		uint8_t response[2] = {*(min_payload), duty};
+		MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+	}
+	else {
+		uint8_t response[2] = {*(min_payload), MIN_NAK};
+		MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+		return;
+	}
+}
+
+void MIN_Handler_REF_TEMP_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint16_t temp_setpoint = ((uint16_t)*(min_payload + 1) << 8) | (*(min_payload + 2));
+	temperature_set_setpoint(temp_setpoint);
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_REF_TEMP_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint16_t temp_setpoint = temperature_get_setpoint();
+	uint8_t response[3] = {*(min_payload), (uint8_t)((temp_setpoint >> 8) & 0xFF), (uint8_t)(temp_setpoint & 0xFF)};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 3);
+}
+
+void MIN_Handler_REF_NTC_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t tempo = *(min_payload + 1);
+	uint8_t ntc_ref = 0;
+	if (tempo == 0x01 || tempo == 0x02 || tempo == 0x04 || tempo == 0x08 ||
+		tempo == 0x10 || tempo == 0x20 || tempo == 0x40 || tempo == 0x80) {
+		for (uint8_t i = 0; i < 8; i++) {
+			if ((tempo >> i) & 0x01) {
+				ntc_ref = i;
+				break;
+			}
+		}
+		temperature_set_ntc_ref(ntc_ref);
+	}
+	else {
+		uint8_t response[2] = {*(min_payload), MIN_NAK};
+		MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+		return;
+	}
+
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+	MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_REF_NTC_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t ntc_ref = 0;
+	temperature_get_ntc_ref(&ntc_ref);
+	ntc_ref = 0x01 << ntc_ref;
+	uint8_t response[2] = {*(min_payload), ntc_ref};
+	MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_AUTO_TEC_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t tec_ena = (uint8_t)*(min_payload + 1);
+	temperature_set_tec_auto(tec_ena & 0x0F);
+
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_AUTO_TEC_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t tec_ena = 0;
+	temperature_get_tec_auto(&tec_ena);
+
+	uint8_t response[2] = {*(min_payload), tec_ena};
+	MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_AUTO_HTR_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t heater_ena = (uint8_t)*(min_payload + 1);
+	temperature_set_heater_auto(heater_ena & 0x0F);
+
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_AUTO_HTR_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t heater_ena = 0;
+	temperature_get_heater_auto(&heater_ena);
+
+	uint8_t response[2] = {*(min_payload), heater_ena};
+	MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_AUTO_TEMP_SET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t Temp_auto = *(min_payload + 1) ? 1 : 0;
+	temperature_set_auto_ctrl(Temp_auto);
+
+	uint8_t response[2] = {*(min_payload), MIN_ACK};
+    MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_AUTO_TEMP_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	uint8_t Temp_auto = 0;
+	temperature_get_auto_ctrl(&Temp_auto);
+
+	uint8_t response[2] = {*(min_payload), Temp_auto};
+	MIN_Send(ctx, min_id, (const uint8_t *)response, 2);
+}
+
+void MIN_Handler_LSM_SENS_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	return;
+}
+
+void MIN_Handler_H3L_SENS_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	return;
+}
+
+void MIN_Handler_BME_SENS_GET_CMD(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload) {
+	return;
+}
 
 // =================================================================
 // Command Table
 // =================================================================
 
 static const MIN_Command_t command_table[] = {
-//    { DEV_STATUS_CMD,      MIN_Handler_DEV_STATUS_CMD },
-    { NTC_TEMP_CMD,        MIN_Handler_NTC_TEMP_CMD },
-//    { PWR_5V_CMD,          MIN_Handler_PWR_5V_CMD },
-//    { TEC_STATUS_CMD,      MIN_Handler_TEC_STATUS_CMD },
-//    { TEC_VOLT_CMD,        MIN_Handler_TEC_VOLT_CMD },
-//    { TEC_DIR_CMD,         MIN_Handler_TEC_DIR_CMD },
-//    { HTR_DUTY_CMD,        MIN_Handler_HTR_DUTY_CMD },
-//    { REF_TEMP_CMD,        MIN_Handler_REF_TEMP_CMD },
-//    { REF_NTC_CMD,         MIN_Handler_REF_NTC_CMD },
-//    { AUTO_TEC_CMD,        MIN_Handler_AUTO_TEC_CMD },
-//    { AUTO_HTR_CMD,        MIN_Handler_AUTO_HTR_CMD },
-//    { AUTO_TEMP_CMD,       MIN_Handler_AUTO_TEMP_CMD },
-//    { LSM_SENS_CMD,        MIN_Handler_LSM_SENS_CMD },
-//    { H3L_SENS_CMD,        MIN_Handler_H3L_SENS_CMD },
-//    { BME_SENS_CMD,        MIN_Handler_BME_SENS_CMD },
+    { NTC_TEMP_GET_CMD,         MIN_Handler_NTC_TEMP_GET_CMD },
+    { PWR_5V_SET_CMD,           MIN_Handler_PWR_5V_SET_CMD },
+    { PWR_5V_GET_CMD,           MIN_Handler_PWR_5V_GET_CMD },
+    { TEC_INIT_CMD,             MIN_Handler_TEC_INIT_CMD },
+    { TEC_STATUS_GET_CMD,       MIN_Handler_TEC_STATUS_GET_CMD },
+    { TEC_VOLT_SET_CMD,         MIN_Handler_TEC_VOLT_SET_CMD },
+    { TEC_VOLT_GET_CMD,         MIN_Handler_TEC_VOLT_GET_CMD },
+    { TEC_DIR_SET_CMD,          MIN_Handler_TEC_DIR_SET_CMD },
+    { TEC_DIR_GET_CMD,          MIN_Handler_TEC_DIR_GET_CMD },
+    { HTR_DUTY_SET_CMD,         MIN_Handler_HTR_DUTY_SET_CMD },
+    { HTR_DUTY_GET_CMD,         MIN_Handler_HTR_DUTY_GET_CMD },
+    { REF_TEMP_SET_CMD,         MIN_Handler_REF_TEMP_SET_CMD },
+    { REF_TEMP_GET_CMD,         MIN_Handler_REF_TEMP_GET_CMD },
+    { REF_NTC_SET_CMD,          MIN_Handler_REF_NTC_SET_CMD },
+    { REF_NTC_GET_CMD,          MIN_Handler_REF_NTC_GET_CMD },
+    { AUTO_TEC_SET_CMD,         MIN_Handler_AUTO_TEC_SET_CMD },
+    { AUTO_TEC_GET_CMD,         MIN_Handler_AUTO_TEC_GET_CMD },
+    { AUTO_HTR_SET_CMD,         MIN_Handler_AUTO_HTR_SET_CMD },
+    { AUTO_HTR_GET_CMD,         MIN_Handler_AUTO_HTR_GET_CMD },
+    { AUTO_TEMP_SET_CMD,        MIN_Handler_AUTO_TEMP_SET_CMD },
+    { AUTO_TEMP_GET_CMD,        MIN_Handler_AUTO_TEMP_GET_CMD },
+    { LSM_SENS_GET_CMD,         MIN_Handler_LSM_SENS_GET_CMD },
+    { H3L_SENS_GET_CMD,         MIN_Handler_H3L_SENS_GET_CMD },
+    { BME_SENS_GET_CMD,         MIN_Handler_BME_SENS_GET_CMD },
 };
 
-
-
-//    { CONTROL_TEMP_CMD, 	MIN_Handler_CONTROL_TEMP_CMD },
-//    { HEARTBEAT_CMD,    	MIN_Handler_HEARTBEAT_CMD },
-//    { GET_STATUS_CMD,   	MIN_Handler_GET_STATUS_CMD },
-//    { RESET_CMD,        	MIN_Handler_RESET_CMD },
-//    { PING_CMD,         	MIN_Handler_PING_CMD },
-//    { DUMMY_CMD_1,      	MIN_Handler_DUMMY_CMD_1 },
-//    { DUMMY_CMD_2,      	MIN_Handler_DUMMY_CMD_2 },
-//    { CUSTOM_CMD_1,     	MIN_Handler_CUSTOM_CMD_1 },
-//    { CUSTOM_CMD_2,     	MIN_Handler_CUSTOM_CMD_2 },
-////    { COLLECT_DATA_CMD, 	MIN_Handler_COLLECT_DATA},
-////    { PRE_DATA_CMD, 		MIN_Handler_PRE_DATA},
-////    { PRE_CHUNK_CMD, 		MIN_Handler_PRE_CHUNK},
-//	{ SAMPLERATE_SET_CMD,  	MIN_Handler_SAMPLERATE_SET },
-//	{ SAMPLERATE_GET_CMD,  	MIN_Handler_SAMPLERATE_GET },
-////	{ COLLECT_PACKAGE_CMD, 	MIN_Handler_COLLECT_PACKAGE },
-//};
 
 static const int command_table_size = sizeof(command_table) / sizeof(command_table[0]);
 
@@ -339,9 +551,9 @@ static const int command_table_size = sizeof(command_table) / sizeof(command_tab
 // =================================================================
 
 const MIN_Command_t *MIN_GetCommandTable(void) {
-    return command_table;
+	return command_table;
 }
 
 int MIN_GetCommandTableSize(void) {
-    return command_table_size;
+	return command_table_size;
 }

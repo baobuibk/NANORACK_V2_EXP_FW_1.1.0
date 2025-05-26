@@ -45,8 +45,8 @@ Core/Devices/LASER_BOARD/laser_board.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h
 ../Core/Devices/LASER_BOARD/laser_board.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -93,5 +93,5 @@ Core/Devices/LASER_BOARD/laser_board.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
-D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:

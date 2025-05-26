@@ -1,6 +1,6 @@
 Scheduler/scheduler.o: ../Scheduler/scheduler.c ../Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/BSP/SysTick/systick.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/SysTick/systick.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
  ../Drivers/CMSIS/Include/core_cm4.h \
@@ -32,8 +32,8 @@ Scheduler/scheduler.o: ../Scheduler/scheduler.c ../Scheduler/scheduler.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 ../Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/BSP/SysTick/systick.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/SysTick/systick.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
 ../Drivers/CMSIS/Include/core_cm4.h:

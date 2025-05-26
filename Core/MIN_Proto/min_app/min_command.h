@@ -24,35 +24,38 @@
 #define OFF			0x00
 
 // =================================================================
-// Command IDs (Maximum ID: 63)
+// Command IDs (Maximum ID: 0xFF)
 // =================================================================
-#define DEV_STATUS_CMD			0x00  ///< Trạng thái của board
-#define NTC_TEMP_CMD 			0x01  ///< Đọc nhiệt độ từ NTC
-#define PWR_5V_CMD   			0x02  ///< Bật/tắt hoặc đọc trạng thái nguồn 5V
-#define TEC_STATUS_CMD 			0x03  ///< Khởi tạo TEC hoặc lấy trạng thái TEC
-#define TEC_VOLT_CMD 			0x04  ///< Cài đặt hoặc đọc điện áp TEC
-#define TEC_DIR_CMD  			0x05  ///< Cài đặt hoặc đọc chiều TEC
-#define HTR_DUTY_CMD 			0x06  ///< Cài đặt hoặc đọc duty của heater
-#define REF_TEMP_CMD 			0x07  ///< Cài đặt hoặc đọc nhiệt độ tham chiếu
-#define REF_NTC_CMD  			0x08  ///< Cài đặt hoặc đọc mã NTC tham chiếu
-#define AUTO_TEC_CMD 			0x09  ///< Cài đặt hoặc đọc chế độ auto TEC
-#define AUTO_HTR_CMD 			0x0A  ///< Cài đặt hoặc đọc chế độ auto heater
-#define AUTO_TEMP_CMD			0x0B  ///< Cài đặt hoặc đọc nhiệt độ tự động
-#define LSM_SENS_CMD 			0x0C  ///< Đọc cảm biến LSM
-#define H3L_SENS_CMD 			0x0D  ///< Đọc cảm biến H3L
-#define BME_SENS_CMD 			0x0E  ///< Đọc cảm biến BME
+#define NTC_TEMP_GET_CMD             0x01
+#define PWR_5V_SET_CMD               0x02
+#define PWR_5V_GET_CMD               0x03
+#define TEC_INIT_CMD                 0x04
+#define TEC_STATUS_GET_CMD           0x05
+#define TEC_VOLT_SET_CMD             0x06
+#define TEC_VOLT_GET_CMD             0x07
+#define TEC_DIR_SET_CMD              0x08
+#define TEC_DIR_GET_CMD              0x09
+#define HTR_DUTY_SET_CMD             0x0A
+#define HTR_DUTY_GET_CMD             0x0B
+#define REF_TEMP_SET_CMD             0x0C
+#define REF_TEMP_GET_CMD             0x0D
+#define REF_NTC_SET_CMD              0x0E
+#define REF_NTC_GET_CMD              0x0F
+#define AUTO_TEC_SET_CMD             0x10
+#define AUTO_TEC_GET_CMD             0x11
+#define AUTO_HTR_SET_CMD             0x12
+#define AUTO_HTR_GET_CMD             0x13
+#define AUTO_TEMP_SET_CMD            0x14
+#define AUTO_TEMP_GET_CMD            0x15
+#define LSM_SENS_GET_CMD             0x16
+#define H3L_SENS_GET_CMD             0x17
+#define BME_SENS_GET_CMD             0x18
+#define LASER_INT_IND_SET_CMD        0x19
+#define LASER_INT_IND_GET_CMD        0x1A
+#define LASER_INT_DAC_SET_CMD        0x1B
+#define LASER_INT_DAC_GET_CMD        0x1C
+#define LASER_INT_AUTO_SET_CMD       0x1D
 
-
-#define COLLECT_DATA_CMD	  0x12
-#define PRE_CHUNK_CMD		  0x13
-#define PRE_CHUNK_ACK		  0x14
-#define PRE_DATA_CMD		  0x15
-#define PRE_DATA_ACK		  0x16
-#define SAMPLERATE_SET_CMD 	  0x17
-#define SAMPLERATE_GET_CMD    0x18
-#define SAMPLERATE_GET_ACK	  0x19
-#define COLLECT_PACKAGE_CMD   0x1A
-#define COLLECT_PACKAGE_ACK   0x1B
 
 #define OVER				  0x3B
 #define ACK					  0x3C
@@ -60,19 +63,22 @@
 #define FAIL				  0x3E
 #define	DONE				  0x3F
 
+#define MIN_ACK					0x06
+#define MIN_NAK					0x15
+
 /**
  * @brief Command handler function type.
  * @param ctx Pointer to the MIN context.
  * @param payload Pointer to the received payload data.
  * @param len Length of the payload.
  */
-typedef void (*MIN_CommandHandler)(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len);
+typedef void (*MIN_CommandHandler)(MIN_Context_t *ctx, uint8_t min_id, const uint8_t *min_payload, uint8_t len_payload);
 
 /**
  * @brief Structure to map command IDs to their handlers.
  */
 typedef struct MIN_Command {
-    uint8_t id;                    ///< Command ID
+    uint8_t CMD;                   ///< Command ID
     MIN_CommandHandler handler;    ///< Handler function for the command
 } MIN_Command_t;
 
@@ -87,8 +93,5 @@ const MIN_Command_t *MIN_GetCommandTable(void);
  * @return Number of entries in the command table.
  */
 int MIN_GetCommandTableSize(void);
-
-
-void MIN_Handler_NTC_TEMP_CMD(MIN_Context_t *ctx, const uint8_t *payload, uint8_t len);
 
 #endif /* MIN_PROTO_MIN_APP_MIN_COMMAND_H_ */

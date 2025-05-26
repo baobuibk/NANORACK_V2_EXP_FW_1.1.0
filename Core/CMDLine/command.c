@@ -422,21 +422,22 @@ int Cmd_temp_pw(int argc, char *argv[]) {
 }
 
 /* Command for temperature */
-int Cmd_set_temp(int argc, char *argv[]) {
-	if (argc < 6)
-		return CMDLINE_TOO_FEW_ARGS;
-	if (argc > 6)
-		return CMDLINE_TOO_MANY_ARGS;
-	int16_t setpoint[4];
-	char buffer[40];
-	for (uint8_t i = 0; i < 4; i++) {
-		setpoint[i] = atoi(argv[i + 1]);
-		temperature_set_setpoint(i, setpoint[i]);
-		snprintf(buffer, sizeof(buffer), "\r\n--> Setpoint[%d]: %i", i, setpoint[i]);
-		UART_SendStringRing(UART_CMDLINE, buffer);
-	}
-	return CMDLINE_OK;
-}
+//int Cmd_set_temp(int argc, char *argv[]) {
+//	if (argc < 6)
+//		return CMDLINE_TOO_FEW_ARGS;
+//	if (argc > 6)
+//		return CMDLINE_TOO_MANY_ARGS;
+//	int16_t setpoint[4];
+//	char buffer[40];
+//	for (uint8_t i = 0; i < 4; i++) {
+//		setpoint[i] = atoi(argv[i + 1]);
+//		temperature_set_setpoint(i, setpoint[i]);
+//		snprintf(buffer, sizeof(buffer), "\r\n--> Setpoint[%d]: %i", i, setpoint[i]);
+//		UART_SendStringRing(UART_CMDLINE, buffer);
+//	}
+//	return CMDLINE_OK;
+//}
+
 int Cmd_get_temp(int argc, char *argv[]) {
 	if (argc > 2)
 		return CMDLINE_TOO_MANY_ARGS;
@@ -561,7 +562,7 @@ int Cmd_tec_dir(int argc, char *argv[]) {
 	tec_dir_t dir_1 = atoi(argv[2]) ? TEC_HEAT : TEC_COOL;
 	tec_dir_t dir_2 = atoi(argv[3]) ? TEC_HEAT : TEC_COOL;
 	tec_dir_t dir_3 = atoi(argv[4]) ? TEC_HEAT : TEC_COOL;
-	tec_set_dir(dir_0, dir_1, dir_2, dir_3);
+	temperature_set_tec_dir(dir_0, dir_1, dir_2, dir_3);
 	return CMDLINE_OK;
 }
 
@@ -675,186 +676,186 @@ int Cmd_heater_get_duty(int argc, char *argv[]) {
 }
 
 /* Command auto temperature */
-int Cmd_temp_set_auto(int argc, char *argv[]) {
-	if (argc < 6)
-		return CMDLINE_TOO_FEW_ARGS;
-	if (argc > 6)
-		return CMDLINE_TOO_MANY_ARGS;
-	uint8_t auto_0 = atoi(argv[1]) ? 1 : 0;
-	uint8_t auto_1 = atoi(argv[2]) ? 1 : 0;
-	uint8_t auto_2 = atoi(argv[3]) ? 1 : 0;
-	uint8_t auto_3 = atoi(argv[4]) ? 1 : 0;
-	temperature_set_auto_ctrl(auto_0, auto_1, auto_2, auto_3);
-	return CMDLINE_OK;
-}
-
-int Cmd_temp_auto_0(int argc, char *argv[]) {
-	if (argc < 6)
-		return CMDLINE_TOO_FEW_ARGS;
-	if (argc > 6)
-		return CMDLINE_TOO_MANY_ARGS;
-	uint8_t auto_0 = atoi(argv[1]) ? 1 : 0;
-	uint16_t vol_tec_0 = atoi(argv[2]);
-	uint8_t duty_heater_0 = atoi(argv[3]);
-	int16_t temp_setpoint_0 = atoi(argv[4]);
-
-	uint32_t data = 1;
-	uint8_t tec_init = lt8722_init(0);
-	LL_mDelay(10);
-	if (!tec_init)
-		lt8722_set_swen_req(0, LT8722_SWEN_REQ_DISABLED);
-	lt8722_reg_read(0, LT8722_SPIS_STATUS, &data);
-	if (!data)
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 0 init success");
-	else {
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 0 init fail");
-		return CMDLINE_OK;
-	}
-
-	temperature_set_tec_vol(0, vol_tec_0);
-	temperature_set_heater_duty(0, duty_heater_0);
-	temperature_set_setpoint(0, temp_setpoint_0);
-
-	char buffer[200];
-	snprintf(buffer, sizeof(buffer),
-			"\r\n--> Tec vol[0]: %d mV \r\n--> Heater duty[0]: %d%% \r\n--> Temp_set[0]: %i",
-			vol_tec_0, duty_heater_0, temp_setpoint_0);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-	if (auto_0) {
-		s_Temperature_CurrentState.Temp_auto |= 0x01;
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 0 is auto");
-	} else {
-		s_Temperature_CurrentState.Temp_auto &= ~0x01;
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 0 is off");
-	}
-	return CMDLINE_OK;
-}
-
-int Cmd_temp_auto_1(int argc, char *argv[]) {
-	if (argc < 6)
-		return CMDLINE_TOO_FEW_ARGS;
-	if (argc > 6)
-		return CMDLINE_TOO_MANY_ARGS;
-
-	uint8_t auto_1 = atoi(argv[1]) ? 1 : 0;
-	uint16_t vol_tec_1 = atoi(argv[2]);
-	uint8_t duty_heater_1 = atoi(argv[3]);
-	int16_t temp_setpoint_1 = atoi(argv[4]);
-
-	uint32_t data = 1;
-	uint8_t tec_init = lt8722_init(&tec_0);
-	LL_mDelay(10);
-	if (!tec_init)
-		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
-	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
-	if (!data)
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 1 init success");
-	else {
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 1 init fail");
-		return CMDLINE_OK;
-	}
-
-	temperature_set_tec_vol(1, vol_tec_1);
-	temperature_set_heater_duty(1, duty_heater_1);
-	temperature_set_setpoint(1, temp_setpoint_1);
-	char buffer[200];
-	snprintf(buffer, sizeof(buffer),
-			"\r\n--> Tec vol[1]: %d mV \r\n--> Heater duty[1]: %d%% \r\n--> Temp_set[1]: %i",
-			vol_tec_1, duty_heater_1, temp_setpoint_1);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-	if (auto_1) {
-		s_Temperature_CurrentState.Temp_auto |= (0x01 << 1);
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 1 is auto");
-	} else {
-		s_Temperature_CurrentState.Temp_auto &= ~(0x01 << 1);
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 1 is off");
-	}
-	return CMDLINE_OK;
-}
-
-int Cmd_temp_auto_2(int argc, char *argv[]) {
-	if (argc < 6)
-		return CMDLINE_TOO_FEW_ARGS;
-	if (argc > 6)
-		return CMDLINE_TOO_MANY_ARGS;
-
-	uint8_t auto_2 = atoi(argv[1]) ? 1 : 0;
-	uint16_t vol_tec_2 = atoi(argv[2]);
-	uint8_t duty_heater_2 = atoi(argv[3]);
-	int16_t temp_setpoint_2 = atoi(argv[4]);
-
-	uint32_t data = 1;
-	uint8_t tec_init = lt8722_init(&tec_0);
-	LL_mDelay(10);
-	if (!tec_init)
-		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
-	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
-	if (!data)
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 2 init success");
-	else {
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 2 init fail");
-		return CMDLINE_OK;
-	}
-
-	temperature_set_tec_vol(2, vol_tec_2);
-	temperature_set_heater_duty(2, duty_heater_2);
-	temperature_set_setpoint(2, temp_setpoint_2);
-	char buffer[200];
-	snprintf(buffer, sizeof(buffer),
-			"\r\n--> Tec vol[2]: %d mV \r\n--> Heater duty[2]: %d%% \r\n--> Temp_set[2]: %i",
-			vol_tec_2, duty_heater_2, temp_setpoint_2);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-	if (auto_2) {
-		s_Temperature_CurrentState.Temp_auto |= (0x01 << 2);
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 2 is auto");
-	} else {
-		s_Temperature_CurrentState.Temp_auto &= ~(0x01 << 2);
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 2 is off");
-	}
-	return CMDLINE_OK;
-}
-
-int Cmd_temp_auto_3(int argc, char *argv[]) {
-	if (argc < 6)
-		return CMDLINE_TOO_FEW_ARGS;
-	if (argc > 6)
-		return CMDLINE_TOO_MANY_ARGS;
-
-	uint8_t auto_3 = atoi(argv[1]) ? 1 : 0;
-	uint16_t vol_tec_3 = atoi(argv[2]);
-	uint8_t duty_heater_3 = atoi(argv[3]);
-	int16_t temp_setpoint_3 = atoi(argv[4]);
-
-	uint32_t data = 1;
-	uint8_t tec_init = lt8722_init(&tec_0);
-	LL_mDelay(10);
-	if (!tec_init)
-		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
-	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
-	if (!data)
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 3 init success");
-	else {
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 3 init fail");
-		return CMDLINE_OK;
-	}
-
-	temperature_set_tec_vol(3, vol_tec_3);
-	temperature_set_heater_duty(3, duty_heater_3);
-	temperature_set_setpoint(3, temp_setpoint_3);
-	char buffer[200];
-	snprintf(buffer, sizeof(buffer),
-			"\r\n--> Tec vol[3]: %d mV \r\n--> Heater duty[3]: %d%% \r\n--> Temp_set[3]: %i",
-			vol_tec_3, duty_heater_3, temp_setpoint_3);
-	UART_SendStringRing(UART_CMDLINE, buffer);
-	if (auto_3) {
-		s_Temperature_CurrentState.Temp_auto |= (0x01 << 3);
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 3 is auto");
-	} else {
-		s_Temperature_CurrentState.Temp_auto &= ~(0x01 << 3);
-		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 3 is off");
-	}
-	return CMDLINE_OK;
-}
+//int Cmd_temp_set_auto(int argc, char *argv[]) {
+//	if (argc < 6)
+//		return CMDLINE_TOO_FEW_ARGS;
+//	if (argc > 6)
+//		return CMDLINE_TOO_MANY_ARGS;
+//	uint8_t auto_0 = atoi(argv[1]) ? 1 : 0;
+//	uint8_t auto_1 = atoi(argv[2]) ? 1 : 0;
+//	uint8_t auto_2 = atoi(argv[3]) ? 1 : 0;
+//	uint8_t auto_3 = atoi(argv[4]) ? 1 : 0;
+//	temperature_set_auto_ctrl(auto_0, auto_1, auto_2, auto_3);
+//	return CMDLINE_OK;
+//}
+//
+//int Cmd_temp_auto_0(int argc, char *argv[]) {
+//	if (argc < 6)
+//		return CMDLINE_TOO_FEW_ARGS;
+//	if (argc > 6)
+//		return CMDLINE_TOO_MANY_ARGS;
+//	uint8_t auto_0 = atoi(argv[1]) ? 1 : 0;
+//	uint16_t vol_tec_0 = atoi(argv[2]);
+//	uint8_t duty_heater_0 = atoi(argv[3]);
+//	int16_t temp_setpoint_0 = atoi(argv[4]);
+//
+//	uint32_t data = 1;
+//	uint8_t tec_init = lt8722_init(0);
+//	LL_mDelay(10);
+//	if (!tec_init)
+//		lt8722_set_swen_req(0, LT8722_SWEN_REQ_DISABLED);
+//	lt8722_reg_read(0, LT8722_SPIS_STATUS, &data);
+//	if (!data)
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 0 init success");
+//	else {
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 0 init fail");
+//		return CMDLINE_OK;
+//	}
+//
+//	temperature_set_tec_vol(0, vol_tec_0);
+//	temperature_set_heater_duty(0, duty_heater_0);
+//	temperature_set_setpoint(0, temp_setpoint_0);
+//
+//	char buffer[200];
+//	snprintf(buffer, sizeof(buffer),
+//			"\r\n--> Tec vol[0]: %d mV \r\n--> Heater duty[0]: %d%% \r\n--> Temp_set[0]: %i",
+//			vol_tec_0, duty_heater_0, temp_setpoint_0);
+//	UART_SendStringRing(UART_CMDLINE, buffer);
+//	if (auto_0) {
+//		s_Temperature_CurrentState.Temp_auto |= 0x01;
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 0 is auto");
+//	} else {
+//		s_Temperature_CurrentState.Temp_auto &= ~0x01;
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 0 is off");
+//	}
+//	return CMDLINE_OK;
+//}
+//
+//int Cmd_temp_auto_1(int argc, char *argv[]) {
+//	if (argc < 6)
+//		return CMDLINE_TOO_FEW_ARGS;
+//	if (argc > 6)
+//		return CMDLINE_TOO_MANY_ARGS;
+//
+//	uint8_t auto_1 = atoi(argv[1]) ? 1 : 0;
+//	uint16_t vol_tec_1 = atoi(argv[2]);
+//	uint8_t duty_heater_1 = atoi(argv[3]);
+//	int16_t temp_setpoint_1 = atoi(argv[4]);
+//
+//	uint32_t data = 1;
+//	uint8_t tec_init = lt8722_init(&tec_0);
+//	LL_mDelay(10);
+//	if (!tec_init)
+//		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
+//	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
+//	if (!data)
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 1 init success");
+//	else {
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 1 init fail");
+//		return CMDLINE_OK;
+//	}
+//
+//	temperature_set_tec_vol(1, vol_tec_1);
+//	temperature_set_heater_duty(1, duty_heater_1);
+//	temperature_set_setpoint(1, temp_setpoint_1);
+//	char buffer[200];
+//	snprintf(buffer, sizeof(buffer),
+//			"\r\n--> Tec vol[1]: %d mV \r\n--> Heater duty[1]: %d%% \r\n--> Temp_set[1]: %i",
+//			vol_tec_1, duty_heater_1, temp_setpoint_1);
+//	UART_SendStringRing(UART_CMDLINE, buffer);
+//	if (auto_1) {
+//		s_Temperature_CurrentState.Temp_auto |= (0x01 << 1);
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 1 is auto");
+//	} else {
+//		s_Temperature_CurrentState.Temp_auto &= ~(0x01 << 1);
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 1 is off");
+//	}
+//	return CMDLINE_OK;
+//}
+//
+//int Cmd_temp_auto_2(int argc, char *argv[]) {
+//	if (argc < 6)
+//		return CMDLINE_TOO_FEW_ARGS;
+//	if (argc > 6)
+//		return CMDLINE_TOO_MANY_ARGS;
+//
+//	uint8_t auto_2 = atoi(argv[1]) ? 1 : 0;
+//	uint16_t vol_tec_2 = atoi(argv[2]);
+//	uint8_t duty_heater_2 = atoi(argv[3]);
+//	int16_t temp_setpoint_2 = atoi(argv[4]);
+//
+//	uint32_t data = 1;
+//	uint8_t tec_init = lt8722_init(&tec_0);
+//	LL_mDelay(10);
+//	if (!tec_init)
+//		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
+//	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
+//	if (!data)
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 2 init success");
+//	else {
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 2 init fail");
+//		return CMDLINE_OK;
+//	}
+//
+//	temperature_set_tec_vol(2, vol_tec_2);
+//	temperature_set_heater_duty(2, duty_heater_2);
+//	temperature_set_setpoint(2, temp_setpoint_2);
+//	char buffer[200];
+//	snprintf(buffer, sizeof(buffer),
+//			"\r\n--> Tec vol[2]: %d mV \r\n--> Heater duty[2]: %d%% \r\n--> Temp_set[2]: %i",
+//			vol_tec_2, duty_heater_2, temp_setpoint_2);
+//	UART_SendStringRing(UART_CMDLINE, buffer);
+//	if (auto_2) {
+//		s_Temperature_CurrentState.Temp_auto |= (0x01 << 2);
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 2 is auto");
+//	} else {
+//		s_Temperature_CurrentState.Temp_auto &= ~(0x01 << 2);
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 2 is off");
+//	}
+//	return CMDLINE_OK;
+//}
+//
+//int Cmd_temp_auto_3(int argc, char *argv[]) {
+//	if (argc < 6)
+//		return CMDLINE_TOO_FEW_ARGS;
+//	if (argc > 6)
+//		return CMDLINE_TOO_MANY_ARGS;
+//
+//	uint8_t auto_3 = atoi(argv[1]) ? 1 : 0;
+//	uint16_t vol_tec_3 = atoi(argv[2]);
+//	uint8_t duty_heater_3 = atoi(argv[3]);
+//	int16_t temp_setpoint_3 = atoi(argv[4]);
+//
+//	uint32_t data = 1;
+//	uint8_t tec_init = lt8722_init(&tec_0);
+//	LL_mDelay(10);
+//	if (!tec_init)
+//		lt8722_set_swen_req(&tec_0, LT8722_SWEN_REQ_DISABLED);
+//	lt8722_reg_read(&tec_0, LT8722_SPIS_STATUS, &data);
+//	if (!data)
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 3 init success");
+//	else {
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Tec 3 init fail");
+//		return CMDLINE_OK;
+//	}
+//
+//	temperature_set_tec_vol(3, vol_tec_3);
+//	temperature_set_heater_duty(3, duty_heater_3);
+//	temperature_set_setpoint(3, temp_setpoint_3);
+//	char buffer[200];
+//	snprintf(buffer, sizeof(buffer),
+//			"\r\n--> Tec vol[3]: %d mV \r\n--> Heater duty[3]: %d%% \r\n--> Temp_set[3]: %i",
+//			vol_tec_3, duty_heater_3, temp_setpoint_3);
+//	UART_SendStringRing(UART_CMDLINE, buffer);
+//	if (auto_3) {
+//		s_Temperature_CurrentState.Temp_auto |= (0x01 << 3);
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 3 is auto");
+//	} else {
+//		s_Temperature_CurrentState.Temp_auto &= ~(0x01 << 3);
+//		UART_SendStringRing(UART_CMDLINE, "\r\n--> Temp 3 is off");
+//	}
+//	return CMDLINE_OK;
+//}
 
 /* Command for ir led */
 int Cmd_ir_set_duty(int argc, char *argv[]) {

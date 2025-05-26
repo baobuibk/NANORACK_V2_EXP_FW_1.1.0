@@ -2,7 +2,7 @@ Core/MIN_Proto/min_app/min_app.o: ../Core/MIN_Proto/min_app/min_app.c \
  ../Core/MIN_Proto/min_app/min_app.h \
  ../Core/MIN_Proto/min_app/../min/min.h \
  ../Core/MIN_Proto/min_app/min_command.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
@@ -34,12 +34,12 @@ Core/MIN_Proto/min_app/min_app.o: ../Core/MIN_Proto/min_app/min_app.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
- D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h
 ../Core/MIN_Proto/min_app/min_app.h:
 ../Core/MIN_Proto/min_app/../min/min.h:
 ../Core/MIN_Proto/min_app/min_command.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
@@ -71,5 +71,5 @@ D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
-D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:

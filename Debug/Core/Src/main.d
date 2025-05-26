@@ -43,41 +43,43 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/Core/Board/board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/Core/WDog/watchdog.h \
- D:/STworkspace/EXP_V110/Core/LED/status_led.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/command.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h \
- D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h \
- D:/STworkspace/EXP_V110/Core/Temperature/temperature.h \
- D:/STworkspace/EXP_V110/Core/Devices/LT8722/lt8722.h \
- D:/STworkspace/EXP_V110/Core/COPC/copc.h \
- D:/STworkspace/EXP_V110/Core/Sensor_I2C/sensor_i2c.h \
- D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h \
- D:/STworkspace/EXP_V110/BSP/I2C_Slave/i2c_slave.h \
- D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h \
- D:/STworkspace/EXP_V110/BSP/I2C/i2c.h \
- D:/STworkspace/EXP_V110/Core/Devices/DateTime/date_time.h \
- D:/STworkspace/EXP_V110/Core/Devices/Auto_run/auto_run.h \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/laser_board.h \
- D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h \
- D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h \
- D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h \
- D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
- D:/STworkspace/EXP_V110/Core/Devices/MB85RS2MT/mb85rs2mt.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Command/cli_command.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h \
- D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h \
- D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/WDog/watchdog.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/LED/status_led.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Temperature/temperature.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LT8722/lt8722.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/Heater/heater.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/COPC/copc.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Sensor_I2C/sensor_i2c.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/register.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/i2c_slave.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/register.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/DateTime/date_time.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/Auto_run/auto_run.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/laser_board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/photo_board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/MB85RS2MT/mb85rs2mt.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Command/cli_command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Src/embedded_cli.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Setup/cli_setup.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_process.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_app.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/../min/min.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -123,38 +125,40 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/Core/Board/board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/Core/WDog/watchdog.h:
-D:/STworkspace/EXP_V110/Core/LED/status_led.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/command.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
-D:/STworkspace/EXP_V110/Core/Devices/NTC/ntc.h:
-D:/STworkspace/EXP_V110/Core/Temperature/temperature.h:
-D:/STworkspace/EXP_V110/Core/Devices/LT8722/lt8722.h:
-D:/STworkspace/EXP_V110/Core/COPC/copc.h:
-D:/STworkspace/EXP_V110/Core/Sensor_I2C/sensor_i2c.h:
-D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h:
-D:/STworkspace/EXP_V110/BSP/I2C_Slave/i2c_slave.h:
-D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h:
-D:/STworkspace/EXP_V110/BSP/I2C/i2c.h:
-D:/STworkspace/EXP_V110/Core/Devices/DateTime/date_time.h:
-D:/STworkspace/EXP_V110/Core/Devices/Auto_run/auto_run.h:
-D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/laser_board.h:
-D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
-D:/STworkspace/EXP_V110/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
-D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/photo_board.h:
-D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
-D:/STworkspace/EXP_V110/Core/Devices/MB85RS2MT/mb85rs2mt.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Command/cli_command.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_process.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/min_app.h:
-D:/STworkspace/EXP_V110/Core/MIN_Proto/min_app/../min/min.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h:
-D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/WDog/watchdog.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/LED/status_led.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/NTC/ntc.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Temperature/temperature.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LT8722/lt8722.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/Heater/heater.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/COPC/copc.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Sensor_I2C/sensor_i2c.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/register.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/i2c_slave.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/register.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/DateTime/date_time.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/Auto_run/auto_run.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/laser_board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/LASER_BOARD/MCP4902/mcp4902.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/photo_board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/MB85RS2MT/mb85rs2mt.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Command/cli_command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Src/embedded_cli.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Setup/cli_setup.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_process.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/min_app.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/MIN_Proto/min_app/../min/min.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h:

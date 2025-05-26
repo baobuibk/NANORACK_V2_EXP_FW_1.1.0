@@ -1,9 +1,9 @@
 Core/CLI_Terminal/CLI_Setup/cli_setup.o: \
  ../Core/CLI_Terminal/CLI_Setup/cli_setup.c \
  ../Core/CLI_Terminal/CLI_Setup/cli_setup.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Src/embedded_cli.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
@@ -37,8 +37,8 @@ Core/CLI_Terminal/CLI_Setup/cli_setup.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
  ../Core/Inc/stm32f4xx_it.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Command/cli_command.h \
- D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Command/cli_command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Setup/cli_setup.h \
  ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
@@ -54,9 +54,9 @@ Core/CLI_Terminal/CLI_Setup/cli_setup.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h
 ../Core/CLI_Terminal/CLI_Setup/cli_setup.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Src/embedded_cli.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Src/embedded_cli.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
@@ -90,8 +90,8 @@ D:/STworkspace/EXP_V110/BSP/UART/uart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
 ../Core/Inc/stm32f4xx_it.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Command/cli_command.h:
-D:/STworkspace/EXP_V110/Core/CLI_Terminal/CLI_Setup/cli_setup.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Command/cli_command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CLI_Terminal/CLI_Setup/cli_setup.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:

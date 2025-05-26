@@ -44,7 +44,7 @@ Core/CMDLine/cmdline.o: ../Core/CMDLine/cmdline.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h
 ../Core/CMDLine/cmdline.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -91,4 +91,4 @@ Core/CMDLine/cmdline.o: ../Core/CMDLine/cmdline.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:

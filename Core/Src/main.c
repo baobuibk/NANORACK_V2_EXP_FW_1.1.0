@@ -145,7 +145,7 @@ int main(void)
 
   // Initialize all preset for schedule task
 //  Ex_Watchdog_Init();
-  LED_Status_Init();
+//  LED_Status_Init();
 //  CommandLine_Init(EXP_UART_HANDLE);
 //  CLI_Command_Init(EXP_UART_HANDLE);
 //  NTC_DMA_ADC_Init();
@@ -161,7 +161,7 @@ int main(void)
 
   // Create task scheduler
 //  Ex_Watchdog_CreateTask();
-  LED_Status_CreateTask();
+//  LED_Status_CreateTask();
 //  CommandLine_CreateTask();
 //  CLI_Command_CreateTask();
 //  Temperature_GetSet_CreateTask();

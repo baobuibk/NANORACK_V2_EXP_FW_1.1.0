@@ -9,7 +9,6 @@
 extern "C" {
 #endif
 
-//#define TEST_DEMO_MIN
 
 #define AUTO_REINIT_ON_TIMEOUT
 

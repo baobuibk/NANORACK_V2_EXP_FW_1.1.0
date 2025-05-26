@@ -1,7 +1,7 @@
 Core/Devices/PHOTO_BOARD/photo_board.o: \
  ../Core/Devices/PHOTO_BOARD/photo_board.c \
  ../Core/Devices/PHOTO_BOARD/photo_board.h \
- D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
@@ -36,7 +36,7 @@ Core/Devices/PHOTO_BOARD/photo_board.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h \
- D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h \
  ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h \
@@ -49,7 +49,7 @@ Core/Devices/PHOTO_BOARD/photo_board.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h
 ../Core/Devices/PHOTO_BOARD/photo_board.h:
-D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_spi.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
@@ -84,7 +84,7 @@ D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_system.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_exti.h:
-D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_dma.h:

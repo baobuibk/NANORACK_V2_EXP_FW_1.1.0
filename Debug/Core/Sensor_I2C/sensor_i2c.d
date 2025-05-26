@@ -1,9 +1,9 @@
 Core/Sensor_I2C/sensor_i2c.o: ../Core/Sensor_I2C/sensor_i2c.c \
  ../Core/Sensor_I2C/sensor_i2c.h \
- D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h ../Core/Inc/main.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h \
+ ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -47,14 +47,14 @@ Core/Sensor_I2C/sensor_i2c.o: ../Core/Sensor_I2C/sensor_i2c.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/BSP/I2C/i2c.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/command.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h
 ../Core/Sensor_I2C/sensor_i2c.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/BMP390/bmp390.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -100,7 +100,7 @@ D:/STworkspace/EXP_V110/Core/Devices/BMP390/bmp390.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/BSP/I2C/i2c.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/command.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C/i2c.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:

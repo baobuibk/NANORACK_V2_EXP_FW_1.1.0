@@ -43,18 +43,19 @@ Core/Src/stm32f4xx_it.o: ../Core/Src/stm32f4xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- ../Core/Inc/stm32f4xx_it.h D:/STworkspace/EXP_V110/Scheduler/scheduler.h \
- D:/STworkspace/EXP_V110/Core/Common/basetypedef.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/command.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
- D:/STworkspace/EXP_V110/Core/COPC/copc.h \
- D:/STworkspace/EXP_V110/BSP/I2C_Slave/i2c_slave.h \
- D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h \
- D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
- D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h \
- D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h
+ ../Core/Inc/stm32f4xx_it.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/COPC/copc.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/i2c_slave.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/register.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -101,15 +102,15 @@ Core/Src/stm32f4xx_it.o: ../Core/Src/stm32f4xx_it.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
 ../Core/Inc/stm32f4xx_it.h:
-D:/STworkspace/EXP_V110/Scheduler/scheduler.h:
-D:/STworkspace/EXP_V110/Core/Common/basetypedef.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/command.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
-D:/STworkspace/EXP_V110/Core/COPC/copc.h:
-D:/STworkspace/EXP_V110/BSP/I2C_Slave/i2c_slave.h:
-D:/STworkspace/EXP_V110/BSP/I2C_Slave/register.h:
-D:/STworkspace/EXP_V110/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
-D:/STworkspace/EXP_V110/Core/Devices/ADG1414/adg1414.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart_driver.h:
-D:/STworkspace/EXP_V110/BSP/RingBuffer/ring_buffer.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Scheduler/scheduler.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Common/basetypedef.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/COPC/copc.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/i2c_slave.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/I2C_Slave/register.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/PHOTO_BOARD/ADS8327/ads8327.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Devices/ADG1414/adg1414.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart_driver.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/RingBuffer/ring_buffer.h:

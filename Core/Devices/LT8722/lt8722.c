@@ -12,6 +12,7 @@
 #include "uart.h"
 #include "command.h"
 
+uint8_t LT8722_Status = 0x00;
 
 struct lt8722_reg lt8722_regs[LT8722_NUM_REGISTERS] = {
 	{

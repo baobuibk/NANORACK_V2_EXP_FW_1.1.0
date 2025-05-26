@@ -163,13 +163,15 @@ void min_application_handler(uint8_t min_id, const uint8_t *min_payload, uint8_t
     if (ctx == NULL) {
         return;
     }
+
     const MIN_Command_t *command_table = MIN_GetCommandTable();
     int table_size = MIN_GetCommandTableSize();
-    for (int i = 0; i < table_size; i++) {
-        if (command_table[i].id == min_id) {
-            command_table[i].handler(ctx, min_payload, len_payload);
-            return;
-        }
-    }
+    uint8_t cmd = *min_payload;
+	for (int i = 0; i < table_size; i++) {
+		if (command_table[i].CMD == cmd) {
+			command_table[i].handler(ctx, min_id, min_payload, len_payload);
+			return;
+		}
+	}
     // Optional: Add default handler for unmatched commands
 }

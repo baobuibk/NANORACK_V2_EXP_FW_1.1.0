@@ -1,6 +1,6 @@
 Core/Devices/LT8722/lt8722.o: ../Core/Devices/LT8722/lt8722.c \
  ../Core/Devices/LT8722/lt8722.h \
- D:/STworkspace/EXP_V110/Core/Board/board.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h \
  ../Drivers/CMSIS/Include/core_cm4.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \
@@ -47,12 +47,12 @@ Core/Devices/LT8722/lt8722.o: ../Core/Devices/LT8722/lt8722.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- D:/STworkspace/EXP_V110/BSP/Delay/delay.h \
- D:/STworkspace/EXP_V110/BSP/UART/uart.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/command.h \
- D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/Delay/delay.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h \
+ D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h
 ../Core/Devices/LT8722/lt8722.h:
-D:/STworkspace/EXP_V110/Core/Board/board.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/Board/board.h:
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h:
 ../Drivers/CMSIS/Include/core_cm4.h:
 ../Drivers/CMSIS/Include/cmsis_version.h:
@@ -99,7 +99,7 @@ D:/STworkspace/EXP_V110/Core/Board/board.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:
-D:/STworkspace/EXP_V110/BSP/Delay/delay.h:
-D:/STworkspace/EXP_V110/BSP/UART/uart.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/command.h:
-D:/STworkspace/EXP_V110/Core/CMDLine/cmdline.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/Delay/delay.h:
+D:/STworkspace/EXP_V110_TEST_MIN/BSP/UART/uart.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/command.h:
+D:/STworkspace/EXP_V110_TEST_MIN/Core/CMDLine/cmdline.h:
